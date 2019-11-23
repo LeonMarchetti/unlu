@@ -1,0 +1,17 @@
+{% extends '@admin/navigation/sidebar-menu.html.twig' %}
+
+{% block navigation %}
+    {{ parent() }}
+    <li>
+        <a href="{{ site.uri.public }}/account/settings">
+            <i class="fa fa-sliders-h fa-fw"></i> <span>{{ translate("ACCOUNT.MY") }}</span>
+        </a>
+    </li>
+    {% if checkAccess("usuario_unlu") %}
+    <li>
+        <a href="{{site.uri.public}}/unlu">
+            <i class="fa fa-university fa-fw"></i> <span>{{ translate("UNLU") }}</span>
+        </a>
+    </li>
+    {% endif %}
+{% endblock %}

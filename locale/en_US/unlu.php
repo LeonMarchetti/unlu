@@ -73,5 +73,6 @@ return [
             "@TRANSLATION" => "Vinculation",
             "ADDED" => "Vinculation requested"
         ],
+        "VINCULATIONS" => "Vinculations",
     ]
 ];
