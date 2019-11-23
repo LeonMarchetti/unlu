@@ -1,0 +1,141 @@
+<form class="js-form" method="{{ form.method | default('POST') }}" action="{{ site.uri.public }}/{{ form.action }}">
+    {% include "forms/csrf.html.twig" %}
+    <div class="js-form-alerts">
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.RESPONSABLE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="responsable" autocomplete="off"
+                           value="{{ vinc.responsable }}" placeholder="{{ translate("UNLU.RESPONSABLE") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.POSITION") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="cargo" autocomplete="off"
+                           value="{{ vinc.cargo }}" placeholder="{{ translate("UNLU.POSITION") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.TYPE") }}</label>
+                <select id="input-tipo" class="form-control js-select2" name="tipo_de_usuario" {{ page.visibility }}>
+                    <option value="">{{ translate("UNLU.TYPE") }}</option>
+                    {% for tipo in tipos_de_usuario %}
+                    <option value="{{ tipo.id }}" {% if tipo.id == vinc.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.ACTIVITY") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="actividad" autocomplete="off"
+                           value="{{ vinc.actividad }}" placeholder="{{ translate("UNLU.ACTIVITY") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.PHONE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="telefono" autocomplete="off"
+                           value="{{ vinc.telefono }}" placeholder="{{ translate("UNLU.PHONE") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.EMAIL") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="correo" autocomplete="off"
+                           value="{{ vinc.correo }}" placeholder="{{ translate("UNLU.EMAIL") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.END_DATE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="date" class="form-control" name="fecha_fin" autocomplete="off"
+                           value="{{ vinc.fecha_fin }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>{{ translate("UNLU.DESCRIPTION") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <textarea class="form-control" name="descripcion" autocomplete="off"
+                           placeholder="{{ translate("UNLU.DESCRIPTION") }}">{{ vinc.descripcion }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>{{ translate("UNLU.MEMBERS") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <div id="integrantes">
+                        <div class="controles_integrante">
+                            <select class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }}>
+                                <option value="">Usuario</option>
+                                {% for usuario in usuarios %}
+                                <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="text" class="form-control" name="integrantes_nombre[]" autocomplete="off" placeholder="Nombre"/>
+                        </div>
+                    </div>
+                </div>
+                <p class="help-block">{{ translate("UNLU.MEMBERS.HELP") }}</p>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-block btn-lg btn-success agregar-integrante"><i class="fa fa-plus"></i> Agregar</button>
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-block btn-lg btn-danger quitar-integrante"><i class="fa fa-times"></i> Quitar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-sm-4">
+            <button type="submit" class="btn btn-block btn-lg btn-success">{{ form.submit_text }}</button>
+        </div>
+        <div class="col-xs-4 col-sm-3 pull-right">
+            <button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">{{ translate("CANCEL") }}</button>
+        </div>
+    </div>
+</form>
+
+<!-- Include validation rules -->
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+
+    {{ assets.js('js/forms/vinculacion') | raw }}
+    {{ assets.css('css/forms/vinculacion') | raw }}
+
+{% endblock %}
