@@ -135,13 +135,13 @@
                                     <div class="dropdown">
                                         <button class="dropbtn btn btn-primary">Acciones</button>
                                         <div class="dropdown-content">
-                                            {% if checkAccess("admin_unlu") %}
+                                            {% if checkAccess("admin_unlu") and not peticion.aprobada %}
                                             <a href="#" class="aprobar-peticion" data-id="{{ peticion.id }}">
-                                                <i class="fas fa-plus-square"></i> Aprobar
+                                                <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
                                             </a>
                                             {% endif %}
                                             <a href="#" class="editar-peticion" data-id="{{ peticion.id }}">
-                                                <i class="fas fa-pen-square"></i> Editar petición
+                                                <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                                             </a>
                                     </div>
                                 </td>

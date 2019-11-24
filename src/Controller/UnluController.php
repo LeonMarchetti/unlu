@@ -26,7 +26,7 @@ class UnluController extends SimpleController {
         /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // // Access-controlled page
+        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException();
         }
@@ -76,7 +76,7 @@ class UnluController extends SimpleController {
 
         $error = false;
 
-        // Asigno el id del usuario actual como id del solicitante de la vinculación
+        // Asigno el id del usuario actual como id del solicitante de la vinculación.
         $data["id_solicitante"] = $currentUser->id;
 
         // Asigno la fecha actual como fecha de solicitud de la vinculación
@@ -122,7 +122,7 @@ class UnluController extends SimpleController {
             $error = true;
 
         } else {
-            // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud:
+            // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud.
             if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_solicitud"])) {
                 $ms->addMessageTranslated('danger', 'UNLU.END_DATE.BEFORE', $data);
                 $error = true;
@@ -142,11 +142,16 @@ class UnluController extends SimpleController {
         } else {
             $integrantes = [];
             for ($i = 0; $i < count($data['integrantes_id']); $i++) {
-                /* Armo la lista de integrantes, dando la posibilidad de que un integrante puede ser un usuario del sistema, en tal caso elijo un id de usuario, o que no lo sea y entonces lo identifico por su nombre.
+                /*  Armo la lista de integrantes, dando la posibilidad de que
+                    un integrante puede ser un usuario del sistema, en tal caso
+                    elijo un id de usuario, o que no lo sea y entonces lo iden-
+                    tifico por su nombre.
 
-                integrantes_id es el arreglo con todos los valores de los controles "select" con los id de usuario.
+                    integrantes_id es el arreglo con todos los valores de los
+                    controles "select" con los id de usuario.
 
-                integrantes_nombre es el arreglo con todos los valores de los cuadros de texto con los nombres de los integrantes.
+                    integrantes_nombre es el arreglo con todos los valores de
+                    los cuadros de texto con los nombres de los integrantes.
                 */
 
                 if ($data['integrantes_id'][$i] !== "") {
@@ -175,11 +180,15 @@ class UnluController extends SimpleController {
 
             $vinculacion = $classMapper->createInstance("vinculacion", $data);
             $vinculacion->save();
-            // $vinculacion->id tiene el id generado para esta instancia, si es autoincrement
+            /*  $vinculacion->id tiene el id generado para esta instancia, si
+                es autoincrement.
+            */
 
             foreach ($integrantes as $i) {
                 if (is_numeric($i)) {
-                    // Si $i es un número entonces se trata de un id de usuario, y busco el nombre de la base de datos
+                    /*  Si $i es un número entonces se trata de un id de usua-
+                        rio, y busco el nombre de la base de datos.
+                    */
                     $data_integrantes = [
                         "id_usuario" => $i,
                         "id_vinculacion" => $vinculacion->id,
@@ -187,7 +196,10 @@ class UnluController extends SimpleController {
                     ];
 
                 } else {
-                    // Si $i es una cadena de texto entonces no se trata de un usuario del sistema y entonces ingreso el integrante sin id de usuario
+                    /*  Si $i es una cadena de texto entonces no se trata de un
+                        usuario del sistema y entonces ingreso el integrante
+                        sin id de usuario.
+                    */
                     $data_integrantes = [
                         "id_vinculacion" => $vinculacion->id,
                         "nombre" => $i
@@ -211,7 +223,9 @@ class UnluController extends SimpleController {
     }
 
     public function solicitarServicio(Request $request, Response $response, $args) {
-        // Get POST parameters: user_name, first_name, last_name, email, locale, (group)
+        /*  Get POST parameters: user_name, first_name, last_name, email,
+            locale, (group)
+        */
         $params = $request->getParsedBody();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -219,6 +233,11 @@ class UnluController extends SimpleController {
 
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
 
         /** @var \UserFrosting\Support\Repository\Repository $config */
         $config = $this->ci->config;
@@ -277,8 +296,9 @@ class UnluController extends SimpleController {
             $error = true;
         }
 
-        // Borro la instancia de id_vinculacion si viene vacía del formulario (o sea, que la
-        // petición no está vinculada a ninguna vinculación):
+        /*  Borro la instancia de id_vinculacion si viene vacía del formulario
+            (o sea, que la petición no está vinculada a ninguna vinculación):
+        */
         if ($data["id_vinculacion"] === "") {
             unset($data["id_vinculacion"]);
         }
@@ -327,6 +347,11 @@ class UnluController extends SimpleController {
 
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
 
         /** @var \UserFrosting\Support\Repository\Repository $config */
         $config = $this->ci->config;
@@ -382,9 +407,19 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
         $error = false;
 
-        if (!isset($data["descripcion"]) || $data["descripcion"] === "") {
+        if ((!isset($data["descripcion"]) || $data["descripcion"] === "") && !isset($data["aprobada"])) {
+            /*  Verifico que la descripción no esté vacía. En el caso de que
+                quiera solamente aprobar una petición entonces evito esta veri-
+                ficación.
+            */
+
             $ms->addMessageTranslated('warning', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
             $error = true;
         }

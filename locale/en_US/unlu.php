@@ -29,6 +29,7 @@ return [
         "PETITION" => [
             "@TRANSLATION" => "Petitions",
             "ADDED" => "The petition was requested succesfully",
+            "APPROVE" => "Approve",
             "APPROVED" => "Approved",
             "DELETE_SUCCESSFUL" => "The petition was deleted successfully",
             "DESCRIPTION" => [
@@ -36,6 +37,7 @@ return [
                 "MISSING" => "Description is missing"
             ],
             "DOWN" => "Remove Request",
+            "EDIT" => "Edit",
             "END_DATE" => [
                 "@TRANSLATION" => "End date",
                 "BEFORE" => "The end date occurs before the start date",
