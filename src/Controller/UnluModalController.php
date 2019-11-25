@@ -77,8 +77,15 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        $servicios = Servicio::all();
-        $vinculaciones = Vinculacion::all();
+        if ($authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            // Usuario administrador
+            $vinculaciones = Vinculacion::all();
+            $peticiones = Peticion::all();
+
+        } else {
+            $vinculaciones = Vinculacion::where('id_solicitante', $currentUser->id)->get();
+            $peticiones = Peticion::where('id_usuario', $currentUser->id)->get();
+        }
 
         return $this->ci->view->render($response, 'modals/peticion.html.twig', [
             "servicios" => $servicios,
@@ -172,8 +179,18 @@ class UnluModalController extends SimpleController {
         $config = $this->ci->config;
 
         $servicios = Servicio::all();
-        $vinculaciones = Vinculacion::all();
 
+        /*  Como origen de datos del select creo una lista con solamente la
+            vinculación a la que está asignada la petición (ya que comparto el
+            formulario con "Solicitar Servicio").
+        */
+        $vinculaciones = [ $peticion->vinculacion ];
+
+        /*  edicion => true: Como comparto con el formulario de "Solicitar Ser-
+            vicio", cuando quiero editar una petición y solo tener disponibles
+            para editar la descripción y las observaciones con esta opción in-
+            dico que se deshabiliten los demás controles.
+        */
         return $this->ci->view->render($response, 'modals/editar-peticion.html.twig', [
             "edicion" => true,
             'peticion' => $peticion,
