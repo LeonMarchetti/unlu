@@ -102,28 +102,28 @@ passwordc:
 telefono:
     validators:
         length:
-            label: Telefono
+            label: "&UNLU.PHONE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
 institucion:
     validators:
         length:
-            label: Institucion
+            label: "&UNLU.INSTITUTION"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
 dependencia:
     validators:
         length:
-            label: Dependencia
+            label: "&UNLU.DEPENDENCY"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
 rol:
     validators:
         length:
-            label: Rol
+            label: "&UNLU.ROLE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE

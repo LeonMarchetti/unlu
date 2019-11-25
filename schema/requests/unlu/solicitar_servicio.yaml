@@ -2,38 +2,52 @@
 fecha_inicio:
     validators:
         length:
-            label: FechaInicio
-            min: 1
-            max: 255
-            message: "Fecha inválida"
-fecha_fin:
-    validators:
-        length:
-            label: FechaFin
-            min: 1
-            max: 255
-            message: "Fecha inválida"
-id_servicio:
-    validators:
-        integer:
-            label: Servicio
-            message: "Servicio inválido"
-id_vinculacion:
-    validators:
-        integer:
-            label: Vinculacion
-            message: "Vinculación inválida"
-descripcion:
-    validators:
-        length:
-            label: Descripcion
+            label: "&UNLU.PETITION.START_DATE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PETITION.START_DATE"
+            message: VALIDATE.REQUIRED
+fecha_fin:
+    validators:
+        length:
+            label: "&UNLU.PETITION.END_DATE"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PETITION.END_DATE"
+            message: VALIDATE.REQUIRED
+id_servicio:
+    validators:
+        integer:
+            label: "&UNLU.PETITION.SERVICE"
+            domain: server
+            message: VALIDATE.INTEGER
+        required:
+            label: "&UNLU.PETITION.SERVICE"
+            message: VALIDATE.REQUIRED
+id_vinculacion:
+    validators:
+        integer:
+            label: "&UNLU.PETITION.VINCULATION"
+            domain: server
+            message: VALIDATE.INTEGER
+descripcion:
+    validators:
+        length:
+            label: "&UNLU.PETITION.DESCRIPTION"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PETITION.DESCRIPTION"
+            message: VALIDATE.REQUIRED
 observaciones:
     validators:
         length:
-            label: Observaciones
-            min: 1
+            label: "&UNLU.PETITION.OBSERVATIONS"
+            min: 0
             max: 255
             message: VALIDATE.LENGTH_RANGE

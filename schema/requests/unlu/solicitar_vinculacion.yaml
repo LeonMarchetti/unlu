@@ -2,55 +2,84 @@
 responsable:
     validators:
         length:
-            label: Responsable
+            label: "&UNLU.RESPONSABLE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.RESPONSABLE"
+            message: VALIDATE.REQUIRED
 cargo:
     validators:
         length:
-            label: Cargo
+            label: "&UNLU.POSITION"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.POSITION"
+            message: VALIDATE.REQUIRED
 tipo_de_usuario:
     validators:
         integer:
-            label: TipoDeUsuario
+            label: "&UNLU.TYPE"
             message: VALIDATE.INTEGER
+        required:
+            label: "&UNLU.TYPE"
+            message: VALIDATE.REQUIRED
 actividad:
     validators:
         length:
-            label: Actividad
+            label: "&UNLU.ACTIVITY"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.ACTIVITY"
+            message: VALIDATE.REQUIRED
 telefono:
     validators:
         length:
-            label: Telefono
+            label: "&UNLU.PHONE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PHONE"
+            message: VALIDATE.REQUIRED
 correo:
     validators:
+        length:
+            label: "&UNLU.EMAIL"
+            min: 1
+            max: 150
+            message: VALIDATE.LENGTH_RANGE
         email:
-            label: Correo
-            message: "Dirección de correo inválido"
+            label: "&UNLU.EMAIL"
+            message: VALIDATE.INVALID_EMAIL
+        required:
+            label: "&UNLU.EMAIL"
+            message: VALIDATE.REQUIRED
 fecha_fin:
     validators:
         length:
-            label: FechaFin
-            min: 1
-            max: 255
-            message: "Fecha inválida"
-descripcion:
-    validators:
-        length:
-            label: Descripcion
+            label: "&UNLU.END_DATE"
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.END_DATE"
+            message: VALIDATE.REQUIRED
+descripcion:
+    validators:
+        length:
+            label: "&UNLU.DESCRIPTION"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.DESCRIPTION"
+            message: VALIDATE.REQUIRED
 integrantes_id:
     validators:
         length:
