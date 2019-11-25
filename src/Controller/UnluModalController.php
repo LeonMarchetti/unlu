@@ -197,6 +197,43 @@ class UnluModalController extends SimpleController {
         ]);
     }
 
+    public function editarServicioModal(Request $request, Response $response, $args) {
+        // GET parameters
+        $params = $request->getQueryParams();
+
+        $servicio = $this->getServicioFromParams($params);
+        if (!$servicio) {
+            throw new NotFoundException();
+        }
+
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        return $this->ci->view->render($response, 'modals/servicio.html.twig', [
+            "servicio" => $servicio,
+            'form' => [
+                'action' => "api/unlu/s/{$servicio->id}",
+                "method" => "POST",
+                "submit_text" => "Actualizar"
+            ],
+        ]);
+    }
+
+    public function eliminarServicioModal(Request $request, Response $response, $args) {
+
+    }
+
     protected function getPeticionFromParams($params) {
         $schema = new RequestSchema("schema://requests/unlu/peticion/get-by-id.yaml");
 
@@ -207,5 +244,17 @@ class UnluModalController extends SimpleController {
         $peticion = Peticion::find($data["id"]);
 
         return $peticion;
+    }
+
+    protected function getServicioFromParams($params) {
+        $schema = new RequestSchema("schema://requests/unlu/servicio/get-by-id.yaml");
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $servicio = Servicio::find($data["id"]);
+
+        return $servicio;
     }
 }

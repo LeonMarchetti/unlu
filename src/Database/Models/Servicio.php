@@ -16,9 +16,4 @@ class Servicio extends Model
         'denominacion',
         'observaciones'
     ];
-
-    /**
-     * @var bool Enable timestamps for this class.
-     */
-    public $timestamps = true;
 }

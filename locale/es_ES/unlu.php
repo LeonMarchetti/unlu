@@ -70,10 +70,14 @@ return [
         "SERVICE" => [
             "@TRANSLATION" => "Servicio",
             "DELETE" => "Eliminar",
-            "DENOMINATION" => "Denominación",
+            "DENOMINATION" => [
+                "@TRANSLATION" => "Denominación",
+                "MISSING" => "Falta la denominación",
+            ],
             "EDIT" => "Editar",
             "OBSERVATIONS" => "Observaciones",
             "PLURAL" => "Servicios",
+            "UPDATED" => "El servicio fue actualizado exitosamente",
         ],
         "TYPE" => [
             "@TRANSLATION" => "Tipo de usuario",

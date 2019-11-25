@@ -1,0 +1,18 @@
+---
+denominacion:
+    validators:
+        length:
+            label: "&UNLU.SERVICE.DENOMINATION"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.SERVICE.DENOMINATION"
+            message: VALIDATE.REQUIRED
+observaciones:
+    validators:
+        length:
+            label: "&UNLU.SERVICE.OBSERVATIONS"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE

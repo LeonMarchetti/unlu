@@ -15,6 +15,9 @@ $app->group('/modals/unlu', function () {
 
     $this->get('/aprobar-peticion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:aprobarPeticionModal');
     $this->get('/editar-peticion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarPeticionModal');
+
+    $this->get('/editar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarServicioModal');
+    $this->get('/eliminar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:eliminarServicioModal');
 })->add('authGuard');
 
 $app->group("/api/unlu", function() {
@@ -23,4 +26,6 @@ $app->group("/api/unlu", function() {
     $this->post("/baja-solicitud", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:bajaSolicitud');
 
     $this->post("/p/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarPeticion");
+
+    $this->post("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarServicio");
 });

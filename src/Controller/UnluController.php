@@ -461,6 +461,72 @@ class UnluController extends SimpleController {
         return $response->withJson([], 200);
     }
 
+    public function editarServicio(Request $request, Response $response, $args) {
+        $servicio = $this->getServicioFromParams($args);
+        if (!$servicio) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        // Get PUT parameters
+        $params = $request->getParsedBody();
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        // Load the request schema
+        $schema = new RequestSchema('schema://requests/unlu/servicio/editar.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        $error = false;
+
+        if (!isset($data["denominacion"]) || $data["denominacion"] === "") {
+            $ms->addMessageTranslated('warning', 'UNLU.SERVICE.DENOMINATION.MISSING', $data);
+            $error = true;
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        $classMapper = $this->ci->classMapper;
+
+        // Begin transaction - DB will be rolled back if an exception occurs
+        Capsule::transaction(function () use ($classMapper, $data, $servicio, $currentUser) {
+            $servicio->denominacion = $data["denominacion"];
+            $servicio->observaciones = $data["observaciones"];
+            $servicio->save();
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} updated info for service {$servicio->id}.", [
+                'type'    => 'account_update_info',
+                'user_id' => $currentUser->id,
+            ]);
+        });
+
+        $ms->addMessageTranslated('success', 'UNLU.SERVICE.UPDATED', [
+            'user_name' => $servicio->id,
+        ]);
+
+        return $response->withJson([], 200);
+    }
+
     protected function getPeticionFromParams($params) {
         $schema = new RequestSchema("schema://requests/unlu/peticion/get-by-id.yaml");
 
@@ -471,5 +537,17 @@ class UnluController extends SimpleController {
         $peticion = Peticion::find($data["id"]);
 
         return $peticion;
+    }
+
+    protected function getServicioFromParams($params) {
+        $schema = new RequestSchema("schema://requests/unlu/servicio/get-by-id.yaml");
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $servicio = Servicio::find($data["id"]);
+
+        return $servicio;
     }
 }
