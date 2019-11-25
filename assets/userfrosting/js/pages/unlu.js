@@ -64,7 +64,7 @@ $(function() {
         e.preventDefault();
 
         $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/eliminar-peticion",
+            sourceUrl: site.uri.public + "/modals/unlu/eliminar-servicio",
             ajaxParams: {
                 id: $(this).data('id')
             },
