@@ -10,6 +10,7 @@ use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
 
 use UserFrosting\Sprinkle\Unlu\Database\Models\Peticion;
+use UserFrosting\Sprinkle\Unlu\Database\Models\Servicio;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
 use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
 
@@ -41,8 +42,11 @@ class UnluController extends SimpleController {
             $vinculaciones = $currentUser->vinculaciones;
         }
 
+        $servicios = Servicio::all();
+
         return $this->ci->view->render($response, 'pages/unlu.html.twig', [
             'peticiones' => $peticiones,
+            'servicios' => $servicios,
             'vinculaciones' => $vinculaciones,
         ]);
     }

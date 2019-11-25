@@ -46,6 +46,32 @@ $(function() {
         alert("TODO Acta N°: \"" + $(this).data("id") + "\"");
     });
 
+    // Modal para editar un postre
+    $(".editar-servicio").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/editar-servicio",
+            ajaxParams: {
+                id: $(this).data('id')
+            },
+            msgTarget: $("#alerts-page")
+        });
+    });
+
+    // Modal para editar un postre
+    $(".eliminar-servicio").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/eliminar-peticion",
+            ajaxParams: {
+                id: $(this).data('id')
+            },
+            msgTarget: $("#alerts-page")
+        });
+    });
+
     // Modal para borrar un postre
     $(".aprobar-peticion").click(function(e) {
         e.preventDefault();

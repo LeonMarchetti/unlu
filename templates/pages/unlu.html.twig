@@ -85,11 +85,55 @@
                                 <td><textarea readonly>{{ vinculacion.descripcion }}</textarea></td>
                                 <td>
                                     {% if vinculacion.id_acta %}
-                                        <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ vinculacion.id_acta }}"><i class="fa fa-file-contract"></i></button>
+                                        <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ vinculacion.id_acta }}">
+                                            <i class="fa fa-file-contract"></i>
+                                        </button>
                                     {% else %}
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-minus"></i>
                                     {% endif %}
                                 </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> <!-- Servicios -->
+        <div class="col-sm-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3>{{ translate("UNLU.SERVICE.PLURAL") }}</h3>
+                </div>
+                <div class="box-body no-padding" style="overflow-x: scroll">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ translate("UNLU.SERVICE.DENOMINATION") }}</th>
+                                <th>{{ translate("UNLU.SERVICE.OBSERVATIONS") }}</th>
+                                {% if checkAccess("admin_unlu") %}<th>{{ translate("ACTIONS") }}</th>{% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for servicio in servicios %}
+                            <tr>
+                                <td nowrap>{{ servicio.denominacion }}</td>
+                                <td><textarea readonly>{{ servicio.observaciones }}</textarea></td>
+                                {% if checkAccess("admin_unlu") %}<td>
+                                    <div class="dropdown">
+                                        <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                                        <div class="dropdown-content">
+                                            <a href="#" class="editar-servicio" data-id="{{ servicio.id }}">
+                                                <i class="fas fa-pen"></i> {{ translate("UNLU.SERVICE.EDIT") }}
+                                            </a>
+                                            <a href="#" class="eliminar-servicio" data-id="{{ servicio.id }}">
+                                                <i class="fas fa-trash"></i> {{ translate("UNLU.SERVICE.DELETE") }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>{% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -133,7 +177,7 @@
                                 <td><textarea readonly>{{ peticion.observaciones }}</textarea></td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="dropbtn btn btn-primary">Acciones</button>
+                                        <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
                                         <div class="dropdown-content">
                                             {% if checkAccess("admin_unlu") and not peticion.aprobada %}
                                             <a href="#" class="aprobar-peticion" data-id="{{ peticion.id }}">
@@ -143,6 +187,7 @@
                                             <a href="#" class="editar-peticion" data-id="{{ peticion.id }}">
                                                 <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                                             </a>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

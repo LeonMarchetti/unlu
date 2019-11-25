@@ -67,6 +67,14 @@ return [
             "@TRANSLATION" => "Rol",
             "MISSING" => "Falta asignar el rol en el perfil de usuario"
         ],
+        "SERVICE" => [
+            "@TRANSLATION" => "Servicio",
+            "DELETE" => "Eliminar",
+            "DENOMINATION" => "Denominación",
+            "EDIT" => "Editar",
+            "OBSERVATIONS" => "Observaciones",
+            "PLURAL" => "Servicios",
+        ],
         "TYPE" => [
             "@TRANSLATION" => "Tipo de usuario",
             "MISSING" => "Falta el tipo de usuario"

@@ -67,6 +67,14 @@ return [
             "@TRANSLATION" => "Role",
             "MISSING" => "Role is not assigned in user profile"
         ],
+        "SERVICE" => [
+            "@TRANSLATION" => "Service",
+            "DELETE" => "Delete",
+            "DENOMINATION" => "Denomination",
+            "EDIT" => "Edit",
+            "OBSERVATIONS" => "Observations",
+            "PLURAL" => "Services",
+        ],
         "TYPE" => [
             "@TRANSLATION" => "User type",
             "MISSING" => "User type is missing"
