@@ -1,0 +1,34 @@
+{% extends '@account/forms/settings-profile.html.twig' %}
+
+{% block settings_profile %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.PHONE") }}</label>
+                <input type="text" class="form-control" name="telefono" autocomplete="off" value="{{ current_user.telefono }}" placeholder="{{ translate("UNLU.PHONE") }}" disabled>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.INSTITUTION") }}</label>
+                <input type="text" class="form-control" name="institucion" autocomplete="off" value="{{ current_user.institucion }}" placeholder="{{ translate("UNLU.INSTITUTION") }}" disabled>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.DEPENDENCY") }}</label>
+                <input type="text" class="form-control" name="dependencia" autocomplete="off" value="{{ current_user.dependencia }}" placeholder="{{ translate("UNLU.DEPENDENCY") }}" disabled>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.ROLE") }}</label>
+                <input type="text" class="form-control" name="rol" autocomplete="off" value="{{ current_user.rol }}" placeholder="{{ translate("UNLU.ROLE") }}" disabled>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="activo" value="{{ current_user.activo }}"/>
+{% endblock %}
