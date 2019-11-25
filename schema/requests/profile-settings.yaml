@@ -1,0 +1,63 @@
+---
+first_name:
+  validators:
+    length:
+      label: "&FIRST_NAME"
+      min: 1
+      max: 20
+      message: VALIDATE.LENGTH_RANGE
+    required:
+      label: "&FIRST_NAME"
+      message: VALIDATE.REQUIRED
+last_name:
+  validators:
+    length:
+      label: "&LAST_NAME"
+      min: 1
+      max: 30
+      message: VALIDATE.LENGTH_RANGE
+locale:
+  validators:
+    required:
+      label: "&LOCALE"
+      domain: server
+      message: VALIDATE.REQUIRED
+
+# Campos de usuario_unlu
+telefono:
+    validators:
+        length:
+            label: "&UNLU.PHONE"
+            min: 1
+            max: 20
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PHONE"
+            message: VALIDATE.REQUIRED
+institucion:
+    validators:
+        length:
+            label: "&UNLU.INSTITUTION"
+            min: 1
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.INSTITUTION"
+            message: VALIDATE.REQUIRED
+dependencia:
+    validators:
+        length:
+            label: "&UNLU.DEPENDENCY"
+            min: 1
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.DEPENDENCY"
+            message: VALIDATE.REQUIRED
+rol:
+    validators:
+        length:
+            label: "&UNLU.ROLE"
+            min: 1
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.ROLE"
+            message: VALIDATE.REQUIRED
