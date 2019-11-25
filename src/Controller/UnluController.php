@@ -37,13 +37,13 @@ class UnluController extends SimpleController {
             $peticiones = Peticion::all();
 
         } else {
-            $vinculaciones = Vinculacion::where('id_solicitante', $currentUser->id)->get();
-            $peticiones = Peticion::where('id_usuario', $currentUser->id)->get();
+            $peticiones = $currentUser->peticiones;
+            $vinculaciones = $currentUser->vinculaciones;
         }
 
         return $this->ci->view->render($response, 'pages/unlu.html.twig', [
-            'vinculaciones' => $vinculaciones,
             'peticiones' => $peticiones,
+            'vinculaciones' => $vinculaciones,
         ]);
     }
 

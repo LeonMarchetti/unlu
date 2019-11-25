@@ -20,9 +20,9 @@ solo `usuario_unlu` al rol *User*.
     escritura.
 * Agregar datos de `usuario_unlu` para el usuario root.
 * Crear servicios (directamente en la base de datos).
-* `# chown usuario:grupo app/logs/userfrosting.log`
-    * Cambiar dueño y grupo de archivo de logs una vez haya sido creado (y si
-    es que se necesita editarlo).
+* `# chmod 777 app/logs/userfrosting.log`
+    * Cambiar permisos para poder editarlo (si es necesario), permitiendo que
+    lo pueda editar el sistema.
 
 ## Uso
 En la barra lateral hay que acceder al item **UNLu**.

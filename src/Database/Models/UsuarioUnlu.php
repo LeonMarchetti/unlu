@@ -156,4 +156,18 @@ class UsuarioUnlu extends User {
             $this->setRelation('aux', $aux);
         }
     }
+
+    public function peticiones() {
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = static::$ci->classMapper;
+
+        return $this->hasMany($classMapper->getClassMapping("peticion"), "id_usuario", "id");
+    }
+
+    public function vinculaciones() {
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = static::$ci->classMapper;
+
+        return $this->hasMany($classMapper->getClassMapping("vinculacion"), "id_solicitante", "id");
+    }
 }

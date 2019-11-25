@@ -41,12 +41,6 @@ class UnluModalController extends SimpleController {
             "cargo" => $currentUser->rol,
             "correo" => $currentUser->email,
             "telefono" => $currentUser->telefono,
-
-            // Valores de prueba para solicitar vinculación, comentar para producción:
-            // "actividad" => "Prueba integrantes",
-            // "fecha_fin" => "2020-01-01",
-            // "tipo_de_usuario" => 3,
-            // "descripcion" => "Prueba de integrantes",
         ];
 
         // Lista de tipos de usuario
@@ -77,14 +71,14 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $servicios = Servicio::all();
+
         if ($authorizer->checkAccess($currentUser, 'admin_unlu')) {
             // Usuario administrador
             $vinculaciones = Vinculacion::all();
-            $peticiones = Peticion::all();
 
         } else {
-            $vinculaciones = Vinculacion::where('id_solicitante', $currentUser->id)->get();
-            $peticiones = Peticion::where('id_usuario', $currentUser->id)->get();
+            $vinculaciones = $currentUser->vinculaciones;
         }
 
         return $this->ci->view->render($response, 'modals/peticion.html.twig', [
@@ -178,12 +172,11 @@ class UnluModalController extends SimpleController {
         /** @var \UserFrosting\Support\Repository\Repository $config */
         $config = $this->ci->config;
 
-        $servicios = Servicio::all();
-
         /*  Como origen de datos del select creo una lista con solamente la
-            vinculación a la que está asignada la petición (ya que comparto el
-            formulario con "Solicitar Servicio").
+            vinculación y el servicio a las que está asignada la petición (ya
+            que comparto el formulario con "Solicitar Servicio").
         */
+        $servicios = [ $peticion->servicio ];
         $vinculaciones = [ $peticion->vinculacion ];
 
         /*  edicion => true: Como comparto con el formulario de "Solicitar Ser-
