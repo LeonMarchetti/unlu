@@ -197,6 +197,27 @@ class UnluModalController extends SimpleController {
         ]);
     }
 
+    public function agregarServicioModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        return $this->ci->view->render($response, 'modals/servicio.html.twig', [
+            "form" => [
+                "action" => "api/unlu/s",
+                "method" => "POST",
+                "submit_text" => "Agregar"
+            ]
+        ]);
+    }
+
     public function editarServicioModal(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
         $servicio = $this->getServicioFromParams($request->getQueryParams());
@@ -249,7 +270,7 @@ class UnluModalController extends SimpleController {
     }
 
     protected function getPeticionFromParams($params) {
-        $schema = new RequestSchema("schema://requests/unlu/peticion/get-by-id.yaml");
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
@@ -261,7 +282,7 @@ class UnluModalController extends SimpleController {
     }
 
     protected function getServicioFromParams($params) {
-        $schema = new RequestSchema("schema://requests/unlu/servicio/get-by-id.yaml");
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);

@@ -461,6 +461,61 @@ class UnluController extends SimpleController {
         return $response->withJson([], 200);
     }
 
+    public function agregarServicio(Request $request, Response $response, $args) {
+        $params = $request->getParsedBody();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $error = false;
+
+        if (!isset($data['denominacion']) || $data['denominacion'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.SERVICE.DENOMINATION.MISSING', $data);
+            $error = true;
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        $classMapper = $this->ci->classMapper;
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser) {
+            $servicio = $classMapper->createInstance("servicio", $data);
+            $servicio->save();
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} created a new service {$servicio->denominacion}.", [
+                'type'    => 'service_create',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.SERVICE.ADD.SUCCESS', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
+
     public function editarServicio(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
         $servicio = $this->getServicioFromParams($args);
@@ -475,7 +530,7 @@ class UnluController extends SimpleController {
         $ms = $this->ci->alerts;
 
         // Load the request schema
-        $schema = new RequestSchema('schema://requests/unlu/servicio/editar.yaml');
+        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
@@ -562,7 +617,7 @@ class UnluController extends SimpleController {
     }
 
     protected function getPeticionFromParams($params) {
-        $schema = new RequestSchema("schema://requests/unlu/peticion/get-by-id.yaml");
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
@@ -574,7 +629,7 @@ class UnluController extends SimpleController {
     }
 
     protected function getServicioFromParams($params) {
-        $schema = new RequestSchema("schema://requests/unlu/servicio/get-by-id.yaml");
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);

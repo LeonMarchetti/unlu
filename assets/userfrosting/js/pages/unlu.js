@@ -72,6 +72,16 @@ $(function() {
         });
     });
 
+    // Modal para editar un postre
+    $(".agregar-servicio").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/agregar-servicio",
+            msgTarget: $("#alerts-page")
+        });
+    });
+
     // Modal para borrar un postre
     $(".aprobar-peticion").click(function(e) {
         e.preventDefault();

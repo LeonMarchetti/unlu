@@ -46,6 +46,10 @@ return [
         ],
         "SERVICE" => [
             "@TRANSLATION" => "Servicio",
+            "ADD" => [
+                "@TRANSLATION" => "Agregar servicio",
+                "SUCCESS" => "El servicio <b>{{denominacion}}</b> fue agregado exitosamente",
+            ],
             "DELETE" => [
                 "@TRANSLATION" => "Eliminar",
                 "CONFIRM" => "¿Está seguro de eliminar el servicio <b>{{denominacion}}</b>?",
