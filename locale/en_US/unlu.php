@@ -2,30 +2,10 @@
 
 return [
     "UNLU" => [
-        "@TRANSLATION" => "Unlu",
-        "ACTIVITY" => [
-            "@TRANSLATION" => "Activity",
-            "MISSING" => "Activity is missing"
-        ],
+        "@TRANSLATION" => "UNLu",
         "CERTIFICATE" => "Certificate",
         "DEPENDENCY" => "Dependency",
-        "DESCRIPTION" => [
-            "@TRANSLATION" => "Description",
-            "MISSING" => "Description is missing"
-        ],
-        "EMAIL" => "E-mail",
-        "END_DATE" => [
-            "@TRANSLATION" => "End date",
-            "BEFORE" => "End date can't be before than request date",
-            "MISSING" => "End date is missing"
-        ],
         "INSTITUTION" => "Institution",
-        "MEMBERS" => [
-            "@TRANSLATION" => "Members",
-            "HELP" => "You can choose an existing user in the system in the dropdown list to the left or input a name in the text box to the right, which won't be associated to any user in the system (the former takes precedence).",
-            "MISSING" => "Members are missing",
-            "REPEATED" => "There are repeated members"
-        ],
         "PETITION" => [
             "@TRANSLATION" => "Petitions",
             "ADDED" => "The petition was requested succesfully",
@@ -60,9 +40,6 @@ return [
             "@TRANSLATION" => "Phone",
             "MISSING" => "Phone number is not assigned in user profile"
         ],
-        "POSITION" => "Position",
-        "REQUEST_DATE" => "Request date",
-        "RESPONSABLE" => "Responsable",
         "ROLE" => [
             "@TRANSLATION" => "Role",
             "MISSING" => "Role is not assigned in user profile"
@@ -79,14 +56,36 @@ return [
             "PLURAL" => "Services",
             "UPDATED" => "The service was updated successfully",
         ],
-        "TYPE" => [
-            "@TRANSLATION" => "User type",
-            "MISSING" => "User type is missing"
-        ],
         "VINCULATION" => [
             "@TRANSLATION" => "Vinculation",
-            "ADDED" => "Vinculation requested"
+            "ACTIVITY" => [
+                "@TRANSLATION" => "Activity",
+                "MISSING" => "Activity is missing"
+            ],
+            "ADDED" => "Vinculation requested",
+            "DESCRIPTION" => [
+                "@TRANSLATION" => "Description",
+                "MISSING" => "Description is missing"
+            ],
+            "END_DATE" => [
+                "@TRANSLATION" => "End date",
+                "BEFORE" => "End date can't be before than request date",
+                "MISSING" => "End date is missing"
+            ],
+            "MEMBERS" => [
+                "@TRANSLATION" => "Members",
+                "HELP" => "You can choose an existing user in the system in the dropdown list to the left or input a name in the text box to the right, which won't be associated to any user in the system (the former takes precedence).",
+                "MISSING" => "Members are missing",
+                "REPEATED" => "There are repeated members"
+            ],
+            "PLURAL" => "Vinculations",
+            "POSITION" => "Position",
+            "REQUEST_DATE" => "Request date",
+            "RESPONSABLE" => "Responsable",
+            "USERTYPE" => [
+                "@TRANSLATION" => "User type",
+                "MISSING" => "User type is missing"
+            ],
         ],
-        "VINCULATIONS" => "Vinculations",
     ]
 ];

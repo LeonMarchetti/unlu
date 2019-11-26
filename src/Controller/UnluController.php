@@ -102,12 +102,12 @@ class UnluController extends SimpleController {
         }
 
         if (!isset($data['tipo_de_usuario']) || $data['tipo_de_usuario'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.TYPE.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.USERTYPE.MISSING', $data);
             $error = true;
         }
 
         if (!isset($data['actividad']) || $data['actividad'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.ACTIVITY.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.ACTIVITY.MISSING', $data);
             $error = true;
         }
 
@@ -122,25 +122,25 @@ class UnluController extends SimpleController {
         }
 
         if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.END_DATE.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
             $error = true;
 
         } else {
             // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud.
             if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_solicitud"])) {
-                $ms->addMessageTranslated('danger', 'UNLU.END_DATE.BEFORE', $data);
+                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.BEFORE', $data);
                 $error = true;
             }
         }
 
         if (!isset($data['descripcion']) || $data['descripcion'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.DESCRIPTION.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.DESCRIPTION.MISSING', $data);
             $error = true;
         }
 
         // Integrantes
         if (!isset($data['integrantes_id']) || !isset($data['integrantes_nombre'])) {
-            $ms->addMessageTranslated('danger', 'UNLU.MEMBERS.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
             $error = true;
 
         } else {
@@ -169,7 +169,7 @@ class UnluController extends SimpleController {
             }
 
             if (empty($integrantes)) {
-                $ms->addMessageTranslated('danger', 'UNLU.MEMBERS.MISSING', $data);
+                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
                 $error = true;
             }
         }
