@@ -198,10 +198,8 @@ class UnluModalController extends SimpleController {
     }
 
     public function editarServicioModal(Request $request, Response $response, $args) {
-        // GET parameters
-        $params = $request->getQueryParams();
-
-        $servicio = $this->getServicioFromParams($params);
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
+        $servicio = $this->getServicioFromParams($request->getQueryParams());
         if (!$servicio) {
             throw new NotFoundException();
         }
@@ -217,9 +215,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
         return $this->ci->view->render($response, 'modals/servicio.html.twig', [
             "servicio" => $servicio,
             'form' => [
@@ -231,7 +226,26 @@ class UnluModalController extends SimpleController {
     }
 
     public function eliminarServicioModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
+        $servicio = $this->getServicioFromParams($request->getQueryParams());
 
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        return $this->ci->view->render($response, 'modals/eliminar-servicio.html.twig', [
+            'servicio' => $servicio,
+            'form' => [
+                'action' => "api/unlu/s/{$servicio->id}",
+            ],
+        ]);
     }
 
     protected function getPeticionFromParams($params) {
@@ -253,8 +267,8 @@ class UnluModalController extends SimpleController {
         $transformer = new RequestDataTransformer($schema);
         $data = $transformer->transform($params);
 
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
         $servicio = Servicio::find($data["id"]);
-
         return $servicio;
     }
 }

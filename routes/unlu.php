@@ -28,4 +28,5 @@ $app->group("/api/unlu", function() {
     $this->post("/p/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarPeticion");
 
     $this->post("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarServicio");
+    $this->delete("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarServicio");
 });

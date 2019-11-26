@@ -46,7 +46,11 @@ return [
         ],
         "SERVICE" => [
             "@TRANSLATION" => "Service",
-            "DELETE" => "Delete",
+            "DELETE" => [
+                "@TRANSLATION" => "Delete",
+                "CONFIRM" => "Are you sure you want to delete the service <b>{{denominacion}}</b>?",
+                "SUCCESS" => "The service <b>{{denominacion}}</b> was deleted successfully",
+            ],
             "DENOMINATION" => [
                 "@TRANSLATION" => "Denomination",
                 "MISSING" => "Denomination is missing",

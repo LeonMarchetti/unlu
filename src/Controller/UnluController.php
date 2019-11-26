@@ -462,13 +462,11 @@ class UnluController extends SimpleController {
     }
 
     public function editarServicio(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
         $servicio = $this->getServicioFromParams($args);
         if (!$servicio) {
             throw new NotFoundException($request, $response);
         }
-
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
 
         // Get PUT parameters
         $params = $request->getParsedBody();
@@ -522,6 +520,42 @@ class UnluController extends SimpleController {
 
         $ms->addMessageTranslated('success', 'UNLU.SERVICE.UPDATED', [
             'user_name' => $servicio->id,
+        ]);
+
+        return $response->withJson([], 200);
+    }
+
+    public function eliminarServicio(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
+        $servicio = $this->getServicioFromParams($args);
+        if (!$servicio) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        $denominacion = $servicio->denominacion;
+
+        // Begin transaction - DB will be rolled back if an exception occurs
+        Capsule::transaction(function () use ($servicio, $currentUser) {
+            $servicio->delete();
+            unset($servicio);
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} deleted the service {$denominacion}.", [
+                'type'    => 'pastry_delete',
+                'user_id' => $currentUser->id,
+            ]);
+        });
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+        $ms->addMessageTranslated('success', 'UNLU.SERVICE.DELETE.SUCCESS', [
+            'denominacion' => $servicio->denominacion,
         ]);
 
         return $response->withJson([], 200);
