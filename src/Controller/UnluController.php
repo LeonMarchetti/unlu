@@ -254,7 +254,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/solicitar_servicio.yaml');
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
@@ -399,7 +399,7 @@ class UnluController extends SimpleController {
         $ms = $this->ci->alerts;
 
         // Load the request schema
-        $schema = new RequestSchema('schema://requests/unlu/peticion/editar.yaml');
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);

@@ -1,6 +1,0 @@
----
-peticion:
-    validators:
-        required:
-            label: "&ID"
-            message: VALIDATED.REQUIRED
