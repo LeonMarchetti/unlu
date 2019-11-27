@@ -154,7 +154,9 @@
                     <label>{{ translate("UNLU.ACTIVE") }}</label>
                     <div class="input-group js-copy-container">
                         <span class="input-group-addon"><i class="fa fa-check-circle"></i></span>
-                        <input type="checkbox" name="activo" {%if user.activo %}checked{% endif %}>
+                        <label class="btn btn-link">
+                            <input type="checkbox" name="activo" {%if user.activo %}checked{% endif %} />
+                        </label>
                     </div>
                 </div>
             </div>

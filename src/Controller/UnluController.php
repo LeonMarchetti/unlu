@@ -266,37 +266,37 @@ class UnluController extends SimpleController {
         $data["id_usuario"] = $currentUser->id;
 
         if (!isset($data['fecha_inicio']) || $data['fecha_inicio'] === "") {
-            $ms->addMessageTranslated('warning', 'UNLU.PETITION.START_DATE.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.START_DATE.MISSING', $data);
             $error = true;
 
         } else {
             // Comprobar que la fecha de inicio no sea anterior a la fecha actual:
             $fecha_hoy = strtotime(date("d-m-Y", time()));
             if (strtotime($data["fecha_inicio"]) < $fecha_hoy) {
-                $ms->addMessageTranslated('warning', 'UNLU.PETITION.START_DATE.BEFORE', $data);
+                $ms->addMessageTranslated('danger', 'UNLU.PETITION.START_DATE.BEFORE', $data);
                 $error = true;
             }
         }
 
         if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
-            $ms->addMessageTranslated('warning', 'UNLU.PETITION.END_DATE.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.END_DATE.MISSING', $data);
             $error = true;
 
         } else {
             // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud:
             if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_inicio"])) {
-                $ms->addMessageTranslated('warning', 'UNLU.PETITION.END_DATE.BEFORE', $data);
+                $ms->addMessageTranslated('danger', 'UNLU.PETITION.END_DATE.BEFORE', $data);
                 $error = true;
             }
         }
 
         if (!isset($data["id_servicio"]) || $data["id_servicio"] === "") {
-            $ms->addMessageTranslated('warning', 'UNLU.PETITION.SERVICE.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.SERVICE.MISSING', $data);
             $error = true;
         }
 
         if (!isset($data["descripcion"]) || $data["descripcion"] === "") {
-            $ms->addMessageTranslated('warning', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
             $error = true;
         }
 
@@ -424,7 +424,7 @@ class UnluController extends SimpleController {
                 ficación.
             */
 
-            $ms->addMessageTranslated('warning', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
             $error = true;
         }
 
@@ -550,7 +550,7 @@ class UnluController extends SimpleController {
         $error = false;
 
         if (!isset($data["denominacion"]) || $data["denominacion"] === "") {
-            $ms->addMessageTranslated('warning', 'UNLU.SERVICE.DENOMINATION.MISSING', $data);
+            $ms->addMessageTranslated('danger', 'UNLU.SERVICE.DENOMINATION.MISSING', $data);
             $error = true;
         }
 

@@ -181,7 +181,6 @@
                                 <td nowrap>{{ peticion.usuario.user_name }}</td>
                                 <td nowrap>{{ peticion.vinculacion.actividad }}</td>
                                 <td nowrap>{{ peticion.servicio.denominacion }}</td>
-                                {# <td><input type="checkbox" {% if peticion.aprobada %}checked{% endif %} onclick="return false;"/></td> #}
                                 <td>{% if peticion.aprobada %}<i class="fas fa-check"></i>{% endif %}</td>
                                 <td><textarea readonly>{{ peticion.descripcion }}</textarea></td>
                                 <td><textarea readonly>{{ peticion.observaciones }}</textarea></td>
