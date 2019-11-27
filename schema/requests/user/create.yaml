@@ -127,3 +127,8 @@ rol:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+activo:
+    validators:
+        boolean:
+            label: "&UNLU.ACTIVE"
+            message: VALIDATE.BOOLEAN
