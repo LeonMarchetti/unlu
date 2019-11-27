@@ -127,8 +127,3 @@ rol:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
-activo:
-  validators:
-    integer:
-      label: Activo
-      message: VALIDATE.INTEGER

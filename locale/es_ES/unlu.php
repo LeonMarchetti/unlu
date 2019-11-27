@@ -3,6 +3,7 @@
 return [
     "UNLU" => [
         "@TRANSLATION" => "UNLu",
+        "ACTIVE" => "Activo",
         "CERTIFICATE" => "Acta",
         "DEPENDENCY" => "Dependencia",
         "INSTITUTION" => "Institución",

@@ -6,37 +6,39 @@
 
 {% block body_matter %}
     <div class="row"> <!-- acciones -->
-        <div class="col-sm-4">
-            <a href="#" class="solicitar-vinculacion">
-                <div class="info-box">
-                    <span class="info-box-icon bg-red"><i class="fas fa-file-contract fa-fw"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Solicitar Vinculación</span>
+        {% if current_user.activo %}
+            <div class="col-sm-4">
+                <a href="#" class="solicitar-vinculacion">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fas fa-file-contract fa-fw"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Solicitar Vinculación</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-sm-4">
-            <a href="#" class="solicitar-servicio">
-                <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fas fa-plus-circle fa-fw"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Solicitar Servicio</span>
+                </a>
+            </div>
+            <div class="col-sm-4">
+                <a href="#" class="solicitar-servicio">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fas fa-plus-circle fa-fw"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Solicitar Servicio</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-        {% if checkAccess("admin_unlu") %}
-        <div class="col-sm-4">
-            <a href="#" class="baja-solicitud">
-                <div class="info-box">
-                    <span class="info-box-icon bg-blue"><i class="fas fa-minus-circle fa-fw"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Baja Solicitud</span>
+                </a>
+            </div>
+            {% if checkAccess("admin_unlu") %}
+            <div class="col-sm-4">
+                <a href="#" class="baja-solicitud">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-blue"><i class="fas fa-minus-circle fa-fw"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Baja Solicitud</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+            {% endif %}
         {% endif %}
     </div>
 
@@ -139,11 +141,13 @@
                         </tbody>
                     </table>
                 </div>
+                {% if checkAccess("admin_unlu") %}
                 <div class="box-footer">
                     <button type="button" class="btn btn-success agregar-servicio">
                         <i class="fas fa-plus-square"></i> {{ translate("UNLU.SERVICE.ADD") }}
                     </button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -177,7 +181,8 @@
                                 <td nowrap>{{ peticion.usuario.user_name }}</td>
                                 <td nowrap>{{ peticion.vinculacion.actividad }}</td>
                                 <td nowrap>{{ peticion.servicio.denominacion }}</td>
-                                <td><input type="checkbox" {% if peticion.aprobada %}checked{% endif %} onclick="return false;"/></td>
+                                {# <td><input type="checkbox" {% if peticion.aprobada %}checked{% endif %} onclick="return false;"/></td> #}
+                                <td>{% if peticion.aprobada %}<i class="fas fa-check"></i>{% endif %}</td>
                                 <td><textarea readonly>{{ peticion.descripcion }}</textarea></td>
                                 <td><textarea readonly>{{ peticion.observaciones }}</textarea></td>
                                 <td>

@@ -39,7 +39,10 @@ observaciones:
             message: VALIDATE.LENGTH_RANGE
 aprobada:
     validators:
+        boolean:
+            label: "&UNLU.PETITION.APPROVED"
+            message: VALIDATE.BOOLEAN
         required:
-            label: "&ID"
+            label: "&UNLU.PETITION.APPROVED"
             message: VALIDATE.REQUIRED
 
