@@ -24,6 +24,12 @@ solo `usuario_unlu` al rol *User*.
     * Cambiar permisos para poder editarlo (si es necesario), permitiendo que
     lo pueda editar el sistema.
 
+### Host virtual de Apache
+
+Para crear un host virtual hay que poner como raíz del sitio al archivo `index.php`, por ejemplo:
+
+`DocumentRoot "/srv/http/userfrosting/public/index.php"`
+
 ## Uso
 En la barra lateral hay que acceder al item **UNLu**.
 
