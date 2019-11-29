@@ -9,7 +9,7 @@ Universidad Nacional de Luján.
 * `$ composer install`
 * `$ php bakery bake`
     * Asignar base de datos
-* Editar `sprinkles.json`
+* Editar `app/sprinkles.json`
     * Agregar sprinkle `unlu` a la lista de sprinkles.
 * `$ php bakery seed UnluPermissions`
     * Crear permisos de usuario del sprinkle.
