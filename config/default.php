@@ -13,6 +13,29 @@ return [
         'smtp'          => true,
         'twig'          => true,
     ],
+
+    /*
+    * ----------------------------------------------------------------------
+    * Mail Service Config
+    * ----------------------------------------------------------------------
+    * See https://learn.userfrosting.com/mail/the-mailer-service
+    */
+    'mail'    => [
+        'mailer'          => 'smtp', // Set to one of 'smtp', 'mail', 'qmail', 'sendmail'
+        'host'            => getenv('SMTP_HOST') ?: null,
+        'port'            => getenv('SMTP_PORT') ?: null,
+        'auth'            => true,
+        'secure'          => 'tls', // Enable TLS encryption. Set to `tls`, `ssl` or `false` (to disabled)
+        'username'        => getenv('SMTP_USER') ?: null,
+        'password'        => getenv('SMTP_PASSWORD') ?: null,
+        'smtp_debug'      => 4,
+        'message_options' => [
+            'CharSet'   => 'UTF-8',
+            'isHtml'    => true,
+            'Timeout'   => 15,
+        ],
+    ],
+
     /*
     * ----------------------------------------------------------------------
     * Site Settings
