@@ -8,18 +8,19 @@ Universidad Nacional de Luján.
 ## Setup
 * `$ composer install`
 * `$ php bakery bake`
-    * Asignar base de datos
+    * Configurar base de datos
 * Editar `app/sprinkles.json`
     * Agregar sprinkle `unlu` a la lista de sprinkles.
 * `$ php bakery seed UnluPermissions`
     * Crear permisos de usuario del sprinkle.
+* `$ php bakery migrate`
+    * Aplicar modificaciones a la base de datos por defecto.
 * Agregar permisos `usuario_unlu` y `admin_unlu` al rol *Site Administrator* y
 solo `usuario_unlu` al rol *User*.
 * `$ chmod 757 app/cache app/logs app/sessions`
     * Permisos de directorios - El sitio se queja si no tiene permisos de
     escritura.
 * Agregar datos de `usuario_unlu` para el usuario root.
-* Crear servicios (directamente en la base de datos).
 * `# chmod 777 app/logs/userfrosting.log`
     * Cambiar permisos para poder editarlo (si es necesario), permitiendo que
     lo pueda editar el sistema.
@@ -41,6 +42,7 @@ En la barra lateral hay que acceder al item **UNLu**.
 las acciones disponibles en el menú desplegable a la derecha de cada fila:
     * **Aprobar petición**: Aprobar una petición.
     * **Editar petición**: Editar la descripción o sus observaciones.
+* **Servicios**: Crear, editar y eliminar servicios (solo para administradores).
 
 ## Administradores
 Se puede asignar un usuario como administrador al agregarle el rol
