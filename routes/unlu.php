@@ -1,7 +1,8 @@
 <?php
 
 $app->group('/unlu', function () {
-    $this->get('', 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:page');
+    $this->get('', 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:page')
+         ->setName('unlu');
 })->add('authGuard');
 
 $app->group('/admin/users', function() {
