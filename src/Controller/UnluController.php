@@ -445,6 +445,15 @@ class UnluController extends SimpleController {
                 $peticion->observaciones = $data["observaciones"];
             }
 
+            /*  Si cambia la fecha de finalización entonces se le quita el es-
+                tado de aprobada a la petición */
+            if (isset($data["fecha_fin"])) {
+                if ($data["fecha_fin"] != $peticion->fecha_fin) {
+                    $peticion->fecha_fin = $data["fecha_fin"];
+                    $peticion->aprobada = false;
+                }
+            }
+
             $peticion->save();
 
             // Create activity record
