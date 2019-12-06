@@ -75,8 +75,10 @@
                 <label>{{ translate("UNLU.VINCULATION.END_DATE") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <input type="date" class="form-control" name="fecha_fin" autocomplete="off"
-                           value="{{ vinc.fecha_fin }}">
+                    <input type="date" class="form-control" name="fecha_fin"
+                           autocomplete="off"
+                           value="{{ vinc.fecha_fin | date("Y-m-d") }}"
+                           min="{{ vinc.fecha_fin | date("Y-m-d") }}">
                 </div>
             </div>
         </div>
