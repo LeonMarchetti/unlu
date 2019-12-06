@@ -78,6 +78,7 @@ return [
                 "MISSING" => "Falta la actividad"
             ],
             "ADDED" => "Vinculación solicitada",
+            "APPLICANT" => "Usuario solicitante",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Descripción",
                 "MISSING" => "Falta la descripción"

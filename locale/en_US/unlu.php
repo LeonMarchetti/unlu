@@ -78,6 +78,7 @@ return [
                 "MISSING" => "Activity is missing"
             ],
             "ADDED" => "Vinculation requested",
+            "APPLICANT" => "Applicant user",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Description",
                 "MISSING" => "Description is missing"

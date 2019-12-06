@@ -92,3 +92,8 @@ integrantes_nombre:
             label: Integrantes
             min: 1
             message: VALIDATE.LENGTH_RANGE
+id_solicitante:
+    validators:
+        integer:
+            label: "&UNLU.VINCULATION.APPLICANT"
+            message: VALIDATE.INTEGER

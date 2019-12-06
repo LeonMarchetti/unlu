@@ -1,18 +1,35 @@
 <form class="js-form" method="{{ form.method | default('POST') }}" action="{{ site.uri.public }}/{{ form.action }}">
     {% include "forms/csrf.html.twig" %}
-    <div class="js-form-alerts">
-    </div>
-    <div class="row">
+    <div class="js-form-alerts"></div>
+    <div class="row"><!-- Solicitante y Responsable -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.VINCULATION.APPLICANT") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <select class="form-control js-select2" name="id_solicitante" {{ page.visibility }}
+                        {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
+                        <option value="">{{ translate("USER") }}</option>
+                        {% for usuario in usuarios_activos %}
+                            <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>{{ usuario.user_name }} | {{ usuario.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.RESPONSABLE") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <input type="text" class="form-control" name="responsable" autocomplete="off"
-                           value="{{ vinc.responsable }}" placeholder="{{ translate("UNLU.VINCULATION.RESPONSABLE") }}">
+                    <input type="text" class="form-control" name="responsable"
+                           autocomplete="off" value="{{ vinc.responsable }}"
+                           placeholder="{{ translate("UNLU.VINCULATION.RESPONSABLE") }}">
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row"><!-- Cargo y Tipo de usuario -->
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.POSITION") }}</label>
@@ -23,8 +40,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.USERTYPE") }}</label>
@@ -36,6 +51,8 @@
                 </select>
             </div>
         </div>
+    </div>
+    <div class="row"><!-- Actividad y Teléfono -->
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.ACTIVITY") }}</label>
@@ -46,8 +63,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.PHONE") }}</label>
@@ -58,6 +73,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row"><!-- Email y Fecha de finalización -->
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("EMAIL") }}</label>
@@ -68,8 +85,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.END_DATE") }}</label>
@@ -83,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"><!-- Descripción -->
         <div class="col-sm-12">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.DESCRIPTION") }}</label>
@@ -95,7 +110,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"><!-- Integrantes -->
         <div class="col-sm-12">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.MEMBERS") }}</label>
@@ -104,7 +119,7 @@
                     <div id="integrantes">
                         <div class="controles_integrante">
                             <select class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }}>
-                                <option value="">Usuario</option>
+                                <option value="">{{ translate("USER") }}</option>
                                 {% for usuario in usuarios %}
                                 <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
                                 {% endfor %}

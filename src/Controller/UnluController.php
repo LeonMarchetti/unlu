@@ -80,8 +80,12 @@ class UnluController extends SimpleController {
 
         $error = false;
 
-        // Asigno el id del usuario actual como id del solicitante de la vinculación.
-        $data["id_solicitante"] = $currentUser->id;
+        /*  Asigno el id del usuario actual como id del solicitante de la vin-
+            culación. Un usuario administrador puede solicitar una vinculación
+            en lugar de otro usuario. */
+        if (!isset($data["id_solicitante"])) {
+            $data["id_solicitante"] = $currentUser->id;
+        }
 
         // Asigno la fecha actual como fecha de solicitud de la vinculación
         $data["fecha_solicitud"] = date("d-m-Y", time());

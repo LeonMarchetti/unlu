@@ -46,11 +46,13 @@ class UnluModalController extends SimpleController {
         // Lista de tipos de usuario
         $tipos_de_usuario = TipoUsuario::all();
         $usuarios = Usuario::all();
+        $usuarios_activos = Usuario::where("activo", true)->get();
 
         return $this->ci->view->render($response, 'modals/vinculacion.html.twig', [
             "vinc" => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
             "usuarios" => $usuarios,
+            "usuarios_activos" => $usuarios_activos,
             "form" => [
                 "action" => "api/unlu",
                 "method" => "POST",
