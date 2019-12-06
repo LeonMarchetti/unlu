@@ -12,7 +12,7 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-red"><i class="fas fa-file-contract fa-fw"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Solicitar Vinculación</span>
+                            <span class="info-box-text">{{ translate("UNLU.ACTIONS.REQUEST_VINCULATION") }}</span>
                         </div>
                     </div>
                 </a>
@@ -22,23 +22,32 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-green"><i class="fas fa-plus-circle fa-fw"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">Solicitar Servicio</span>
+                            <span class="info-box-text">{{ translate("UNLU.ACTIONS.REQUEST_SERVICE") }}</span>
                         </div>
                     </div>
                 </a>
             </div>
             {% if checkAccess("admin_unlu") %}
-            <div class="col-sm-4">
-                <a href="#" class="baja-solicitud">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-blue"><i class="fas fa-minus-circle fa-fw"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">Baja Solicitud</span>
+                <div class="col-sm-4">
+                    <a href="#" class="baja-solicitud">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-blue"><i class="fas fa-minus-circle fa-fw"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">{{ translate("UNLU.ACTIONS.DELETE_REQUEST") }}</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
             {% endif %}
+        {% else %}
+            <div class="col-sm-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-gray"><i class="fas fa-times fa-fw"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{ translate("UNLU.ACTIONS.DENIED") }}</span>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     </div>
 

@@ -3,6 +3,12 @@
 return [
     "UNLU" => [
         "@TRANSLATION" => "UNLu",
+        "ACTIONS" => [
+            "DELETE_REQUEST" => "Baja Solicitud",
+            "DENIED" => "No estás habilitado todavía para realizar acciones en el sistema. Consulte con el administrador.",
+            "REQUEST_SERVICE" => "Solicitar Servicio",
+            "REQUEST_VINCULATION" => "Solicitar Vinculación",
+        ],
         "ACTIVE" => "Activo",
         "CERTIFICATE" => "Acta",
         "DEPENDENCY" => "Dependencia",

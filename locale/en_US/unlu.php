@@ -3,6 +3,12 @@
 return [
     "UNLU" => [
         "@TRANSLATION" => "UNLu",
+        "ACTIONS" => [
+            "DELETE_REQUEST" => "Delete Request",
+            "DENIED" => "You are not enabled yet to perform actions in the system. Check with the administrator.",
+            "REQUEST_SERVICE" => "Request Service",
+            "REQUEST_VINCULATION" => "Request Vinculation",
+        ],
         "ACTIVE" => "Active",
         "CERTIFICATE" => "Certificate",
         "DEPENDENCY" => "Dependency",
