@@ -347,7 +347,7 @@ class UnluController extends SimpleController {
         $peticion = $this->getPeticionFromParams($params);
 
         if (!$peticion) {
-            throw new NotFoundException();
+            throw new NotFoundException($request, $response);
         }
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -390,7 +390,7 @@ class UnluController extends SimpleController {
 
         $peticion = $this->getPeticionFromParams($args);
         if (!$peticion) {
-            throw new NotFoundException();
+            throw new NotFoundException($request, $response);
         }
 
         /** @var \UserFrosting\Support\Repository\Repository $config */

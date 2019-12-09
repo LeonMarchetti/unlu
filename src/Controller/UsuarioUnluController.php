@@ -31,7 +31,7 @@ class UsuarioUnluController extends UserController {
 
         // If the user no longer exists, forward to main user listing page
         if (!$user) {
-            throw new NotFoundException();
+            throw new NotFoundException($request, $response);
         }
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
