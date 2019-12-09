@@ -47,32 +47,6 @@ $(function() {
     });
 
     // Modal para editar un postre
-    $(".editar-servicio").click(function(e) {
-        e.preventDefault();
-
-        $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/editar-servicio",
-            ajaxParams: {
-                id: $(this).data('id')
-            },
-            msgTarget: $("#alerts-page")
-        });
-    });
-
-    // Modal para editar un postre
-    $(".eliminar-servicio").click(function(e) {
-        e.preventDefault();
-
-        $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/eliminar-servicio",
-            ajaxParams: {
-                id: $(this).data('id')
-            },
-            msgTarget: $("#alerts-page")
-        });
-    });
-
-    // Modal para editar un postre
     $(".agregar-servicio").click(function(e) {
         e.preventDefault();
 
@@ -108,4 +82,41 @@ $(function() {
         });
     });
 
+    // Tabla de Servicios ======================================================
+    /* Fuente de datos de la tabla de servicios. */
+    $("#tablaServicios").ufTable({
+        dataUrl: site.uri.public + "/api/unlu/s"
+    });
+
+    /*  Asignar eventos a los botones en la tabla de servicios cuando termina
+        de renderizar la tabla. */
+    $("#tablaServicios").on("pagerComplete.ufTable", function () {
+
+        // Editar servicios
+        $(this).find(".editar-servicio").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/editar-servicio",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+        });
+
+        // Elimiinar Servicios
+        $(this).find(".eliminar-servicio").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/eliminar-servicio",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+        });
+    });
 });
+

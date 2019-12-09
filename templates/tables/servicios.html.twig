@@ -1,0 +1,69 @@
+{% extends "tables/table-paginated.html.twig" %}
+
+{% block table %}
+    <table id="{{table.id}}" class="tablesorter table table-bordered table-hover table-striped" data-sortlist="{{table.sortlist}}">
+        <thead>
+            <tr>
+                <th class="sorter-metatext"
+                    data-column-name="denominacion"
+                    data-column-template="#service-table-column-denomination"
+                    data-priority="critical">
+                        {{ translate("UNLU.SERVICE.DENOMINATION") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="observaciones"
+                    data-column-template="#service-table-column-observations"
+                    data-priority="1"
+                    data-sorter="false">
+                        {{ translate("UNLU.SERVICE.OBSERVATIONS") }} <i class="fa fa-sort"></i>
+                </th>
+                {% if checkAccess("admin_unlu") %}
+                    <th data-column-name="acciones"
+                        data-column-template="#service-table-column-actions"
+                        data-sorter="false"
+                        data-filter="false"
+                        data-priority="critical">
+                            {{ translate("ACTIONS") }}
+                    </th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+{% endblock %}
+
+{% block table_cell_templates %}
+
+    {% verbatim %}
+        <script id="service-table-column-denomination" type="text/x-handlebars-template">
+            <td data-text="{{row.denominacion}}">
+                {{row.denominacion}}
+            </td>
+        </script>
+
+        <script id="service-table-column-observations" type="text/x-handlebars-template">
+            <td data-text="{{row.observaciones}}">
+                {{row.observaciones}}
+            </td>
+        </script>
+
+        <script id="service-table-column-actions" type="text/x-handlebars-template">
+            {% if checkAccess("admin_unlu") %}
+                <td>
+                    <div class="dropdown">
+                        <button class="dropbtn btn btn-primary">{% endverbatim %}{{ translate("ACTIONS") }}{% verbatim %}</button>
+                        <div class="dropdown-content">
+                            <a href="#" class="editar-servicio" data-id="{{ row.id }}">
+                                <i class="fas fa-pen"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.EDIT") }}{% verbatim %}
+                            </a>
+                            <a href="#" class="eliminar-servicio" data-id="{{ row.id }}">
+                                <i class="fas fa-trash"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.DELETE") }}{% verbatim %}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            {% endif %}
+        </script>
+    {% endverbatim %}
+
+{% endblock %}

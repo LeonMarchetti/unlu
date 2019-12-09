@@ -157,7 +157,7 @@ class UnluModalController extends SimpleController {
 
         $peticion = $this->getPeticionFromParams($params);
         if (!$peticion) {
-            throw new NotFoundException();
+            throw new NotFoundException($request, $response);
         }
 
         /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
