@@ -7,7 +7,7 @@
                 <label>{{ translate("UNLU.VINCULATION.APPLICANT") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <select class="form-control js-select2" name="id_solicitante" {{ page.visibility }}
+                    <select id="select-solicitante" class="form-control js-select2" name="id_solicitante" {{ page.visibility }}
                         {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
                         <option value="">{{ translate("USER") }}</option>
                         {% for usuario in usuarios_activos %}
@@ -120,23 +120,27 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <div id="integrantes">
-                        <div class="controles_integrante">
-                            <select class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }}>
-                                <option value="">{{ translate("USER") }}</option>
-                                {% for usuario in usuarios %}
-                                <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="text" class="form-control" name="integrantes_nombre[]" autocomplete="off" placeholder="Nombre"/>
-                        </div>
+                        <select id="select-integrante-solicitante" class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }} disabled>
+                            <option value="">{{ translate("USER") }}</option>
+                            {% for usuario in usuarios %}
+                                <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>
+                                    {{ usuario.full_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
                 <p class="help-block">{{ translate("UNLU.VINCULATION.MEMBERS.HELP") }}</p>
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-block btn-lg btn-success agregar-integrante"><i class="fa fa-plus"></i> Agregar</button>
-                </div>
-                <div class="col-sm-6">
-                    <button type="button" class="btn btn-block btn-lg btn-danger quitar-integrante"><i class="fa fa-times"></i> Quitar</button>
+                <div id="botones-integrantes" class="input-group">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-block btn-lg btn-success agregar-integrante-usuario"><i class="fa fa-plus"></i> {{ translate("UNLU.VINCULATION.MEMBERS.ADD_REGISTERED") }}</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-block btn-lg btn-success agregar-integrante-no-usuario"><i class="fa fa-plus"></i> {{ translate("UNLU.VINCULATION.MEMBERS.ADD_NOT_REGISTERED") }}</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-block btn-lg btn-danger quitar-integrante"><i class="fa fa-times"></i> {{ translate("UNLU.VINCULATION.MEMBERS.REMOVE") }}</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,6 +154,19 @@
         </div>
     </div>
 </form>
+
+<template id="agregar-integrante-usuario">
+    <select class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }}>
+        <option value="">{{ translate("USER") }}</option>
+        {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
+        {% endfor %}
+    </select>
+</template>
+
+<template id="agregar-integrante-no-usuario">
+    <input type="text" class="form-control" name="integrantes_nombre[]" autocomplete="off" placeholder="Nombre"/>
+</template>
 
 {% block scripts_page %}
     <!-- Include validation rules -->

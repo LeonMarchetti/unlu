@@ -1,13 +1,4 @@
-.controles_integrante input {
-    width: 50% !important;
-}
-
-.controles_integrante select {
-    width: 50% !important;
-}
-
-.agregar-integrante,
-.quitar-integrante {
-    width: 50% !important;
-    margin: auto;
+#botones-integrantes button {
+    line-height: 100%;
+    white-space: normal;
 }

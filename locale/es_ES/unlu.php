@@ -90,8 +90,14 @@ return [
             ],
             "MEMBERS" => [
                 "@TRANSLATION" => "Integrantes",
-                "HELP" => "Podés o elegir un usuario existente en el sistema en la lista desplegable de la izquierda o indicar un nombre en el cuadro de la derecha, que no va a estar asociado a ningún usuario (lo primero toma prioridad).",
+                "ADD_NOT_REGISTERED" => "Agregar integrante no registrado",
+                "ADD_REGISTERED" => "Agregar usuario registrado",
+                "HELP" =>
+                    "\"Agregar usuario registrado\" agrega una lista desplegable para seleccionar un usuario registrado en el sistema.<br>
+                    \"Agregar usuario no registrado\" agrega un cuadro de texto para ingresar el nombre de un integrante si no está registrado en el sistema.<br>
+                    El solicitante es obligatoriamente un integrante de la vinculación que solicite.",
                 "MISSING" => "Faltan los integrantes",
+                "REMOVE" => "Quitar",
                 "REPEATED" => "Hay integrantes repetidos"
             ],
             "PLURAL" => "Vinculaciones",

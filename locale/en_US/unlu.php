@@ -90,8 +90,14 @@ return [
             ],
             "MEMBERS" => [
                 "@TRANSLATION" => "Members",
-                "HELP" => "You can choose an existing user in the system in the dropdown list to the left or input a name in the text box to the right, which won't be associated to any user in the system (the former takes precedence).",
+                "ADD_NOT_REGISTERED" => "Add non-registered member",
+                "ADD_REGISTERED" => "Add registered user",
+                "HELP" =>
+                    "\"Add registered member\" adds a dropdown menu to select a user registered in the system.<br>
+                    \"Add non-registered member\" adds a text box to input the name of a member not registered in the system.<br>
+                    The applicant is necessarily a member of the vinculation requested.",
                 "MISSING" => "Members are missing",
+                "REMOVE" => "Remove",
                 "REPEATED" => "There are repeated members"
             ],
             "PLURAL" => "Vinculations",

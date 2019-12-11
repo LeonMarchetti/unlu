@@ -143,39 +143,31 @@ class UnluController extends SimpleController {
         }
 
         // Integrantes
-        if (!isset($data['integrantes_id']) || !isset($data['integrantes_nombre'])) {
-            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
-            $error = true;
 
-        } else {
-            $integrantes = [];
+        // Agregar usuario solicitante como integrante
+        $integrantes = [ $data["id_solicitante"] ];
+
+        if (isset($data['integrantes_id']) && isset($data['integrantes_nombre'])) {
+            /*  integrantes_id tiene una lista de ids de usuario, para
+                seleccionar usuarios no registrados.
+                integrantes_name tiene una lista de nombres, para seleccionar
+                usuarios no registrados. */
+
             for ($i = 0; $i < count($data['integrantes_id']); $i++) {
-                /*  Armo la lista de integrantes, dando la posibilidad de que
-                    un integrante puede ser un usuario del sistema, en tal caso
-                    elijo un id de usuario, o que no lo sea y entonces lo iden-
-                    tifico por su nombre.
-
-                    integrantes_id es el arreglo con todos los valores de los
-                    controles "select" con los id de usuario.
-
-                    integrantes_nombre es el arreglo con todos los valores de
-                    los cuadros de texto con los nombres de los integrantes.
-                */
-
                 if ($data['integrantes_id'][$i] !== "") {
-                    $integrantes[$i] = $data['integrantes_id'][$i];
-
-                } else {
-                    if ($data['integrantes_nombre'][$i] !== "") {
-                        $integrantes[$i] = $data['integrantes_nombre'][$i];
-                    }
+                    $integrantes[] = $data['integrantes_id'][$i];
                 }
             }
 
-            if (empty($integrantes)) {
-                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
-                $error = true;
+            for ($i = 0; $i < count($data['integrantes_nombre']); $i++) {
+                if ($data['integrantes_nombre'][$i] !== "") {
+                    $integrantes[] = $data['integrantes_nombre'][$i];
+                }
             }
+
+        } else {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
+            $error = true;
         }
 
         if ($error) {
@@ -189,14 +181,12 @@ class UnluController extends SimpleController {
             $vinculacion = $classMapper->createInstance("vinculacion", $data);
             $vinculacion->save();
             /*  $vinculacion->id tiene el id generado para esta instancia, si
-                es autoincrement.
-            */
+                es autoincrement. */
 
             foreach ($integrantes as $i) {
                 if (is_numeric($i)) {
                     /*  Si $i es un número entonces se trata de un id de usua-
-                        rio, y busco el nombre de la base de datos.
-                    */
+                        rio, y busco el nombre de la base de datos. */
                     $data_integrantes = [
                         "id_usuario" => $i,
                         "id_vinculacion" => $vinculacion->id,
@@ -206,8 +196,7 @@ class UnluController extends SimpleController {
                 } else {
                     /*  Si $i es una cadena de texto entonces no se trata de un
                         usuario del sistema y entonces ingreso el integrante
-                        sin id de usuario.
-                    */
+                        sin id de usuario. */
                     $data_integrantes = [
                         "id_vinculacion" => $vinculacion->id,
                         "nombre" => $i
