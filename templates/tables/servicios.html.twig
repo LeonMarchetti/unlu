@@ -48,21 +48,19 @@
         </script>
 
         <script id="service-table-column-actions" type="text/x-handlebars-template">
-            {% if checkAccess("admin_unlu") %}
-                <td>
-                    <div class="dropdown">
-                        <button class="dropbtn btn btn-primary">{% endverbatim %}{{ translate("ACTIONS") }}{% verbatim %}</button>
-                        <div class="dropdown-content">
-                            <a href="#" class="editar-servicio" data-id="{{ row.id }}">
-                                <i class="fas fa-pen"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.EDIT") }}{% verbatim %}
-                            </a>
-                            <a href="#" class="eliminar-servicio" data-id="{{ row.id }}">
-                                <i class="fas fa-trash"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.DELETE") }}{% verbatim %}
-                            </a>
-                        </div>
+            <td>
+                <div class="dropdown">
+                    <button class="dropbtn btn btn-primary">{% endverbatim %}{{ translate("ACTIONS") }}{% verbatim %}</button>
+                    <div class="dropdown-content">
+                        <a href="#" class="editar-servicio" data-id="{{ row.id }}">
+                            <i class="fas fa-pen"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.EDIT") }}{% verbatim %}
+                        </a>
+                        <a href="#" class="eliminar-servicio" data-id="{{ row.id }}">
+                            <i class="fas fa-trash"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.DELETE") }}{% verbatim %}
+                        </a>
                     </div>
-                </td>
-            {% endif %}
+                </div>
+            </td>
         </script>
     {% endverbatim %}
 

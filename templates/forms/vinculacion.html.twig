@@ -43,12 +43,15 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.USERTYPE") }}</label>
-                <select id="input-tipo" class="form-control js-select2" name="tipo_de_usuario" {{ page.visibility }}>
-                    <option value="">{{ translate("UNLU.VINCULATION.USERTYPE") }}</option>
-                    {% for tipo in tipos_de_usuario %}
-                    <option value="{{ tipo.id }}" {% if tipo.id == vinc.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
-                    {% endfor %}
-                </select>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <select id="input-tipo" class="form-control js-select2" name="tipo_de_usuario" {{ page.visibility }}>
+                        <option value="">{{ translate("UNLU.VINCULATION.USERTYPE") }}</option>
+                        {% for tipo in tipos_de_usuario %}
+                            <option value="{{ tipo.id }}" {% if tipo.id == vinc.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
     </div>

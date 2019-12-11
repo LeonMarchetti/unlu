@@ -85,7 +85,8 @@ $(function() {
     // Tabla de Servicios ======================================================
     /* Fuente de datos de la tabla de servicios. */
     $("#tablaServicios").ufTable({
-        dataUrl: site.uri.public + "/api/unlu/s"
+        dataUrl: site.uri.public + "/api/unlu/s",
+        msgTarget: "#js-form-alerts"
     });
 
     /*  Asignar eventos a los botones en la tabla de servicios cuando termina
