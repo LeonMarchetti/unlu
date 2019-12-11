@@ -95,10 +95,11 @@ return [
                 "HELP" =>
                     "\"Add registered member\" adds a dropdown menu to select a user registered in the system.<br>
                     \"Add non-registered member\" adds a text box to input the name of a member not registered in the system.<br>
-                    The applicant is necessarily a member of the vinculation requested.",
+                    The applicant is necessarily a member of the vinculation requested (the system appends it automatically).",
                 "MISSING" => "Members are missing",
                 "REMOVE" => "Remove",
-                "REPEATED" => "There are repeated members"
+                "REPEATED" => "There are repeated members",
+                "SELECT_PLACEHOLDER" => "Select user"
             ],
             "PLURAL" => "Vinculations",
             "POSITION" => "Position",
@@ -106,7 +107,8 @@ return [
             "RESPONSABLE" => "Responsable",
             "USERTYPE" => [
                 "@TRANSLATION" => "User type",
-                "MISSING" => "User type is missing"
+                "MISSING" => "User type is missing",
+                "PLACEHOLDER" => "Select an user type"
             ],
         ],
     ]

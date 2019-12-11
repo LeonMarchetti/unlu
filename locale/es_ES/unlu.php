@@ -95,10 +95,11 @@ return [
                 "HELP" =>
                     "\"Agregar usuario registrado\" agrega una lista desplegable para seleccionar un usuario registrado en el sistema.<br>
                     \"Agregar usuario no registrado\" agrega un cuadro de texto para ingresar el nombre de un integrante si no está registrado en el sistema.<br>
-                    El solicitante es obligatoriamente un integrante de la vinculación que solicite.",
+                    El solicitante es obligatoriamente un integrante de la vinculación que solicite (el sistema lo agrega automáticamente).",
                 "MISSING" => "Faltan los integrantes",
                 "REMOVE" => "Quitar",
-                "REPEATED" => "Hay integrantes repetidos"
+                "REPEATED" => "Hay integrantes repetidos",
+                "SELECT_PLACEHOLDER" => "Seleccione un usuario"
             ],
             "PLURAL" => "Vinculaciones",
             "POSITION" => "Cargo",
@@ -106,7 +107,8 @@ return [
             "RESPONSABLE" => "Responsable",
             "USERTYPE" => [
                 "@TRANSLATION" => "Tipo de usuario",
-                "MISSING" => "Falta el tipo de usuario"
+                "MISSING" => "Falta el tipo de usuario",
+                "PLACEHOLDER" => "Seleccione el tipo de usuario"
             ],
         ]
     ]

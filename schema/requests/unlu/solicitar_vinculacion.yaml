@@ -80,20 +80,14 @@ descripcion:
         required:
             label: "&UNLU.VINCULATION.DESCRIPTION"
             message: VALIDATE.REQUIRED
-integrantes_id:
-    validators:
-        length:
-            label: Integrantes
-            min: 1
-            message: VALIDATE.LENGTH_RANGE
-integrantes_nombre:
-    validators:
-        length:
-            label: Integrantes
-            min: 1
-            message: VALIDATE.LENGTH_RANGE
 id_solicitante:
     validators:
         integer:
             label: "&UNLU.VINCULATION.APPLICANT"
             message: VALIDATE.INTEGER
+integrantes:
+    validators:
+        length:
+            label: Integrantes
+            min: 1
+            message: VALIDATE.LENGTH_RANGE

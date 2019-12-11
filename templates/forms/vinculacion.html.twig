@@ -46,7 +46,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <select id="input-tipo" class="form-control js-select2" name="tipo_de_usuario" {{ page.visibility }}>
-                        <option value="">{{ translate("UNLU.VINCULATION.USERTYPE") }}</option>
+                        <option value="">{{ translate("UNLU.VINCULATION.USERTYPE.PLACEHOLDER") }}</option>
                         {% for tipo in tipos_de_usuario %}
                             <option value="{{ tipo.id }}" {% if tipo.id == vinc.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
                         {% endfor %}
@@ -120,7 +120,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <div id="integrantes">
-                        <select id="select-integrante-solicitante" class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }} disabled>
+                        <select id="select-integrante-solicitante" class="form-control js-select2" {{ page.visibility }} disabled>
                             <option value="">{{ translate("USER") }}</option>
                             {% for usuario in usuarios %}
                                 <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>
@@ -156,8 +156,8 @@
 </form>
 
 <template id="agregar-integrante-usuario">
-    <select class="form-control js-select2" name="integrantes_id[]" {{ page.visibility }}>
-        <option value="">{{ translate("USER") }}</option>
+    <select class="form-control js-select2" name="integrantes[]" {{ page.visibility }}>
+        <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
         {% for usuario in usuarios %}
             <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
         {% endfor %}
@@ -165,7 +165,7 @@
 </template>
 
 <template id="agregar-integrante-no-usuario">
-    <input type="text" class="form-control" name="integrantes_nombre[]" autocomplete="off" placeholder="Nombre"/>
+    <input type="text" class="form-control" name="integrantes[]" autocomplete="off" placeholder="Nombre"/>
 </template>
 
 {% block scripts_page %}

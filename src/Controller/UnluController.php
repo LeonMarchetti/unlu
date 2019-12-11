@@ -143,32 +143,8 @@ class UnluController extends SimpleController {
         }
 
         // Integrantes
-
-        // Agregar usuario solicitante como integrante
-        $integrantes = [ $data["id_solicitante"] ];
-
-        if (isset($data['integrantes_id']) && isset($data['integrantes_nombre'])) {
-            /*  integrantes_id tiene una lista de ids de usuario, para
-                seleccionar usuarios no registrados.
-                integrantes_name tiene una lista de nombres, para seleccionar
-                usuarios no registrados. */
-
-            for ($i = 0; $i < count($data['integrantes_id']); $i++) {
-                if ($data['integrantes_id'][$i] !== "") {
-                    $integrantes[] = $data['integrantes_id'][$i];
-                }
-            }
-
-            for ($i = 0; $i < count($data['integrantes_nombre']); $i++) {
-                if ($data['integrantes_nombre'][$i] !== "") {
-                    $integrantes[] = $data['integrantes_nombre'][$i];
-                }
-            }
-
-        } else {
-            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.MEMBERS.MISSING', $data);
-            $error = true;
-        }
+        $integrantes = $data["integrantes"];
+        $integrantes[] = $data["id_solicitante"]; // Agregar usuario solicitante como integrante
 
         if ($error) {
             return $response->withJson([], 400);
