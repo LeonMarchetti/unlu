@@ -41,7 +41,11 @@ return [
                 "MISSING" => "Falta la fecha de inicio"
             ],
             "UPDATED" => "Petición actualizada",
-            "VINCULATION" => "Vinculación",
+            "VINCULATION" => [
+                "@TRANSLATION" => "Vinculación",
+                "HELP" => "No es obligatorio que esté vinculado a una vinculación",
+                "MISSING" => "Sin vinculación"
+            ],
         ],
         "PHONE" => [
             "@TRANSLATION" => "Teléfono",

@@ -179,7 +179,10 @@ class UnluModalController extends SimpleController {
             que comparto el formulario con "Solicitar Servicio").
         */
         $servicios = [ $peticion->servicio ];
-        $vinculaciones = [ $peticion->vinculacion ];
+
+        if ($peticion->vinculacion) {
+            $vinculaciones = [ $peticion->vinculacion ];
+        }
 
         /*  edicion => true: Como comparto con el formulario de "Solicitar Ser-
             vicio", cuando quiero editar una petición y solo tener disponibles

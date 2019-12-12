@@ -45,11 +45,14 @@
             <div class="form-group">
                 <label>{{ translate("UNLU.PETITION.VINCULATION") }}</label>
                 <select class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %} >
-                    <option value="">{{ translate("UNLU.PETITION.VINCULATION") }}</option>
+                    <option value="">{{ translate("UNLU.PETITION.VINCULATION.MISSING") }}</option>
                     {% for vinc in vinculaciones %}
-                    <option value="{{ vinc.id }}" {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>{{ vinc.actividad }}</option>
+                        <option value="{{ vinc.id }}" {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>{{ vinc.actividad }}</option>
                     {% endfor %}
                 </select>
+                {% if not edicion %}
+                    <p class="help-block">{{ translate("UNLU.PETITION.VINCULATION.HELP") }}</p>
+                {% endif %}
             </div>
         </div>
     </div>

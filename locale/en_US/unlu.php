@@ -41,7 +41,11 @@ return [
                 "MISSING" => "Start date is missing"
             ],
             "UPDATED" => "Petition updated",
-            "VINCULATION" => "Vinculation",
+            "VINCULATION" => [
+                "@TRANSLATION" => "Vinculation",
+                "HELP" => "It's not required to be linked to a vinculation",
+                "MISSING" => "Without vinculation"
+            ],
         ],
         "PHONE" => [
             "@TRANSLATION" => "Phone",
