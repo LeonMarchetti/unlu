@@ -118,7 +118,7 @@
                     <label>{{ translate("UNLU.PHONE") }}</label>
                     <div class="input-group js-copy-container">
                         <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                        <input type="text" class="form-control" name="telefono" autocomplete="off" value="{{ user.telefono }}" placeholder="{{ translate("UNLU.PHONE") }}">
+                        <input type="text" class="form-control" name="telefono" autocomplete="off" value="{{ user.telefono | default(site.registration.user_defaults.telefono) }}" placeholder="{{ translate("UNLU.PHONE") }}">
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                     <label>{{ translate("UNLU.INSTITUTION") }}</label>
                     <div class="input-group js-copy-container">
                         <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                        <input type="text" class="form-control" name="institucion" autocomplete="off" value="{{ user.institucion }}" placeholder="{{ translate("UNLU.INSTITUTION") }}">
+                        <input type="text" class="form-control" name="institucion" autocomplete="off" value="{{ user.institucion | default(site.registration.user_defaults.institucion) }}" placeholder="{{ translate("UNLU.INSTITUTION") }}">
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <label>{{ translate("UNLU.DEPENDENCY") }}</label>
                     <div class="input-group js-copy-container">
                         <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                        <input type="text" class="form-control" name="dependencia" autocomplete="off" value="{{ user.dependencia }}" placeholder="{{ translate("UNLU.DEPENDENCY") }}">
+                        <input type="text" class="form-control" name="dependencia" autocomplete="off" value="{{ user.dependencia | default(site.registration.user_defaults.dependencia) }}" placeholder="{{ translate("UNLU.DEPENDENCY") }}">
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                     <label>{{ translate("UNLU.ROLE") }}</label>
                     <div class="input-group js-copy-container">
                         <span class="input-group-addon"><i class="fa fa-university"></i></span>
-                        <input type="text" class="form-control" name="rol" autocomplete="off" value="{{ user.rol }}" placeholder="{{ translate("UNLU.ROLE") }}">
+                        <input type="text" class="form-control" name="rol" autocomplete="off" value="{{ user.rol | default(site.registration.user_defaults.rol) }}" placeholder="{{ translate("UNLU.ROLE") }}">
                     </div>
                 </div>
             </div>

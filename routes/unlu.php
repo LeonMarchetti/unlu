@@ -5,6 +5,12 @@ $app->group('/unlu', function () {
          ->setName('unlu');
 })->add('authGuard');
 
+$app->group('/account', function () {
+    $this->get('/register', 'UserFrosting\Sprinkle\Unlu\Controller\UnluAccountController:pageRegister')
+        ->add('checkEnvironment')
+        ->setName('register');
+});
+
 $app->group('/admin/users', function() {
     $this->get('/u/{user_name}', 'UserFrosting\Sprinkle\Unlu\Controller\UsuarioUnluController:pageInfo');
 })->add('authGuard');

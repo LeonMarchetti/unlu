@@ -66,6 +66,12 @@ return [
                 'sr_RS' => null,
             ],
             'default' => 'es_ES'
+        ],
+        'registration' => [
+            'user_defaults' => [
+                'locale'      => 'es_ES',
+                'institucion' => 'UNLu',
+            ]
         ]
     ]
 ];
