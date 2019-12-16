@@ -31,35 +31,27 @@
 {% endblock %}
 
 {% block table_cell_templates %}
+    <script id="service-table-column-denomination" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.denominacion}}' }}">{{ '{{row.denominacion}}' }}</td>
+    </script>
 
-    {% verbatim %}
-        <script id="service-table-column-denomination" type="text/x-handlebars-template">
-            <td data-text="{{row.denominacion}}">
-                {{row.denominacion}}
-            </td>
-        </script>
+    <script id="service-table-column-observations" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.observaciones}}' }}">{{ '{{row.observaciones}}' }}</td>
+    </script>
 
-        <script id="service-table-column-observations" type="text/x-handlebars-template">
-            <td data-text="{{row.observaciones}}">
-                {{row.observaciones}}
-            </td>
-        </script>
-
-        <script id="service-table-column-actions" type="text/x-handlebars-template">
-            <td>
-                <div class="dropdown">
-                    <button class="dropbtn btn btn-primary">{% endverbatim %}{{ translate("ACTIONS") }}{% verbatim %}</button>
-                    <div class="dropdown-content">
-                        <a href="#" class="editar-servicio" data-id="{{ row.id }}">
-                            <i class="fas fa-pen"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.EDIT") }}{% verbatim %}
-                        </a>
-                        <a href="#" class="eliminar-servicio" data-id="{{ row.id }}">
-                            <i class="fas fa-trash"></i> {% endverbatim %}{{ translate("UNLU.SERVICE.DELETE") }}{% verbatim %}
-                        </a>
-                    </div>
+    <script id="service-table-column-actions" type="text/x-handlebars-template">
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                <div class="dropdown-content">
+                    <a href="#" class="editar-servicio" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-pen"></i> {{ translate("UNLU.SERVICE.EDIT") }}
+                    </a>
+                    <a href="#" class="eliminar-servicio" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-trash"></i> {{ translate("UNLU.SERVICE.DELETE") }}
+                    </a>
                 </div>
-            </td>
-        </script>
-    {% endverbatim %}
-
+            </div>
+        </td>
+    </script>
 {% endblock %}
