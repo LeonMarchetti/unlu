@@ -32,13 +32,22 @@ class UnluController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        if ($authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            // Usuario administrador
-            $vinculaciones = Vinculacion::all();
-            $peticiones = Peticion::all();
+        $fecha_hoy = date("d-m-Y", time()); // Fecha de hoy para determinar peticiones pendientes
+        if ($authorizer->checkAccess($currentUser, 'admin_unlu')) { // Usuario administrador
+            // Peticiones pendientes
+            $peticiones = Peticion::where("fecha_fin", '>=', $fecha_hoy)->get();
 
-        } else {
-            $peticiones = $currentUser->peticiones;
+            // Vinculaciones
+            $vinculaciones = Vinculacion::all();
+
+        } else { // Usuario normal
+            // Peticiones pendientes
+            $peticiones = Peticion::where([
+                ["id_usuario", "=",  $currentUser->id],
+                ["fecha_fin",  ">=", $fecha_hoy],
+            ])->get();
+
+            // Vinculaciones
             $vinculaciones = $currentUser->vinculaciones;
         }
 
