@@ -2,10 +2,10 @@
 
 {# Overrides blocks in head of base template #}
 {% block page_title %}{{ translate("UNLU") }}{% endblock %}
-{% block page_description %}{{ translate("UNLU") }}{% endblock %}
+{% block page_description %}{{ translate("UNLU.DESCRIPTION") }}{% endblock %}
 
 {% block body_matter %}
-    <div class="row"> <!-- acciones -->
+    <div class="row"> <!-- Acciones -->
         {% if current_user.activo %}
             <div class="col-sm-4">
                 <a href="#" class="solicitar-vinculacion">
@@ -167,34 +167,34 @@
                         </thead>
                         <tbody>
                             {% for peticion in peticiones %}
-                            <tr>
-                                <td nowrap>{{ peticion.fecha_inicio | date("d/m/Y") }}</td>
-                                <td nowrap>{{ peticion.fecha_fin | date("d/m/Y") }}</td>
-                                {% if checkAccess("admin_unlu") %}
-                                    <td nowrap>{{ peticion.usuario.user_name }}</td>
-                                    <td nowrap>{{ peticion.usuario.full_name }}</td>
-                                {% endif %}
-                                <td nowrap>{{ peticion.vinculacion.actividad }}</td>
-                                <td nowrap>{{ peticion.servicio.denominacion }}</td>
-                                <td>{% if peticion.aprobada %}<i class="fas fa-check"></i>{% endif %}</td>
-                                <td><textarea readonly>{{ peticion.descripcion }}</textarea></td>
-                                <td><textarea readonly>{{ peticion.observaciones }}</textarea></td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
-                                        <div class="dropdown-content">
-                                            {% if checkAccess("admin_unlu") and not peticion.aprobada %}
-                                                <a href="#" class="aprobar-peticion" data-id="{{ peticion.id }}">
-                                                    <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
+                                <tr>
+                                    <td nowrap>{{ peticion.fecha_inicio | date("d/m/Y") }}</td>
+                                    <td nowrap>{{ peticion.fecha_fin | date("d/m/Y") }}</td>
+                                    {% if checkAccess("admin_unlu") %}
+                                        <td nowrap>{{ peticion.usuario.user_name }}</td>
+                                        <td nowrap>{{ peticion.usuario.full_name }}</td>
+                                    {% endif %}
+                                    <td nowrap>{{ peticion.vinculacion.actividad }}</td>
+                                    <td nowrap>{{ peticion.servicio.denominacion }}</td>
+                                    <td>{% if peticion.aprobada %}<i class="fas fa-check"></i>{% endif %}</td>
+                                    <td><textarea readonly>{{ peticion.descripcion }}</textarea></td>
+                                    <td><textarea readonly>{{ peticion.observaciones }}</textarea></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                                            <div class="dropdown-content">
+                                                {% if checkAccess("admin_unlu") and not peticion.aprobada %}
+                                                    <a href="#" class="aprobar-peticion" data-id="{{ peticion.id }}">
+                                                        <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
+                                                    </a>
+                                                {% endif %}
+                                                <a href="#" class="editar-peticion" data-id="{{ peticion.id }}">
+                                                    <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                                                 </a>
-                                            {% endif %}
-                                            <a href="#" class="editar-peticion" data-id="{{ peticion.id }}">
-                                                <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
-                                            </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>

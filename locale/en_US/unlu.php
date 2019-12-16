@@ -2,7 +2,7 @@
 
 return [
     "UNLU" => [
-        "@TRANSLATION" => "UNLu",
+        "@TRANSLATION" => "CIDETIC",
         "ACTIONS" => [
             "DELETE_REQUEST" => "Delete Request",
             "DENIED" => "You are not enabled yet to perform actions in the system. Check with the administrator.",
@@ -12,6 +12,7 @@ return [
         "ACTIVE" => "Active",
         "CERTIFICATE" => "Certificate",
         "DEPENDENCY" => "Dependency",
+        "DESCRIPTION" => "Research. Teaching. Extension. National University of Luján",
         "INSTITUTION" => "Institution",
         "PETITION" => [
             "@TRANSLATION" => "Petitions",

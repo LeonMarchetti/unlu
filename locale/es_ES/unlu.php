@@ -2,7 +2,7 @@
 
 return [
     "UNLU" => [
-        "@TRANSLATION" => "UNLu",
+        "@TRANSLATION" => "CIDETIC",
         "ACTIONS" => [
             "DELETE_REQUEST" => "Baja Solicitud",
             "DENIED" => "No estás habilitado todavía para realizar acciones en el sistema. Consulte con el administrador.",
@@ -12,6 +12,7 @@ return [
         "ACTIVE" => "Activo",
         "CERTIFICATE" => "Acta",
         "DEPENDENCY" => "Dependencia",
+        "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
         "INSTITUTION" => "Institución",
         "PETITION" => [
             "@TRANSLATION" => "Peticiones",
