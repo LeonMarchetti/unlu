@@ -17,15 +17,13 @@
                     data-sorter="false">
                         {{ translate("UNLU.SERVICE.OBSERVATIONS") }}</i>
                 </th>
-                {% if checkAccess("admin_unlu") %}
-                    <th data-column-name="acciones"
-                        data-column-template="#service-table-column-actions"
-                        data-sorter="false"
-                        data-filter="false"
-                        data-priority="critical">
-                            {{ translate("ACTIONS") }}
-                    </th>
-                {% endif %}
+                <th data-column-name="acciones"
+                    data-column-template="#service-table-column-actions"
+                    data-sorter="false"
+                    data-filter="false"
+                    data-priority="critical">
+                        {{ translate("ACTIONS") }}
+                </th>
             </tr>
         </thead>
         <tbody></tbody>
