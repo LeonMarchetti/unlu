@@ -87,6 +87,9 @@ telefono:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PHONE"
+            message: VALIDATE.REQUIRED
 institucion:
     validators:
         length:
@@ -94,6 +97,9 @@ institucion:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.INSTITUTION"
+            message: VALIDATE.REQUIRED
 dependencia:
     validators:
         length:
@@ -101,6 +107,9 @@ dependencia:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.DEPENDENCY"
+            message: VALIDATE.REQUIRED
 rol:
     validators:
         length:
@@ -108,3 +117,6 @@ rol:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.ROLE"
+            message: VALIDATE.REQUIRED

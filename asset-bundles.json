@@ -21,6 +21,12 @@
             "styles": [
                 "userfrosting/css/forms/vinculacion.css"
             ]
+        },
+
+        "css/pages/register": {
+            "styles": [
+                "userfrosting/css/pages/register.css"
+            ]
         }
     }
 }
