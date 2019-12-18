@@ -72,6 +72,7 @@ return [
                 'locale'      => 'es_ES',
                 'institucion' => 'UNLu',
             ]
-        ]
+        ],
+        'title' => 'CIDETIC',
     ]
 ];
