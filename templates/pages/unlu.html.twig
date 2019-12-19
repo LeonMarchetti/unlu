@@ -53,65 +53,14 @@
 
     <div class="row"><!-- Vinculaciones -->
         <div class="col-sm-12">
-            <div class="box box-info">
+            <div id="tablaVinculaciones" class="box box-info">
                 <div class="box-header with-border">
                     <h3>{{ translate("UNLU.VINCULATION.PLURAL") }}</h3>
                 </div>
                 <div class="box-body no-padding" style="overflow-x: scroll">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th>{{ translate("UNLU.VINCULATION.RESPONSABLE") }}</th>
-                                {% if checkAccess("admin_unlu") %}
-                                    <th>{{ translate("USER") }}</th>
-                                {% endif %}
-                                <th>{{ translate("UNLU.VINCULATION.REQUEST_DATE") }}</th>
-                                <th>{{ translate("UNLU.VINCULATION.END_DATE") }}</th>
-                                <th>{{ translate("UNLU.ROLE") }}</th>
-                                <th>{{ translate("UNLU.VINCULATION.USERTYPE") }}</th>
-                                <th>{{ translate("UNLU.VINCULATION.ACTIVITY") }}</th>
-                                <th>{{ translate("UNLU.PHONE") }}</th>
-                                <th>{{ translate("EMAIL") }}</th>
-                                <th>{{ translate("UNLU.VINCULATION.MEMBERS") }}</th>
-                                <th>{{ translate("UNLU.VINCULATION.DESCRIPTION") }}</th>
-                                <th>{{ translate("UNLU.CERTIFICATE") }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for vinculacion in vinculaciones %}
-                                <tr>
-                                    <td nowrap>{{ vinculacion.responsable }}</td>
-                                    {% if checkAccess("admin_unlu") %}
-                                        <td nowrap>{{ vinculacion.solicitante.user_name }}</td>
-                                    {% endif %}
-                                    <td nowrap>{{ vinculacion.fecha_solicitud | date("d/m/Y") }}</td>
-                                    <td nowrap>{{ vinculacion.fecha_fin | date("d/m/Y") }}</td>
-                                    <td nowrap>{{ vinculacion.cargo }}</td>
-                                    <td nowrap>{{ vinculacion.tipo_usuario.description }}</td>
-                                    <td nowrap>{{ vinculacion.actividad }}</td>
-                                    <td nowrap>{{ vinculacion.telefono }}</td>
-                                    <td nowrap>{{ vinculacion.correo }}</td>
-                                    <td nowrap>
-                                        <ul>
-                                            {% for integrante in vinculacion.integrantes %}
-                                                <li>{{ integrante.nombre }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </td>
-                                    <td><textarea readonly>{{ vinculacion.descripcion }}</textarea></td>
-                                    <td>
-                                        {% if vinculacion.id_acta %}
-                                            <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ vinculacion.id_acta }}">
-                                                <i class="fa fa-file-contract"></i>
-                                            </button>
-                                        {% else %}
-                                            <i class="fa fa-minus"></i>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% include "tables/vinculaciones.html.twig" with
+                        { "table": { "id": "tabla-vinculaciones" } }
+                    %}
                 </div>
             </div>
         </div>
@@ -125,11 +74,9 @@
                         <h3>{{ translate("UNLU.SERVICE.PLURAL") }}</h3>
                     </div>
                     <div class="box-body no-padding">
-                        {% include "tables/servicios.html.twig" with {
-                            "table": {
-                                "id": "tabla-servicios"
-                            }
-                        } %}
+                        {% include "tables/servicios.html.twig" with
+                            { "table": { "id": "tabla-servicios" } }
+                        %}
                     </div>
                     <div class="box-footer">
                         <button type="button" class="btn btn-success agregar-servicio">

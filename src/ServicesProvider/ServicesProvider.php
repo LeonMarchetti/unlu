@@ -28,6 +28,7 @@ class ServicesProvider {
             $classMapper->setClassMapping('vinculacion', 'UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion');
 
             $classMapper->setClassMapping('service_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\ServicioSprunje');
+            $classMapper->setClassMapping('vinculacion_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\VinculacionSprunje');
 
             return $classMapper;
         });

@@ -1,0 +1,182 @@
+{% extends "tables/table-paginated.html.twig" %}
+
+{% block table %}
+    <table id="{{table.id}}" class="tablesorter table table-bordered table-hover table-striped" data-sortlist="{{table.sortlist}}">
+        <thead>
+            <tr>
+                <th class="sorter-metatext"
+                    data-column-name="responsable"
+                    data-column-template="#vinculacion-table-column-responsable"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.RESPONSABLE") }} <i class="fa fa-sort"></i>
+                </th>
+                {% if checkAccess("admin_unlu") %}
+                    <th class="sorter-metatext"
+                        data-column-name="usuario"
+                        data-column-template="#vinculacion-table-column-usuario"
+                        nowrap>
+                            {{ translate("USER") }} <i class="fa fa-sort"></i>
+                    </th>
+                {% endif %}
+                <th class="sorter-metatext"
+                    data-column-name="fecha-solicitud"
+                    data-column-template="#vinculacion-table-column-fecha-solicitud"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.REQUEST_DATE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="fecha-fin"
+                    data-column-template="#vinculacion-table-column-fecha-fin"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.END_DATE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="rol"
+                    data-column-template="#vinculacion-table-column-rol"
+                    nowrap>
+                        {{ translate("UNLU.ROLE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="tipo-usuario"
+                    data-column-template="#vinculacion-table-column-tipo-usuario"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.USERTYPE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="actividad"
+                    data-column-template="#vinculacion-table-column-actividad"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.ACTIVITY") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="telefono"
+                    data-column-template="#vinculacion-table-column-telefono"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PHONE") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="email"
+                    data-column-template="#vinculacion-table-column-email"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("EMAIL") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="integrantes"
+                    data-column-template="#vinculacion-table-column-integrantes"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.MEMBERS") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="descripcion"
+                    data-column-template="#vinculacion-table-column-descripcion"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.DESCRIPTION") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="acta"
+                    data-column-template="#vinculacion-table-column-acta"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.CERTIFICATE") }}
+                </th>
+                <th data-column-name="acciones"
+                    data-column-template="#vinculacion-table-column-actions"
+                    data-sorter="false"
+                    data-filter="false"
+                    data-priority="critical"
+                    nowrap>
+                        {{ translate("ACTIONS") }}
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+{% endblock %}
+
+{% block table_cell_templates %}
+    <script id="vinculacion-table-column-responsable" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.responsable}}' }}">{{ '{{row.responsable}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-usuario" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.solicitante.user_name}}' }}">{{ '{{row.solicitante.user_name}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-fecha-solicitud" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.fecha_solicitud}}' }}">{{ '{{row.fecha_solicitud}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-fecha-fin" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.fecha_fin}}' }}">{{ '{{row.fecha_fin}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-rol" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.cargo}}' }}">{{ '{{row.cargo}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-tipo-usuario" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.tipo_usuario.description}}' }}">{{ '{{row.tipo_usuario.description}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-actividad" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.actividad}}' }}">{{ '{{row.actividad}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-telefono" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.telefono}}' }}">{{ '{{row.telefono}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-email" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.correo}}' }}">{{ '{{row.correo}}' }}</td>
+    </script>
+
+    <script id="vinculacion-table-column-integrantes" type="text/x-handlebars-template">
+        <td nowrap>
+            <ul>
+                {{ '{{#each row.integrantes}}' }}
+                    <li>{{ '{{this.nombre}}' }}</li>
+                {{ '{{/each}}' }}
+            </ul>
+        </td>
+    </script>
+
+    <script id="vinculacion-table-column-descripcion" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.descripcion}}' }}">
+            <textarea readonly>{{ '{{row.descripcion}}' }}</textarea>
+        </td>
+    </script>
+
+    <script id="vinculacion-table-column-acta" type="text/x-handlebars-template">
+        <td>
+            {{ '{{#if row.id_acta}}' }}
+                <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ '{{ row.id_acta }}' }}">
+                    <i class="fa fa-file-contract"></i>
+                </button>
+            {{ '{{else}}' }}
+                <i class="fa fa-minus"></i>
+            {{ '{{/if}}' }}
+        </td>
+    </script>
+
+    <script id="vinculacion-table-column-actions" type="text/x-handlebars-template">
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                <div class="dropdown-content">
+                    <a href="#" class="editar-vinculacion" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-pen"></i> {{ translate("UNLU.VINCULATION.EDIT") }}
+                    </a>
+                </div>
+            </div>
+        </td>
+    </script>
+{% endblock %}

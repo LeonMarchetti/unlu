@@ -10,7 +10,6 @@ return [
             "REQUEST_VINCULATION" => "Request Vinculation",
         ],
         "ACTIVE" => "Active",
-        "CERTIFICATE" => "Certificate",
         "DEPENDENCY" => "Dependency",
         "DESCRIPTION" => "Research. Teaching. Extension. National University of Luján",
         "INSTITUTION" => "Institution",
@@ -84,10 +83,12 @@ return [
             ],
             "ADDED" => "Vinculation requested",
             "APPLICANT" => "Applicant user",
+            "CERTIFICATE" => "Certificate",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Description",
                 "MISSING" => "Description is missing"
             ],
+            "EDIT" => "Edit",
             "END_DATE" => [
                 "@TRANSLATION" => "End date",
                 "BEFORE" => "End date can't be before than request date",

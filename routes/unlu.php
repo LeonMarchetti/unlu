@@ -39,4 +39,6 @@ $app->group("/api/unlu", function() {
     $this->post("/s", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:agregarServicio");
     $this->post("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarServicio");
     $this->delete("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarServicio");
+
+    $this->get("/v", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarVinculaciones");
 });

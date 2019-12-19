@@ -10,7 +10,6 @@ return [
             "REQUEST_VINCULATION" => "Solicitar Vinculación",
         ],
         "ACTIVE" => "Activo",
-        "CERTIFICATE" => "Acta",
         "DEPENDENCY" => "Dependencia",
         "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
         "INSTITUTION" => "Institución",
@@ -84,10 +83,12 @@ return [
             ],
             "ADDED" => "Vinculación solicitada",
             "APPLICANT" => "Usuario solicitante",
+            "CERTIFICATE" => "Acta",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Descripción",
                 "MISSING" => "Falta la descripción"
             ],
+            "EDIT" => "Editar",
             "END_DATE" => [
                 "@TRANSLATION" => "Fecha de finalización",
                 "BEFORE" => "La fecha de finalización no puede ser anterior a la fecha de solicitud",

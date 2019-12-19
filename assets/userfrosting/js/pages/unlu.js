@@ -82,6 +82,31 @@ $(function() {
         });
     });
 
+    // Tabla de Vinculaciones ==================================================
+    /* Fuente de datos de la tabla de vinculaciones. */
+    $("#tablaVinculaciones").ufTable({
+        dataUrl: site.uri.public + "/api/unlu/v",
+        msgTarget: "#js-form-alerts"
+    });
+
+    /*  Asignar eventos a los botones en la tabla de servicios cuando termina
+        de renderizar la tabla. */
+    $("#tablaVinculaciones").on("pagerComplete.ufTable", function () {
+
+        // Editar servicios
+        $(this).find(".editar-vinculacion").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/editar-vinculacion",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+        });
+    });
+
     // Tabla de Servicios ======================================================
     /* Fuente de datos de la tabla de servicios. */
     $("#tablaServicios").ufTable({

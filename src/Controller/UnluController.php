@@ -628,6 +628,31 @@ class UnluController extends SimpleController {
         return $sprunje->toResponse($response);
     }
 
+    public function listarVinculaciones(Request $request, Response $response, $args) {
+        // GET parameters
+        $params = $request->getQueryParams();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        $sprunje = $classMapper->createInstance('vinculacion_sprunje', $classMapper, $params);
+
+        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
+        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
+        return $sprunje->toResponse($response);
+    }
+
     protected function getPeticionFromParams($params) {
         $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
