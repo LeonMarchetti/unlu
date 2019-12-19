@@ -99,7 +99,10 @@ $(function() {
     /* Fuente de datos de la tabla de vinculaciones. */
     $("#tablaVinculaciones").ufTable({
         dataUrl: site.uri.public + "/api/unlu/v",
-        msgTarget: "#js-form-alerts"
+        msgTarget: "#js-form-alerts",
+        tablesorter: {
+            pager_size: 5,
+        }
     });
 
     /*  Asignar eventos a los botones en la tabla de servicios cuando termina
@@ -126,7 +129,10 @@ $(function() {
     /* Fuente de datos de la tabla de servicios. */
     $("#tablaServicios").ufTable({
         dataUrl: site.uri.public + "/api/unlu/s",
-        msgTarget: "#js-form-alerts"
+        msgTarget: "#js-form-alerts",
+        tablesorter: {
+            pager_size: 5,
+        }
     });
 
     /*  Asignar eventos a los botones en la tabla de servicios cuando termina
