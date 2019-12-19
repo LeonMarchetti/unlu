@@ -1,23 +1,26 @@
 $(function() {
 
-    // Recargar página cuando el modal termina exitosamente
-    $("body").on('renderSuccess.ufModal', function() {
-        var modal = $(this).ufModal('getModal');
-        var form = modal.find('.js-form');
+    function attachRenderSuccessUfModal() {
+        /*  Recargar página cuando el modal termina exitosamente.
+            Hay que llamar a la función cada vez que se renderiza un modal. */
+        $("body").on('renderSuccess.ufModal', function() {
+            var modal = $(this).ufModal('getModal');
+            var form = modal.find('.js-form');
 
-        form.ufForm().on("submitSuccess.ufForm", function() {
-            window.location.reload(true);
+            form.ufForm().on("submitSuccess.ufForm", function() {
+                window.location.reload(true);
+            });
         });
-    });
+    }
 
     // Modal para agregar un postre
     $(".solicitar-vinculacion").click(function(e) {
-        e.preventDefault();
-
         $("body").ufModal({
             sourceUrl: site.uri.public + "/modals/unlu/solicitar-vinculacion",
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     // Modal para agregar un postre
@@ -28,6 +31,8 @@ $(function() {
             sourceUrl: site.uri.public + "/modals/unlu/solicitar-servicio",
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     // Modal para agregar un postre
@@ -38,6 +43,8 @@ $(function() {
             sourceUrl: site.uri.public + "/modals/unlu/baja-solicitud",
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     $(".ver-acta").click(function(e) {
@@ -54,6 +61,8 @@ $(function() {
             sourceUrl: site.uri.public + "/modals/unlu/agregar-servicio",
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     // Modal para borrar un postre
@@ -67,6 +76,8 @@ $(function() {
             },
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     // Modal para editar un postre
@@ -80,6 +91,8 @@ $(function() {
             },
             msgTarget: $("#alerts-page")
         });
+
+        attachRenderSuccessUfModal();
     });
 
     // Tabla de Vinculaciones ==================================================
@@ -104,6 +117,8 @@ $(function() {
                 },
                 msgTarget: $("#alerts-page")
             });
+
+            attachRenderSuccessUfModal();
         });
     });
 
@@ -129,9 +144,11 @@ $(function() {
                 },
                 msgTarget: $("#alerts-page")
             });
+
+            attachRenderSuccessUfModal();
         });
 
-        // Elimiinar Servicios
+        // Eliminar Servicios
         $(this).find(".eliminar-servicio").click(function(e) {
             e.preventDefault();
 
@@ -142,6 +159,8 @@ $(function() {
                 },
                 msgTarget: $("#alerts-page")
             });
+
+            attachRenderSuccessUfModal();
         });
     });
 });

@@ -36,9 +36,6 @@ class VinculacionSprunje extends Sprunje {
         // Alternatively, if you have defined a class mapping, you can use the classMapper:
         // $instance = $this->classMapper->createInstance('owl');
 
-        return $instance->newQuery()
-            ->with('integrantes')
-            ->with('solicitante')
-            ->with('tipo_usuario');
+        return $instance->newQuery()->with('integrantes', 'solicitante', 'tipo_usuario');
     }
 }
