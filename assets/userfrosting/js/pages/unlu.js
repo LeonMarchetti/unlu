@@ -101,7 +101,9 @@ $(function() {
         dataUrl: site.uri.public + "/api/unlu/v",
         msgTarget: "#js-form-alerts",
         tablesorter: {
-            pager_size: 5,
+            widgetOptions: {
+                pager_size: 5
+            }
         }
     });
 
@@ -131,7 +133,9 @@ $(function() {
         dataUrl: site.uri.public + "/api/unlu/s",
         msgTarget: "#js-form-alerts",
         tablesorter: {
-            pager_size: 5,
+            widgetOptions: {
+                pager_size: 5
+            }
         }
     });
 
