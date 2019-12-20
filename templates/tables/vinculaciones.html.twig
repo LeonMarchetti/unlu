@@ -112,11 +112,11 @@
     </script>
 
     <script id="vinculacion-table-column-fecha_solicitud" type="text/x-handlebars-template">
-        <td data-text="{{ '{{row.fecha_solicitud}}' }}">{{ '{{row.fecha_solicitud}}' }}</td>
+        <td data-text="{{ '{{row.fecha_solicitud}}' }}">{{ '{{dateFormat row.fecha_solicitud format="D/MM/YYYY"}}' }}</td>
     </script>
 
     <script id="vinculacion-table-column-fecha_fin" type="text/x-handlebars-template">
-        <td data-text="{{ '{{row.fecha_fin}}' }}">{{ '{{row.fecha_fin}}' }}</td>
+        <td data-text="{{ '{{row.fecha_fin}}' }}">{{ '{{dateFormat row.fecha_fin format="D/MM/YYYY"}}' }}</td>
     </script>
 
     <script id="vinculacion-table-column-cargo" type="text/x-handlebars-template">
