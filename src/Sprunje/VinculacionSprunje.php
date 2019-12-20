@@ -15,7 +15,6 @@ class VinculacionSprunje extends Sprunje {
         "responsable",
         "cargo",
         "actividad",
-        "tipo_de_usuario"
     ];
 
     protected $filterable = [
@@ -24,7 +23,11 @@ class VinculacionSprunje extends Sprunje {
         "responsable",
         "cargo",
         "actividad",
-        "tipo_de_usuario"
+        "descripcion",
+        "correo",
+
+        "tipo_usuario", // Join con "tipo_usuario" a través de "tipo_de_usuario"
+        "usuario", // Join con "users" a través de "id_solicitante"
     ];
 
     /**
@@ -37,5 +40,35 @@ class VinculacionSprunje extends Sprunje {
         // $instance = $this->classMapper->createInstance('owl');
 
         return $instance->newQuery()->with('integrantes', 'solicitante', 'tipo_usuario');
+    }
+
+    /**
+     * Filtrar por tipo de usuario según su descripcion
+     *
+     * @param Builder $query
+     * @param mixed $value
+     * @return $this
+     */
+    protected function filterTipoUsuario($query, $value) {
+        $query->whereHas('tipo_usuario', function($subQuery) use ($value) {
+            $subQuery->like('description', $value);
+        });
+
+        return $this;
+    }
+
+    /**
+     * Filtrar por usuario solicitante según nombre de usuario (user_name)
+     *
+     * @param Builder $query
+     * @param mixed $value
+     * @return $this
+     */
+    protected function filterUsuario($query, $value) {
+        $query->whereHas('solicitante', function($subQuery) use ($value) {
+            $subQuery->like('user_name', $value);
+        });
+
+        return $this;
     }
 }

@@ -14,33 +14,35 @@
                     <th class="sorter-metatext"
                         data-column-name="usuario"
                         data-column-template="#vinculacion-table-column-usuario"
+                        data-sorter="false"
                         nowrap>
-                            {{ translate("USER") }} <i class="fa fa-sort"></i>
+                            {{ translate("USER") }}
                     </th>
                 {% endif %}
                 <th class="sorter-metatext"
-                    data-column-name="fecha-solicitud"
-                    data-column-template="#vinculacion-table-column-fecha-solicitud"
+                    data-column-name="fecha_solicitud"
+                    data-column-template="#vinculacion-table-column-fecha_solicitud"
                     nowrap>
                         {{ translate("UNLU.VINCULATION.REQUEST_DATE") }} <i class="fa fa-sort"></i>
                 </th>
                 <th class="sorter-metatext"
-                    data-column-name="fecha-fin"
-                    data-column-template="#vinculacion-table-column-fecha-fin"
+                    data-column-name="fecha_fin"
+                    data-column-template="#vinculacion-table-column-fecha_fin"
                     nowrap>
                         {{ translate("UNLU.VINCULATION.END_DATE") }} <i class="fa fa-sort"></i>
                 </th>
                 <th class="sorter-metatext"
-                    data-column-name="rol"
-                    data-column-template="#vinculacion-table-column-rol"
+                    data-column-name="cargo"
+                    data-column-template="#vinculacion-table-column-cargo"
                     nowrap>
                         {{ translate("UNLU.ROLE") }} <i class="fa fa-sort"></i>
                 </th>
                 <th class="sorter-metatext"
-                    data-column-name="tipo-usuario"
+                    data-column-name="tipo_usuario"
                     data-column-template="#vinculacion-table-column-tipo-usuario"
+                    data-filter="false"
                     nowrap>
-                        {{ translate("UNLU.VINCULATION.USERTYPE") }} <i class="fa fa-sort"></i>
+                        {{ translate("UNLU.VINCULATION.USERTYPE") }}
                 </th>
                 <th class="sorter-metatext"
                     data-column-name="actividad"
@@ -57,9 +59,8 @@
                         {{ translate("UNLU.PHONE") }}
                 </th>
                 <th class="sorter-metatext"
-                    data-column-name="email"
-                    data-column-template="#vinculacion-table-column-email"
-                    data-filter="false"
+                    data-column-name="correo"
+                    data-column-template="#vinculacion-table-column-correo"
                     data-sorter="false"
                     nowrap>
                         {{ translate("EMAIL") }}
@@ -75,13 +76,12 @@
                 <th class="sorter-metatext"
                     data-column-name="descripcion"
                     data-column-template="#vinculacion-table-column-descripcion"
-                    data-filter="false"
                     data-sorter="false"
                     nowrap>
                         {{ translate("UNLU.VINCULATION.DESCRIPTION") }}
                 </th>
                 <th class="sorter-metatext"
-                    data-column-name="acta"
+                    data-column-name="id_acta"
                     data-column-template="#vinculacion-table-column-acta"
                     data-filter="false"
                     data-sorter="false"
@@ -111,15 +111,15 @@
         <td nowrap data-text="{{ '{{row.solicitante.user_name}}' }}">{{ '{{row.solicitante.user_name}}' }}</td>
     </script>
 
-    <script id="vinculacion-table-column-fecha-solicitud" type="text/x-handlebars-template">
+    <script id="vinculacion-table-column-fecha_solicitud" type="text/x-handlebars-template">
         <td data-text="{{ '{{row.fecha_solicitud}}' }}">{{ '{{row.fecha_solicitud}}' }}</td>
     </script>
 
-    <script id="vinculacion-table-column-fecha-fin" type="text/x-handlebars-template">
+    <script id="vinculacion-table-column-fecha_fin" type="text/x-handlebars-template">
         <td data-text="{{ '{{row.fecha_fin}}' }}">{{ '{{row.fecha_fin}}' }}</td>
     </script>
 
-    <script id="vinculacion-table-column-rol" type="text/x-handlebars-template">
+    <script id="vinculacion-table-column-cargo" type="text/x-handlebars-template">
         <td nowrap data-text="{{ '{{row.cargo}}' }}">{{ '{{row.cargo}}' }}</td>
     </script>
 
@@ -135,7 +135,7 @@
         <td data-text="{{ '{{row.telefono}}' }}">{{ '{{row.telefono}}' }}</td>
     </script>
 
-    <script id="vinculacion-table-column-email" type="text/x-handlebars-template">
+    <script id="vinculacion-table-column-correo" type="text/x-handlebars-template">
         <td data-text="{{ '{{row.correo}}' }}">{{ '{{row.correo}}' }}</td>
     </script>
 
@@ -169,14 +169,13 @@
 
     <script id="vinculacion-table-column-actions" type="text/x-handlebars-template">
         <td>
-            <div class="dropdown">
-                <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
-                <div class="dropdown-content">
-                    <a href="#" class="editar-vinculacion" data-id="{{ '{{row.id}}' }}">
-                        <i class="fas fa-pen"></i> {{ translate("UNLU.VINCULATION.EDIT") }}
-                    </a>
-                </div>
-            </div>
+            {{ '{{#if row.id_acta }}' }}
+                <i class="fa fa-minus"></i>
+            {{ '{{else}}' }}
+                <a href="#" class="editar-vinculacion" data-id="{{ '{{row.id}}' }}">
+                    <i class="fas fa-pen"></i> {{ translate("UNLU.VINCULATION.EDIT") }}
+                </a>
+            {{ '{{/if}}' }}
         </td>
     </script>
 {% endblock %}
