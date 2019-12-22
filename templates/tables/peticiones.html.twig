@@ -1,0 +1,140 @@
+{% extends "tables/table-paginated.html.twig" %}
+
+{% block table %}
+    <table id="{{table.id}}" class="tablesorter table table-bordered table-hover table-striped" data-sortlist="{{table.sortlist}}">
+        <thead>
+            <tr>
+                <th class="sorter-metatext"
+                    data-column-name="fecha_inicio"
+                    data-column-template="#peticion-table-column-fecha_inicio"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.START_DATE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="fecha_fin"
+                    data-column-template="#peticion-table-column-fecha_fin"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.END_DATE") }} <i class="fa fa-sort"></i>
+                </th>
+                {% if checkAccess("admin_unlu") %}
+                    <th class="sorter-metatext"
+                        data-column-name="usuario"
+                        data-column-template="#peticion-table-column-usuario"
+                        data-sorter="false"
+                        nowrap>
+                            {{ translate("USER") }}
+                    </th>
+                    <th class="sorter-metatext"
+                        data-column-name="nombre"
+                        data-column-template="#peticion-table-column-nombre"
+                        data-sorter="false"
+                        nowrap>
+                            {{ translate("NAME") }}
+                    </th>
+                {% endif %}
+                <th class="sorter-metatext"
+                    data-column-name="vinculacion"
+                    data-column-template="#peticion-table-column-vinculacion"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.VINCULATION") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="servicio"
+                    data-column-template="#peticion-table-column-servicio"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.SERVICE") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="aprobada"
+                    data-column-template="#peticion-table-column-aprobada"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.APPROVED") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="descripcion"
+                    data-column-template="#peticion-table-column-descripcion"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.DESCRIPTION") }}
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="observaciones"
+                    data-column-template="#peticion-table-column-observaciones"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.OBSERVATIONS") }}
+                </th>
+
+                <th data-column-name="acciones"
+                    data-column-template="#peticion-table-column-actions"
+                    data-sorter="false"
+                    data-filter="false"
+                    nowrap>
+                        {{ translate("ACTIONS") }}
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+{% endblock %}
+
+{% block table_cell_templates %}
+    <script id="peticion-table-column-fecha_inicio" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.fecha_inicio}}' }}">{{ '{{dateFormat row.fecha_inicio format="D/MM/YYYY"}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-fecha_fin" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.fecha_fin}}' }}">{{ '{{dateFormat row.fecha_fin format="D/MM/YYYY"}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-usuario" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.usuario.user_name}}' }}">{{ '{{row.usuario.user_name}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-nombre" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.usuario.full_name}}' }}">{{ '{{row.usuario.full_name}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-vinculacion" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.vinculacion.actividad}}' }}">{{ '{{row.vinculacion.actividad}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-servicio" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.servicio.denominacion}}' }}">{{ '{{row.servicio.denominacion}}' }}</td>
+    </script>
+
+    <script id="peticion-table-column-aprobada" type="text/x-handlebars-template">
+        <td>
+            {{ '{{#if row.aprobada}}' }}
+                <i class="fas fa-check"></i>
+            {{ '{{/if}}' }}
+        </td>
+    </script>
+    <script id="peticion-table-column-descripcion" type="text/x-handlebars-template">
+        <td><textarea readonly>{{ '{{row.descripcion}}' }}</textarea></td>
+    </script>
+
+    <script id="peticion-table-column-observaciones" type="text/x-handlebars-template">
+        <td><textarea readonly>{{ '{{row.observaciones}}' }}</textarea></td>
+    </script>
+
+    <script id="peticion-table-column-actions" type="text/x-handlebars-template">
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                <div class="dropdown-content">
+                    {% if checkAccess("admin_unlu") and not peticion.aprobada %}
+                        <a href="#" class="aprobar-peticion" data-id="{{ '{{row.id}}' }}">
+                            <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
+                        </a>
+                    {% endif %}
+                    <a href="#" class="editar-peticion" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
+                    </a>
+                </div>
+            </div>
+        </td>
+    </script>
+{% endblock %}

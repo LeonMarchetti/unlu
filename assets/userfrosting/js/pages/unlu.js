@@ -65,36 +65,6 @@ $(function() {
         attachRenderSuccessUfModal();
     });
 
-    // Modal para borrar un postre
-    $(".aprobar-peticion").click(function(e) {
-        e.preventDefault();
-
-        $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/aprobar-peticion",
-            ajaxParams: {
-                id: $(this).data('id')
-            },
-            msgTarget: $("#alerts-page")
-        });
-
-        attachRenderSuccessUfModal();
-    });
-
-    // Modal para editar un postre
-    $(".editar-peticion").click(function(e) {
-        e.preventDefault();
-
-        $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/editar-peticion",
-            ajaxParams: {
-                id: $(this).data('id')
-            },
-            msgTarget: $("#alerts-page")
-        });
-
-        attachRenderSuccessUfModal();
-    });
-
     // Tabla de Vinculaciones ==================================================
     /* Fuente de datos de la tabla de vinculaciones. */
     $("#tablaVinculaciones").ufTable({
@@ -164,6 +134,53 @@ $(function() {
 
             $("body").ufModal({
                 sourceUrl: site.uri.public + "/modals/unlu/eliminar-servicio",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
+        });
+    });
+
+    // Tabla de Peticiones======================================================
+    /* Fuente de datos de la tabla de servicios. */
+    $("#tablaPeticiones").ufTable({
+        dataUrl: site.uri.public + "/api/unlu/p",
+        msgTarget: "#js-form-alerts",
+        tablesorter: {
+            widgetOptions: {
+                pager_size: 5
+            }
+        }
+    });
+
+    /*  Asignar eventos a los botones en la tabla de servicios cuando termina
+        de renderizar la tabla. */
+    $("#tablaPeticiones").on("pagerComplete.ufTable", function () {
+
+        // Modal para borrar un postre
+        $(this).find(".aprobar-peticion").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/aprobar-peticion",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
+        });
+
+        // Modal para editar un postre
+        $(this).find(".editar-peticion").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/editar-peticion",
                 ajaxParams: {
                     id: $(this).data('id')
                 },

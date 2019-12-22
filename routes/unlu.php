@@ -33,6 +33,7 @@ $app->group("/api/unlu", function() {
     $this->post("/peticion", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:solicitarServicio');
     $this->post("/baja-solicitud", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:bajaSolicitud');
 
+    $this->get("/p", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticiones");
     $this->post("/p/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarPeticion");
 
     $this->get("/s", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarServicios");

@@ -32,32 +32,7 @@ class UnluController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        $fecha_hoy = date("d-m-Y", time()); // Fecha de hoy para determinar peticiones pendientes
-        if ($authorizer->checkAccess($currentUser, 'admin_unlu')) { // Usuario administrador
-            // Peticiones pendientes
-            $peticiones = Peticion::where("fecha_fin", '>=', $fecha_hoy)->get();
-
-            // Vinculaciones
-            $vinculaciones = Vinculacion::all();
-
-        } else { // Usuario normal
-            // Peticiones pendientes
-            $peticiones = Peticion::where([
-                ["id_usuario", "=",  $currentUser->id],
-                ["fecha_fin",  ">=", $fecha_hoy],
-            ])->get();
-
-            // Vinculaciones
-            $vinculaciones = $currentUser->vinculaciones;
-        }
-
-        $servicios = Servicio::all();
-
-        return $this->ci->view->render($response, 'pages/unlu.html.twig', [
-            'peticiones' => $peticiones,
-            'servicios' => $servicios,
-            'vinculaciones' => $vinculaciones,
-        ]);
+        return $this->ci->view->render($response, 'pages/unlu.html.twig');
     }
 
     public function solicitarVinculacion(Request $request, Response $response, $args) {
@@ -603,6 +578,38 @@ class UnluController extends SimpleController {
         return $response->withJson([], 200);
     }
 
+    public function listarPeticiones(Request $request, Response $response, $args) {
+        // GET parameters
+        $params = $request->getQueryParams();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        $sprunje = $classMapper->createInstance('peticion_sprunje', $classMapper, $params);
+
+        /*  Extiendo la consulta del sprunje para que solo traiga las peticiones del usuario (si no es administrador). */
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            $sprunje->extendQuery(function($query) use ($currentUser) {
+                return $query->where('id_usuario', $currentUser->id);
+            });
+        }
+
+        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
+        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
+        return $sprunje->toResponse($response);
+    }
+
     public function listarServicios(Request $request, Response $response, $args) {
         // GET parameters
         $params = $request->getQueryParams();
@@ -621,7 +628,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        $sprunje = $classMapper->createInstance('service_sprunje', $classMapper, $params);
+        $sprunje = $classMapper->createInstance('servicio_sprunje', $classMapper, $params);
 
         // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
         // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
@@ -647,6 +654,12 @@ class UnluController extends SimpleController {
         $classMapper = $this->ci->classMapper;
 
         $sprunje = $classMapper->createInstance('vinculacion_sprunje', $classMapper, $params);
+        /*  Extiendo la consulta del sprunje para que solo traiga las vinculaciones del usuario (si no es administrador). */
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            $sprunje->extendQuery(function($query) use ($currentUser) {
+                return $query->where('id_solicitante', $currentUser->id);
+            });
+        }
 
         // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
         // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
