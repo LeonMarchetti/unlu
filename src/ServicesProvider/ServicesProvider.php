@@ -21,6 +21,7 @@ class ServicesProvider {
         $container->extend('classMapper', function ($classMapper, $c) {
             $classMapper->setClassMapping("user", "UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu");
 
+            $classMapper->setClassMapping("acta", "UserFrosting\Sprinkle\Unlu\Database\Models\Acta");
             $classMapper->setClassMapping("integrante", "UserFrosting\Sprinkle\Unlu\Database\Models\IntegrantesVinculacion");
             $classMapper->setClassMapping("peticion", "UserFrosting\Sprinkle\Unlu\Database\Models\Peticion");
             $classMapper->setClassMapping("servicio", "UserFrosting\Sprinkle\Unlu\Database\Models\Servicio");

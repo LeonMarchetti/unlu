@@ -81,7 +81,7 @@ $(function() {
         de renderizar la tabla. */
     $("#tablaVinculaciones").on("pagerComplete.ufTable", function () {
 
-        // Editar servicios
+        // Editar vinculación
         $(this).find(".editar-vinculacion").click(function(e) {
             e.preventDefault();
 
@@ -94,6 +94,14 @@ $(function() {
             });
 
             attachRenderSuccessUfModal();
+        });
+
+        // Ver acta
+        // Editar servicios
+        $(this).find(".ver-acta").click(function(e) {
+            e.preventDefault();
+
+            window.open(site.uri.public + "/api/unlu/a/" + $(this).data('id'), "_blank");
         });
     });
 

@@ -9,6 +9,7 @@ use UserFrosting\Sprinkle\Core\Controller\SimpleController;
 use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
 
+use UserFrosting\Sprinkle\Unlu\Database\Models\Acta;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Peticion;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Servicio;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
@@ -664,6 +665,40 @@ class UnluController extends SimpleController {
         // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
         // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
         return $sprunje->toResponse($response);
+    }
+
+    public function getActa(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
+        $acta = $this->getActaFromParams($args);
+        if (!$acta) {
+            throw new NotFoundException($request, $response);
+        }
+
+        return $response->write($this->ci->filesystem->get("actas/$acta->ubicacion"))
+                        ->withHeader('Content-type', 'application/pdf')
+                        ->withStatus(200);
+    }
+
+    protected function getActaFromParams($params) {
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $acta = Acta::find($data["id"]);
+        return $acta;
     }
 
     protected function getPeticionFromParams($params) {

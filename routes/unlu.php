@@ -1,5 +1,7 @@
 <?php
 
+use UserFrosting\Sprinkle\Core\Util\NoCache;
+
 $app->group('/unlu', function () {
     $this->get('', 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:page')
          ->setName('unlu');
@@ -26,12 +28,14 @@ $app->group('/modals/unlu', function () {
     $this->get('/agregar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:agregarServicioModal');
     $this->get('/editar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarServicioModal');
     $this->get('/eliminar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:eliminarServicioModal');
-})->add('authGuard');
+})->add('authGuard')->add(new NoCache());
 
 $app->group("/api/unlu", function() {
     $this->post("", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:solicitarVinculacion');
     $this->post("/peticion", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:solicitarServicio');
     $this->post("/baja-solicitud", 'UserFrosting\Sprinkle\Unlu\Controller\UnluController:bajaSolicitud');
+
+    $this->get("/a/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:getActa");
 
     $this->get("/p", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticiones");
     $this->post("/p/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarPeticion");
@@ -42,4 +46,4 @@ $app->group("/api/unlu", function() {
     $this->delete("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarServicio");
 
     $this->get("/v", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarVinculaciones");
-});
+})->add('authGuard')->add(new NoCache());
