@@ -292,11 +292,9 @@ class UnluController extends SimpleController {
     }
 
     public function bajaSolicitud(Request $request, Response $response, $args) {
-
         $params = $request->getParsedBody();
-
-        $peticion = $this->getPeticionFromParams($params);
-
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Peticion $peticion */
+        $peticion = $this->getObjectFromParams($params, "peticion");
         if (!$peticion) {
             throw new NotFoundException($request, $response);
         }
@@ -338,8 +336,8 @@ class UnluController extends SimpleController {
     }
 
     public function editarPeticion(Request $request, Response $response, $args) {
-
-        $peticion = $this->getPeticionFromParams($args);
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Peticion $peticion */
+        $peticion = $this->getObjectFromParams($args, "peticion");
         if (!$peticion) {
             throw new NotFoundException($request, $response);
         }
@@ -482,7 +480,7 @@ class UnluController extends SimpleController {
 
     public function editarServicio(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
-        $servicio = $this->getServicioFromParams($args);
+        $servicio = $this->getObjectFromParams($args, "servicio");
         if (!$servicio) {
             throw new NotFoundException($request, $response);
         }
@@ -546,7 +544,7 @@ class UnluController extends SimpleController {
 
     public function eliminarServicio(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
-        $servicio = $this->getServicioFromParams($args);
+        $servicio = $this->getObjectFromParams($args, "servicio");
         if (!$servicio) {
             throw new NotFoundException($request, $response);
         }
@@ -681,7 +679,7 @@ class UnluController extends SimpleController {
         }
 
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
-        $acta = $this->getActaFromParams($args);
+        $acta = $this->getObjectFromParams($args, "acta");
         if (!$acta) {
             throw new NotFoundException($request, $response);
         }
@@ -693,7 +691,7 @@ class UnluController extends SimpleController {
 
     public function editarVinculacion(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
-        $vinculacion = $this->getVinculacionFromParams($args);
+        $vinculacion = $this->getObjectFromParams($args, "vinculacion");
         if (!$vinculacion) {
             throw new NotFoundException($request, $response);
         }
@@ -804,8 +802,6 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
-        Debug::debug("Vinculacion: $vinculacion->integrantes");
-
         $classMapper = $this->ci->classMapper;
 
         // Begin transaction - DB will be rolled back if an exception occurs
@@ -864,50 +860,19 @@ class UnluController extends SimpleController {
         return $response->withJson([], 200);
     }
 
-    protected function getActaFromParams($params) {
+    protected function getObjectFromParams($params, $type) {
         $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
         $data = $transformer->transform($params);
 
-        $acta = Acta::find($data["id"]);
-        return $acta;
-    }
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
 
-    protected function getPeticionFromParams($params) {
-        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
-
-        // Whitelist and set parameter defaults
-        $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
-
-        $peticion = Peticion::find($data["id"]);
-
-        return $peticion;
-    }
-
-    protected function getServicioFromParams($params) {
-        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
-
-        // Whitelist and set parameter defaults
-        $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
-
-        $servicio = Servicio::find($data["id"]);
-
-        return $servicio;
-    }
-
-    protected function getVinculacionFromParams($params) {
-        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
-
-        // Whitelist and set parameter defaults
-        $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
-
-        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
-        $vinculacion = Vinculacion::find($data["id"]);
-        return $vinculacion;
+        $objeto = $classMapper->getClassMapping($type)
+                              ::where("id", $data["id"])
+                              ->first();
+        return $objeto;
     }
 }
