@@ -28,6 +28,8 @@ $app->group('/modals/unlu', function () {
     $this->get('/agregar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:agregarServicioModal');
     $this->get('/editar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarServicioModal');
     $this->get('/eliminar-servicio', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:eliminarServicioModal');
+
+    $this->get('/editar-vinculacion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarVinculacionModal');
 })->add('authGuard')->add(new NoCache());
 
 $app->group("/api/unlu", function() {
@@ -46,4 +48,5 @@ $app->group("/api/unlu", function() {
     $this->delete("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarServicio");
 
     $this->get("/v", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarVinculaciones");
+    $this->post("/v/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarVinculacion");
 })->add('authGuard')->add(new NoCache());

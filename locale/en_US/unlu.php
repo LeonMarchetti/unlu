@@ -111,6 +111,7 @@ return [
             "POSITION" => "Position",
             "REQUEST_DATE" => "Request date",
             "RESPONSABLE" => "Responsable",
+            "UPDATED" => "The vinculation was updated successfully",
             "USERTYPE" => [
                 "@TRANSLATION" => "User type",
                 "MISSING" => "User type is missing",

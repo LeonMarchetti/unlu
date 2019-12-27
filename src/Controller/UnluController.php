@@ -10,10 +10,11 @@ use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
 
 use UserFrosting\Sprinkle\Unlu\Database\Models\Acta;
+use UserFrosting\Sprinkle\Unlu\Database\Models\IntegrantesVinculacion;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Peticion;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Servicio;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
 use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
+use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
 
 use UserFrosting\Fortress\RequestDataTransformer;
 use UserFrosting\Fortress\RequestSchema;
@@ -57,7 +58,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/solicitar_vinculacion.yaml');
+        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
 
         // Whitelist and set parameter defaults
         $transformer = new RequestDataTransformer($schema);
@@ -690,6 +691,179 @@ class UnluController extends SimpleController {
                         ->withStatus(200);
     }
 
+    public function editarVinculacion(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $vinculacion = $this->getVinculacionFromParams($args);
+        if (!$vinculacion) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        // Get PUT parameters
+        $params = $request->getParsedBody();
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        // Load the request schema
+        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        $error = false;
+
+        if (!isset($data["responsable"]) || $data["responsable"] === "") {
+            $data["responsable"] = $currentUser->full_name;
+        }
+
+        if (!isset($data["cargo"]) || $data["cargo"] === "") {
+
+            if ($currentUser->rol === "") {
+                $ms->addMessageTranslated('danger', 'UNLU.ROLE.MISSING', $data);
+                $error = true;
+
+            } else {
+                $data["cargo"] = $currentUser->rol;
+            }
+        }
+
+        if (!isset($data['tipo_de_usuario']) || $data['tipo_de_usuario'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.USERTYPE.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data['actividad']) || $data['actividad'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.ACTIVITY.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data["telefono"]) || $data["telefono"] === "") {
+            if ($currentUser->telefono === "") {
+                $ms->addMessageTranslated('danger', 'UNLU.PHONE.MISSING', $data);
+                $error = true;
+
+            } else {
+                $data["telefono"] = $currentUser->telefono;
+            }
+        }
+
+        if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
+            $error = true;
+
+        } else {
+            // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud.
+            if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_solicitud"])) {
+                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.BEFORE', $data);
+                $error = true;
+            }
+        }
+
+        if (!isset($data['descripcion']) || $data['descripcion'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.DESCRIPTION.MISSING', $data);
+            $error = true;
+        }
+
+        // Compruebo si tengo que editar los integrantes de la vinculación:
+        $editar_integrantes = false;
+
+        if (count($data["integrantes"]) != count($vinculacion->integrantes)) {
+            $editar_integrantes = true;
+        } else {
+            for ($i = 1; $i < count($data["integrantes"]); $i++) {
+                if (is_numeric($data["integrantes"][$i])) {
+                    if ($data["integrantes"][$i] != $vinculacion->integrantes[$i]->id_usuario) {
+                        $editar_integrantes = true;
+                        break;
+                    }
+                } else {
+                    if ($data["integrantes"][$i] != $vinculacion->integrantes[$i]->nombre) {
+                        $editar_integrantes = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        Debug::debug("Vinculacion: $vinculacion->integrantes");
+
+        $classMapper = $this->ci->classMapper;
+
+        // Begin transaction - DB will be rolled back if an exception occurs
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser, $vinculacion, $editar_integrantes) {
+            $vinculacion->id_solicitante = $data["id_solicitante"];
+            $vinculacion->responsable = $data["responsable"];
+            $vinculacion->cargo = $data["cargo"];
+            $vinculacion->tipo_de_usuario = $data["tipo_de_usuario"];
+            $vinculacion->actividad = $data["actividad"];
+            $vinculacion->telefono = $data["telefono"];
+            $vinculacion->fecha_fin = $data["fecha_fin"];
+            $vinculacion->descripcion = $data["descripcion"];
+            $vinculacion->save();
+
+            // Actualizar integrantes de la vinculación:
+            if ($editar_integrantes) {
+                IntegrantesVinculacion::where('id_vinculacion', $vinculacion->id)->delete();
+
+                // Insertar usuario solicitante como integrante:
+                $data["integrantes"][] = $data["id_solicitante"];
+
+                foreach ($data["integrantes"] as $i) {
+                    if (is_numeric($i)) {
+                        /*  Si $i es un número entonces se trata de un id de usua-
+                            rio, y busco el nombre de la base de datos. */
+                        $data_integrante = [
+                            "id_usuario" => $i,
+                            "id_vinculacion" => $vinculacion->id,
+                            "nombre" => Usuario::find($i)->full_name
+                        ];
+
+                    } else {
+                        /*  Si $i es una cadena de texto entonces no se trata de un
+                            usuario del sistema y entonces ingreso el integrante
+                            sin id de usuario. */
+                        $data_integrante = [
+                            "id_vinculacion" => $vinculacion->id,
+                            "nombre" => $i
+                        ];
+                    }
+
+                    $integrante = $classMapper->createInstance("integrante", $data_integrante);
+                    $integrante->save();
+                }
+            }
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} updated vinculation {$vinculacion->id}.", [
+                'type'    => 'pastry_create',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.VINCULATION.UPDATED', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
+
     protected function getActaFromParams($params) {
         $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
@@ -723,5 +897,17 @@ class UnluController extends SimpleController {
         $servicio = Servicio::find($data["id"]);
 
         return $servicio;
+    }
+
+    protected function getVinculacionFromParams($params) {
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $vinculacion = Vinculacion::find($data["id"]);
+        return $vinculacion;
     }
 }

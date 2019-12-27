@@ -111,6 +111,7 @@ return [
             "POSITION" => "Cargo",
             "REQUEST_DATE" => "Fecha solicitud",
             "RESPONSABLE" => "Responsable",
+            "UPDATED" => "La vinculación fue actualizada satisfactoriamente",
             "USERTYPE" => [
                 "@TRANSLATION" => "Tipo de usuario",
                 "MISSING" => "Falta el tipo de usuario",

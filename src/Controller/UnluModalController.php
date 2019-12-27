@@ -49,7 +49,7 @@ class UnluModalController extends SimpleController {
         $usuarios_activos = Usuario::where("activo", true)->get();
 
         return $this->ci->view->render($response, 'modals/vinculacion.html.twig', [
-            "vinc" => $vinculacion,
+            "vinculacion" => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
             "usuarios" => $usuarios,
             "usuarios_activos" => $usuarios_activos,
@@ -274,6 +274,42 @@ class UnluModalController extends SimpleController {
         ]);
     }
 
+    public function editarVinculacionModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $vinculacion = $this->getVinculacionFromParams($request->getQueryParams());
+        if (!$vinculacion) {
+            throw new NotFoundException($request, $response);
+        }
+
+        $tipos_de_usuario = TipoUsuario::all();
+        $usuarios = Usuario::all();
+        $usuarios_activos = Usuario::where("activo", true)->get();
+
+        return $this->ci->view->render($response, 'modals/vinculacion.html.twig', [
+            'vinculacion' => $vinculacion,
+            "tipos_de_usuario" => $tipos_de_usuario,
+            "usuarios" => $usuarios,
+            "usuarios_activos" => $usuarios_activos,
+            "edicion" => true,
+            'form' => [
+                'action' => "api/unlu/v/{$vinculacion->id}",
+                "method" => "POST",
+                "submit_text" => "Actualizar",
+            ],
+        ]);
+    }
+
     protected function getPeticionFromParams($params) {
         $schema = new RequestSchema("schema://requests/get-by-id.yaml");
 
@@ -283,6 +319,7 @@ class UnluModalController extends SimpleController {
 
         $peticion = Peticion::find($data["id"]);
 
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Peticion $peticion */
         return $peticion;
     }
 
@@ -296,5 +333,17 @@ class UnluModalController extends SimpleController {
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
         $servicio = Servicio::find($data["id"]);
         return $servicio;
+    }
+
+    protected function getVinculacionFromParams($params) {
+        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $vinculacion = Vinculacion::find($data["id"]);
+        return $vinculacion;
     }
 }

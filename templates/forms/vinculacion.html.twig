@@ -23,7 +23,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="responsable"
-                           autocomplete="off" value="{{ vinc.responsable }}"
+                           autocomplete="off" value="{{ vinculacion.responsable }}"
                            placeholder="{{ translate("UNLU.VINCULATION.RESPONSABLE") }}">
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="cargo" autocomplete="off"
-                           value="{{ vinc.cargo }}" placeholder="{{ translate("UNLU.VINCULATION.POSITION") }}">
+                           value="{{ vinculacion.cargo }}" placeholder="{{ translate("UNLU.VINCULATION.POSITION") }}">
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                     <select id="input-tipo" class="form-control js-select2" name="tipo_de_usuario" {{ page.visibility }}>
                         <option value="">{{ translate("UNLU.VINCULATION.USERTYPE.PLACEHOLDER") }}</option>
                         {% for tipo in tipos_de_usuario %}
-                            <option value="{{ tipo.id }}" {% if tipo.id == vinc.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
+                            <option value="{{ tipo.id }}" {% if tipo.id == vinculacion.tipo_de_usuario %}selected="selected"{% endif %}>{{ tipo.description }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="actividad" autocomplete="off"
-                           value="{{ vinc.actividad }}" placeholder="{{ translate("UNLU.VINCULATION.ACTIVITY") }}">
+                           value="{{ vinculacion.actividad }}" placeholder="{{ translate("UNLU.VINCULATION.ACTIVITY") }}">
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="telefono" autocomplete="off"
-                           value="{{ vinc.telefono }}" placeholder="{{ translate("UNLU.PHONE") }}">
+                           value="{{ vinculacion.telefono }}" placeholder="{{ translate("UNLU.PHONE") }}">
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="correo" autocomplete="off"
-                           value="{{ vinc.correo }}" placeholder="{{ translate("EMAIL") }}">
+                           value="{{ vinculacion.correo }}" placeholder="{{ translate("EMAIL") }}">
                 </div>
             </div>
         </div>
@@ -95,12 +95,27 @@
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="date" class="form-control" name="fecha_fin"
                            autocomplete="off"
-                           value="{{ vinc.fecha_fin | date("Y-m-d") }}"
-                           min="{{ vinc.fecha_fin | date("Y-m-d") }}">
+                           value="{{ vinculacion.fecha_fin | date("Y-m-d") }}"
+                           min="{{ vinculacion.fecha_fin | date("Y-m-d") }}">
                 </div>
             </div>
         </div>
     </div>
+    {% if edicion %}{# Fecha de solicitud #}
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>{{ translate("UNLU.VINCULATION.REQUEST_DATE") }}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                        <input type="date" class="form-control"
+                            value="{{ vinculacion.fecha_solicitud | date("Y-m-d") }}"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="row"><!-- Descripción -->
         <div class="col-sm-12">
             <div class="form-group">
@@ -108,7 +123,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <textarea class="form-control" name="descripcion" autocomplete="off"
-                           placeholder="{{ translate("UNLU.VINCULATION.DESCRIPTION") }}">{{ vinc.descripcion }}</textarea>
+                           placeholder="{{ translate("UNLU.VINCULATION.DESCRIPTION") }}">{{ vinculacion.descripcion }}</textarea>
                 </div>
             </div>
         </div>
@@ -128,6 +143,20 @@
                                 </option>
                             {% endfor %}
                         </select>
+                        {% for integrante in vinculacion.integrantes %}
+                            {% if integrante.id_usuario %}
+                                {% if integrante.id_usuario != current_user.id %}
+                                    <select class="form-control js-select2" name="integrantes[]" {{ page.visibility }}>
+                                        <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
+                                        {% for usuario in usuarios %}
+                                            <option value="{{ usuario.id }}" {% if usuario.id == integrante.id_usuario %}selected{% endif %}>{{ usuario.full_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                {% endif %}
+                            {% else %}
+                                <input type="text" class="form-control" name="integrantes[]" value="{{ integrante.nombre }}" autocomplete="off" placeholder="Nombre"/>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <p class="help-block">{{ translate("UNLU.VINCULATION.MEMBERS.HELP") }}</p>
