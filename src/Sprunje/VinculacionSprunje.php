@@ -15,6 +15,7 @@ class VinculacionSprunje extends Sprunje {
         "responsable",
         "cargo",
         "actividad",
+        "id_acta",
     ];
 
     protected $filterable = [
