@@ -863,7 +863,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        $objeto = $classMapper->getClassMapping($type)->find($data["id"]);
+        $objeto = $classMapper->getClassMapping($type)
+                              ::where("id", $data["id"])
+                              ->first();
         return $objeto;
     }
 }
