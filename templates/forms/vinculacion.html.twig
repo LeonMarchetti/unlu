@@ -3,9 +3,9 @@
     <div class="js-form-alerts"></div>
     <div class="row"><!-- Solicitante y Responsable -->
         <div class="col-sm-6">
-            <div class="form-group">
+            <div class="form-group form-solicitante">
                 <label>{{ translate("UNLU.VINCULATION.APPLICANT") }}</label>
-                <div class="input-group">
+                {# <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <select id="select-solicitante" class="form-control js-select2" name="id_solicitante" {{ page.visibility }}
                         {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
@@ -14,7 +14,19 @@
                             <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>{{ usuario.user_name }} | {{ usuario.full_name }}</option>
                         {% endfor %}
                     </select>
-                </div>
+                </div> #}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ translate("NAME") }}</th>
+                            <th>{{ translate("USER") }}</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <select class="form-control js-select-new" type="text">
+                    <option></option>
+                </select>
             </div>
         </div>
         <div class="col-sm-6">
@@ -197,11 +209,33 @@
     <input type="text" class="form-control" name="integrantes[]" autocomplete="off" placeholder="Nombre"/>
 </template>
 
+<script id="vinculacion-solicitante-fila" type="text/x-handlebars-template">
+    <tr class="uf-collection-row">
+        <td>
+            {{ '{{full_name}}' }}
+        </td>
+        <td>
+            {{ '{{user_name}}' }}
+        </td>
+    </tr>
+</script>
+
+<script id="vinculacion-solicitante-opcion" type="text/x-handlebars-template">
+    <div>
+        <strong>{{ '{{full_name}}' }}</strong>
+        <br>
+        {{ '{{user_name}}' }}
+    </div>
+</script>
+
 {% block scripts_page %}
     <!-- Include validation rules -->
     <script>{% include "pages/partials/page.js.twig" %}</script>
 
     {{ assets.js('js/forms/vinculacion') | raw }}
     {{ assets.css('css/forms/vinculacion') | raw }}
+
+    {{ assets.js('js/form-widgets') | raw}}
+    {{ assets.css('css/form-widgets') | raw}}
 
 {% endblock %}

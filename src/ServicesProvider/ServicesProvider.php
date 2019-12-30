@@ -30,6 +30,7 @@ class ServicesProvider {
 
             $classMapper->setClassMapping('peticion_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\PeticionSprunje');
             $classMapper->setClassMapping('servicio_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\ServicioSprunje');
+            $classMapper->setClassMapping('usuario_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\UsuarioSprunje');
             $classMapper->setClassMapping('vinculacion_sprunje', 'UserFrosting\Sprinkle\Unlu\Sprunje\VinculacionSprunje');
 
             return $classMapper;

@@ -20,7 +20,28 @@ $(function() {
             msgTarget: $("#alerts-page")
         });
 
-        attachRenderSuccessUfModal();
+        $("body").on('renderSuccess.ufModal', function() {
+            var modal = $(this).ufModal('getModal');
+            var form = modal.find('.js-form');
+
+            var solicitanteWidget = modal.find('.form-solicitante');
+            solicitanteWidget.ufCollection({
+                dropdown: {
+                    ajax: {
+                        url: site.uri.public + '/api/unlu/u',
+                    },
+                    placeholder: "Seleccione un usuario",
+                },
+                dropdownTemplate: modal.find('#vinculacion-solicitante-opcion').html(),
+                rowTemplate: modal.find('#vinculacion-solicitante-fila').html(),
+            });
+
+            form.ufForm().on("submitSuccess.ufForm", function() {
+                window.location.reload(true);
+            });
+        });
+
+        // attachRenderSuccessUfModal();
     });
 
     // Modal para agregar un postre

@@ -47,6 +47,8 @@ $app->group("/api/unlu", function() {
     $this->post("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarServicio");
     $this->delete("/s/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarServicio");
 
+    $this->get('/u', "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarUsuarios");
+
     $this->get("/v", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarVinculaciones");
     $this->post("/v/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarVinculacion");
 })->add('authGuard')->add(new NoCache());
