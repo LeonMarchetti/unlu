@@ -97,11 +97,25 @@ $(function() {
         });
 
         // Ver acta
-        // Editar servicios
         $(this).find(".ver-acta").click(function(e) {
             e.preventDefault();
 
             window.open(site.uri.public + "/api/unlu/a/" + $(this).data('id'), "_blank");
+        });
+
+        // Asignar acta
+        $(this).find(".asignar-acta").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/asignar-acta",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
         });
     });
 

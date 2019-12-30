@@ -269,15 +269,8 @@ class UnluController extends SimpleController {
         $classMapper = $this->ci->classMapper;
 
         Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser) {
-
-            try {
-                $peticion = $classMapper->createInstance("peticion", $data);
-                $peticion->save();
-
-            } catch (\Exception $e) {
-                $msg = $e->getMessage();
-                Debug::debug("Error: $msg");
-            }
+            $peticion = $classMapper->createInstance("peticion", $data);
+            $peticion->save();
 
             // Create activity record
             $this->ci->userActivityLogger->info("User {$currentUser->user_name} solicitó una petición {$data->descripcion}.", [
@@ -870,9 +863,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        $objeto = $classMapper->getClassMapping($type)
-                              ::where("id", $data["id"])
-                              ->first();
+        $objeto = $classMapper->getClassMapping($type)->find($data["id"]);
         return $objeto;
     }
 }

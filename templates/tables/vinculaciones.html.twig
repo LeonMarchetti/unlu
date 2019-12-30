@@ -161,7 +161,13 @@
                     <i class="fa fa-file-contract"></i>
                 </button>
             {{ '{{else}}' }}
-                <i class="fa fa-minus"></i>
+                {% if checkAccess("admin_unlu") %}
+                    <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
+                        <i class="fa fa-plus asignar-acta"></i>
+                    </a>
+                {% else %}
+                    <i class="fa fa-minus"></i>
+                {% endif %}
             {{ '{{/if}}' }}
         </td>
     </script>
