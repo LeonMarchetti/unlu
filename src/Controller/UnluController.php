@@ -22,6 +22,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class UnluController extends SimpleController {
 
+    use GetObject;
+
     public function page(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
         $authorizer = $this->ci->authorizer;
@@ -198,14 +200,6 @@ class UnluController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
-        // Access-controlled page
-        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
-            throw new ForbiddenException();
-        }
-
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
@@ -266,7 +260,11 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
 
         Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser) {
             $peticion = $classMapper->createInstance("peticion", $data);
@@ -851,21 +849,5 @@ class UnluController extends SimpleController {
         });
 
         return $response->withJson([], 200);
-    }
-
-    protected function getObjectFromParams($params, $type) {
-        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
-
-        // Whitelist and set parameter defaults
-        $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
-
-        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
-        $classMapper = $this->ci->classMapper;
-
-        $objeto = $classMapper->getClassMapping($type)
-                              ::where("id", $data["id"])
-                              ->first();
-        return $objeto;
     }
 }

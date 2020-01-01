@@ -15,12 +15,10 @@ use UserFrosting\Sprinkle\Unlu\Database\Models\TipoUsuario;
 use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
 
-use UserFrosting\Fortress\RequestDataTransformer;
-use UserFrosting\Fortress\RequestSchema;
-use Illuminate\Database\Capsule\Manager as Capsule;
-
 
 class UnluModalController extends SimpleController {
+
+    use GetObject;
 
     public function solicitarVinculacionModal(Request $request, Response $response, $args) {
 
@@ -308,21 +306,5 @@ class UnluModalController extends SimpleController {
                 "submit_text" => "Actualizar",
             ],
         ]);
-    }
-
-    protected function getObjectFromParams($params, $type) {
-        $schema = new RequestSchema("schema://requests/get-by-id.yaml");
-
-        // Whitelist and set parameter defaults
-        $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
-
-        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
-        $classMapper = $this->ci->classMapper;
-
-        $objeto = $classMapper->getClassMapping($type)
-                              ::where("id", $data["id"])
-                              ->first();
-        return $objeto;
     }
 }
