@@ -10,6 +10,13 @@ return [
             "REQUEST_VINCULATION" => "Solicitar Vinculación",
         ],
         "ACTIVE" => "Activo",
+        "CERTIFICATE" => [
+            "@TRANSLATION" => "Acta",
+            "ADD" => "Agregar acta",
+            "DATE" => "Fecha",
+            "PLURAL" => "Actas",
+            "TITLE" => "Título",
+        ],
         "DEPENDENCY" => "Dependencia",
         "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
         "INSTITUTION" => "Institución",

@@ -13,7 +13,7 @@ $(function() {
         });
     }
 
-    // Modal para agregar un postre
+    // Modal para solicitar una vinculación
     $(".solicitar-vinculacion").click(function(e) {
         $("body").ufModal({
             sourceUrl: site.uri.public + "/modals/unlu/solicitar-vinculacion",
@@ -23,7 +23,7 @@ $(function() {
         attachRenderSuccessUfModal();
     });
 
-    // Modal para agregar un postre
+    // Modal para solicitar un servicio
     $(".solicitar-servicio").click(function(e) {
         e.preventDefault();
 
@@ -35,7 +35,7 @@ $(function() {
         attachRenderSuccessUfModal();
     });
 
-    // Modal para agregar un postre
+    // Modal para eliminar una petición
     $(".baja-solicitud").click(function(e) {
         e.preventDefault();
 
@@ -53,7 +53,7 @@ $(function() {
         alert("TODO Acta N°: \"" + $(this).data("id") + "\"");
     });
 
-    // Modal para editar un postre
+    // Modal para agregar un servicio
     $(".agregar-servicio").click(function(e) {
         e.preventDefault();
 
@@ -77,7 +77,7 @@ $(function() {
         }
     });
 
-    /*  Asignar eventos a los botones en la tabla de servicios cuando termina
+    /*  Asignar eventos a los botones en la tabla de vinculaciones cuando termina
         de renderizar la tabla. */
     $("#tablaVinculaciones").on("pagerComplete.ufTable", function () {
 
@@ -167,7 +167,7 @@ $(function() {
     });
 
     // Tabla de Peticiones======================================================
-    /* Fuente de datos de la tabla de servicios. */
+    /* Fuente de datos de la tabla de peticiones. */
     $("#tablaPeticiones").ufTable({
         dataUrl: site.uri.public + "/api/unlu/p",
         msgTarget: "#js-form-alerts",
@@ -178,11 +178,11 @@ $(function() {
         }
     });
 
-    /*  Asignar eventos a los botones en la tabla de servicios cuando termina
+    /*  Asignar eventos a los botones en la tabla de peticiones cuando termina
         de renderizar la tabla. */
     $("#tablaPeticiones").on("pagerComplete.ufTable", function () {
 
-        // Modal para borrar un postre
+        // Modal para borrar una petición
         $(this).find(".aprobar-peticion").click(function(e) {
             e.preventDefault();
 
@@ -197,7 +197,7 @@ $(function() {
             attachRenderSuccessUfModal();
         });
 
-        // Modal para editar un postre
+        // Modal para editar una petición
         $(this).find(".editar-peticion").click(function(e) {
             e.preventDefault();
 
@@ -211,6 +211,41 @@ $(function() {
 
             attachRenderSuccessUfModal();
         });
+    });
+
+    // Tabla de Actas ==========================================================
+    /* Fuente de datos de la tabla de actas. */
+    $("#tablaActas").ufTable({
+        dataUrl: site.uri.public + "/api/unlu/a",
+        msgTarget: "#js-form-alerts",
+        tablesorter: {
+            widgetOptions: {
+                pager_size: 5
+            }
+        }
+    });
+
+    /*  Asignar eventos a los botones en la tabla de actas cuando termina
+        de renderizar la tabla. */
+    $("#tablaActas").on("pagerComplete.ufTable", function () {
+        // Ver acta
+        $(this).find(".ver-acta").click(function(e) {
+            e.preventDefault();
+
+            window.open(site.uri.public + "/api/unlu/a/" + $(this).data('id'), "_blank");
+        });
+    });
+
+    // Modal para agregar un acta
+    $(".agregar-acta").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/agregar-acta",
+            msgTarget: $("#alerts-page")
+        });
+
+        attachRenderSuccessUfModal();
     });
 });
 

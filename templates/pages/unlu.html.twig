@@ -102,6 +102,28 @@
             </div>
         </div>
     </div>
+
+    {% if checkAccess("admin_unlu") %}<!-- Actas -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="tablaActas" class="box box-info">
+                    <div class="box-header with-border">
+                        <h3>{{ translate("UNLU.CERTIFICATE.PLURAL") }}</h3>
+                    </div>
+                    <div class="box-body no-padding">
+                        {% include "tables/actas.html.twig" with
+                            { "table": { "id": "tabla-actas" } }
+                        %}
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" class="btn btn-success agregar-acta">
+                            <i class="fas fa-plus-square"></i> {{ translate("UNLU.CERTIFICATE.ADD") }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block scripts_page %}

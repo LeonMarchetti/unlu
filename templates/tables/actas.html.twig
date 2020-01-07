@@ -1,0 +1,49 @@
+{% extends "tables/table-paginated.html.twig" %}
+
+{% block table %}
+    <table id="{{table.id}}" class="tablesorter table table-bordered table-hover table-striped" data-sortlist="{{table.sortlist}}">
+        <thead>
+            <tr>
+                <th class="sorter-metatext"
+                    data-column-name="titulo"
+                    data-column-template="#acta-table-column-titulo"
+                    nowrap>
+                        {{ translate("UNLU.CERTIFICATE.TITLE") }} <i class="fa fa-sort"></i>
+                </th>
+                <th class="sorter-metatext"
+                    data-column-name="fecha"
+                    data-column-template="#acta-table-column-fecha"
+                    nowrap>
+                        {{ translate("UNLU.CERTIFICATE.DATE") }} <i class="fa fa-sort"></i>
+                </th>
+                <!-- Ver acta -->
+                <th class="sorter-metatext"
+                    data-column-template="#acta-table-column-ver-acta"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        <i class="fa fa-file-contract"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+{% endblock %}
+
+{% block table_cell_templates %}
+    <script id="acta-table-column-titulo" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.titulo}}' }}">{{ '{{row.titulo}}' }}</td>
+    </script>
+
+    <script id="acta-table-column-fecha" type="text/x-handlebars-template">
+        <td nowrap data-text="{{ '{{row.fecha}}' }}">{{ '{{dateFormat row.fecha format="D/MM/YYYY"}}' }}</td>
+    </script>
+
+    <script id="acta-table-column-ver-acta" type="text/x-handlebars-template">
+        <td nowrap>
+            <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ '{{ row.id }}' }}">
+                <i class="fa fa-file-contract"></i>
+            </button>
+        </td>
+    </script>
+{% endblock %}
