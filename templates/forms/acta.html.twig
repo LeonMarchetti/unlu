@@ -1,0 +1,58 @@
+<form class="js-form" method="{{ form.method | default('POST') }}"
+      action="{{ site.uri.public }}/{{ form.action }}"
+      enctype="multipart/form-data">
+
+    {% include "forms/csrf.html.twig" %}
+    <div class="js-form-alerts"></div>
+
+    <div class="row"> <!-- Título y Fecha -->
+        <div class="col-sm-6"> <!-- Título -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.CERTIFICATE.TITLE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="titulo" autocomplete="off"
+                           value="{{ acta.titulo }}" placeholder="{{ translate("UNLU.CERTIFICATE.TITLE") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6"> <!-- Fecha -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.CERTIFICATE.DATE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="date" class="form-control" name="fecha"
+                           autocomplete="off"
+                           value="{{ acta.fecha | date("Y-m-d") }}"
+                           min="{{ acta.fecha | date("Y-m-d") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>{{ translate("UNLU.CERTIFICATE.FILE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input class="form-control" type="file" name="archivo">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8 col-sm-4">
+            <button type="submit" class="btn btn-block btn-lg btn-success">{{ form.submit_text }}</button>
+        </div>
+        <div class="col-xs-4 col-sm-3 pull-right">
+            <button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">{{ translate("CANCEL") }}</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    <!-- Include validation rules -->
+    {% include "pages/partials/page.js.twig" %}
+</script>

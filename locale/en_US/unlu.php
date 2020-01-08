@@ -12,10 +12,24 @@ return [
         "ACTIVE" => "Active",
         "CERTIFICATE" => [
             "@TRANSLATION" => "Certificate",
-            "ADD" => "Agregar certificate",
-            "DATE" => "Date",
+            "ADD" => [
+                "@TRANSLATION" => "Add certificate",
+                "SUCCESS" => "The certificate was added successfully",
+            ],
+            "DATE" => [
+                "@TRANSLATION" => "Date",
+                "MISSING" => "Date is missing",
+            ],
+            "FILE" => [
+                "@TRANSLATION" => "File",
+                "ERROR" => "Error uploading the file",
+                "MISSING" => "File is missing",
+            ],
             "PLURAL" => "Certificates",
-            "TITLE" => "Title",
+            "TITLE" => [
+                "@TRANSLATION" => "Title",
+                "MISSING" => "Title is missing",
+            ],
         ],
         "DEPENDENCY" => "Dependency",
         "DESCRIPTION" => "Research. Teaching. Extension. National University of Luján",

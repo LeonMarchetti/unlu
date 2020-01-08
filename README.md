@@ -20,6 +20,10 @@ solo `usuario_unlu` al rol *User*.
 * `$ chmod 757 app/cache app/logs app/sessions`
     * Permisos de directorios - El sitio se queja si no tiene permisos de
     escritura.
+* `$ mkdir app/actas`
+    * Crear directorio para almacenar las actas.
+* `# chown http:http app/actas`
+    * Cambiar dueño del directorio de actas para que el servidor lo escriba. Depende del sistema operativo.
 * Agregar datos de `usuario_unlu` para el usuario root.
 * `# chmod 777 app/logs/userfrosting.log`
     * Cambiar permisos para poder editarlo (si es necesario), permitiendo que

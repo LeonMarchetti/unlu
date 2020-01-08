@@ -875,4 +875,85 @@ class UnluController extends SimpleController {
 
         return $response->withJson([], 200);
     }
+
+    public function agregarActa(Request $request, Response $response, $args) {
+        $params = $request->getParsedBody();
+        $archivos = $request->getUploadedFiles();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $error = false;
+
+        if (!isset($data['titulo']) || $data['titulo'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.TITLE.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data['fecha']) || $data['fecha'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.DATE.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($archivos['archivo'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.FILE.MISSING', $data);
+            $error = true;
+        } else {
+            /*  Armo el nombre del archivo con el título y la fecha.
+                Reemplazo los espacios en el título con guión bajo.
+                Reemplazo las barras en la fecha con guiones.
+             */
+            $titulo = str_replace(" ", "_", $data["titulo"]);
+            $data["ubicacion"] = $titulo."_".$data["fecha"].".pdf";
+
+            $archivo = $archivos['archivo'];
+            if ($archivo->getError() !== UPLOAD_ERR_OK) {
+                $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.FILE.ERROR', $data);
+                $error = true;
+            }
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+        /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
+        $filesystem = $this->ci->filesystem;
+
+        Capsule::transaction(function () use ($classMapper, $filesystem, $data, $ms, $currentUser, $archivo) {
+            $filesystem->put("actas/$data[ubicacion]", $archivo->getStream()->getContents());
+
+            $acta = $classMapper->createInstance("acta", $data);
+            $acta->save();
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} added a new certificate {$acta->titulo}.", [
+                'type'    => 'service_create',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.ADD.SUCCESS', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
 }

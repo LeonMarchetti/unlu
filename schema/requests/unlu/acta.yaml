@@ -1,0 +1,21 @@
+---
+titulo:
+    validators:
+        length:
+            label: "&UNLU.CERTIFICATE.TITLE"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.CERTIFICATE.TITLE"
+            message: VALIDATE.REQUIRED
+fecha:
+    validators:
+        length:
+            label: "&UNLU.CERTIFICATE.DATE"
+            min: 1
+            max: 255
+            message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.CERTIFICATE.DATE"
+            message: VALIDATE.REQUIRED

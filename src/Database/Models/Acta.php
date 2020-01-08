@@ -12,6 +12,8 @@ class Acta extends Model {
     protected $table = 'acta';
 
     protected $fillable = [
+        'fecha',
+        'titulo',
         'ubicacion',
     ];
 }

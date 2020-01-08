@@ -12,10 +12,24 @@ return [
         "ACTIVE" => "Activo",
         "CERTIFICATE" => [
             "@TRANSLATION" => "Acta",
-            "ADD" => "Agregar acta",
-            "DATE" => "Fecha",
+            "ADD" => [
+                "@TRANSLATION" => "Agregar acta",
+                "SUCCESS" => "El acta fue agregado con éxito",
+            ],
+            "DATE" => [
+                "@TRANSLATION" => "Fecha",
+                "MISSING" => "Falta la fecha",
+            ],
+            "FILE" => [
+                "@TRANSLATION" => "Archivo",
+                "ERROR" => "Error al subir el archivo",
+                "MISSING" => "Falta el archivo",
+            ],
             "PLURAL" => "Actas",
-            "TITLE" => "Título",
+            "TITLE" => [
+                "@TRANSLATION" => "Título",
+                "MISSING" => "Falta el título",
+            ],
         ],
         "DEPENDENCY" => "Dependencia",
         "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
