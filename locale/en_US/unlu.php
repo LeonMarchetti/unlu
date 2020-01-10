@@ -104,6 +104,7 @@ return [
             ],
             "ADDED" => "Vinculation requested",
             "APPLICANT" => "Applicant user",
+            "ASSIGN" => "Asignar",
             "CERTIFICATE" => "Certificate",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Description",

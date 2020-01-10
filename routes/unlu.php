@@ -31,6 +31,8 @@ $app->group('/modals/unlu', function () {
 
     $this->get('/agregar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:agregarActaModal');
 
+    $this->get('/asignar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:asignarActaModal');
+
     $this->get('/editar-vinculacion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarVinculacionModal');
 })->add('authGuard')->add(new NoCache());
 

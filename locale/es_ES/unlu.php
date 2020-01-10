@@ -104,6 +104,7 @@ return [
             ],
             "ADDED" => "Vinculación solicitada",
             "APPLICANT" => "Usuario solicitante",
+            "ASSIGN" => "Asignar",
             "CERTIFICATE" => "Acta",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Descripción",

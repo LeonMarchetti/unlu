@@ -328,4 +328,24 @@ class UnluModalController extends SimpleController {
             ]
         ]);
     }
+
+    public function asignarActaModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        return $this->ci->view->render($response, 'modals/asignar-acta.html.twig', [
+            "form" => [
+                "action" => "api/unlu/asignar-acta",
+                "method" => "POST"
+            ]
+        ]);
+    }
 }
