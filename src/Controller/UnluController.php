@@ -956,4 +956,71 @@ class UnluController extends SimpleController {
 
         return $response->withJson([], 200);
     }
+
+    public function asignarActa(Request $request, Response $response, $args) {
+        $params = $request->getParsedBody();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        $schema = new RequestSchema('schema://requests/unlu/asignar-acta.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $error = false;
+
+        if (!isset($data['id_acta'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE_ASSIGN.CERTIFICATE_ID.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data['id_vinculacion'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE_ASSIGN.VINCULATION_ID.MISSING', $data);
+            $error = true;
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
+            $id_acta = $data['id_acta'];
+            $id_vinculacion = $data['id_vinculacion'];
+
+            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+            $vinculacion = $this->getObjectFromParams(['id' => $id_vinculacion], "vinculacion");
+            if (!$vinculacion) {
+                throw new NotFoundException($request, $response);
+            }
+
+            $vinculacion->id_acta = $id_acta;
+            $vinculacion->save();
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} assigned a certificate {$id_acta} to vinculation {$id_vinculacion}.", [
+                'type'    => 'certificate_assignment',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE_ASSIGN.SUCCESS', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
 }

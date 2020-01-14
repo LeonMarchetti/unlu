@@ -345,7 +345,8 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/asignar-acta",
                 "method" => "POST"
-            ]
+            ],
+            "id_vinculacion" => $request->getQueryParams()["id"],
         ]);
     }
 }

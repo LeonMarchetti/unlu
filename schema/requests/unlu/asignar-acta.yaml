@@ -1,0 +1,11 @@
+---
+id_acta:
+    validators:
+        integer:
+            label: id
+            message: VALIDATE.INTEGER
+id_vinculacion:
+    validators:
+        integer:
+            label: id
+            message: VALIDATE.INTEGER

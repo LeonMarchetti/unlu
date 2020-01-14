@@ -31,6 +31,15 @@ return [
                 "MISSING" => "Title is missing",
             ],
         ],
+        "CERTIFICATE_ASSIGN" => [
+            "CERTIFICATE_ID" => [
+                "MISSING" => "Certificate not found",
+            ],
+            "SUCCESS" => "Certificate was assigned successfully",
+            "VINCULATION_ID" => [
+                "MISSING" => "Vinculation not found",
+            ],
+        ],
         "DEPENDENCY" => "Dependency",
         "DESCRIPTION" => "Research. Teaching. Extension. National University of Luján",
         "INSTITUTION" => "Institution",

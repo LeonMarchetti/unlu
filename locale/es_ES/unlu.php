@@ -31,6 +31,15 @@ return [
                 "MISSING" => "Falta el título",
             ],
         ],
+        "CERTIFICATE_ASSIGN" => [
+            "CERTIFICATE_ID" => [
+                "MISSING" => "No se encontró el acta",
+            ],
+            "SUCCESS" => "El acta fue asignado exitosamente",
+            "VINCULATION_ID" => [
+                "MISSING" => "No se encontró la vinculación",
+            ],
+        ],
         "DEPENDENCY" => "Dependencia",
         "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
         "INSTITUTION" => "Institución",
