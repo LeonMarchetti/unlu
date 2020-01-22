@@ -9,9 +9,14 @@
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <select id="select-solicitante" class="form-control js-select2" name="id_solicitante" {{ page.visibility }}
                         {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
-                        <option value="">{{ translate("USER") }}</option>
                         {% for usuario in usuarios_activos %}
-                            <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>{{ usuario.user_name }} | {{ usuario.full_name }}</option>
+                            <option value="{{ usuario.id }}"
+                                    {% if usuario.id == current_user.id %}selected{% endif %}
+                                    full-name="{{ usuario.full_name }}"
+                                    user-name="{{ usuario.user_name }}">
+
+                                {{ usuario.full_name }}{{ usuario.user_name }}
+                            </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -136,7 +141,6 @@
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <div id="integrantes">
                         <select id="select-integrante-solicitante" class="form-control js-select2" {{ page.visibility }} disabled>
-                            <option value="">{{ translate("USER") }}</option>
                             {% for usuario in usuarios %}
                                 <option value="{{ usuario.id }}" {% if usuario.id == current_user.id %}selected{% endif %}>
                                     {{ usuario.full_name }}
@@ -147,7 +151,6 @@
                             {% if integrante.id_usuario %}
                                 {% if integrante.id_usuario != current_user.id %}
                                     <select class="form-control js-select2" name="integrantes[]" {{ page.visibility }}>
-                                        <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
                                         {% for usuario in usuarios %}
                                             <option value="{{ usuario.id }}" {% if usuario.id == integrante.id_usuario %}selected{% endif %}>{{ usuario.full_name }}</option>
                                         {% endfor %}
