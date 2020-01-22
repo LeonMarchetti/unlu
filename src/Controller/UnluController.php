@@ -158,6 +158,8 @@ class UnluController extends SimpleController {
                     ];
 
                 } else {
+                    if ($i === "") continue;
+
                     /*  Si $i es una cadena de texto entonces no se trata de un
                         usuario del sistema y entonces ingreso el integrante
                         sin id de usuario. */
