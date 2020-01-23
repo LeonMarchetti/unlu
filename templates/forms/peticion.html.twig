@@ -12,7 +12,7 @@
                            autocomplete="off"
                            value="{{ peticion.fecha_inicio | date("Y-m-d") }}"
                            min="{{ peticion.fecha_inicio | date("Y-m-d") }}"
-                           {% if edicion %}disabled{% endif %} >
+                           {% if edicion %}disabled{% endif %}>
                 </div>
             </div>
         </div>
@@ -33,23 +33,34 @@
         <div class="col-sm-6"> <!-- Servicio -->
             <div class="form-group">
                 <label>{{ translate("UNLU.PETITION.SERVICE") }}</label>
-                <select class="form-control js-select2" name="id_servicio" {{ page.visibility }} {% if edicion %}disabled{% endif %} >
-                    <option value="">{{ translate("UNLU.PETITION.SERVICE") }}</option>
-                    {% for servicio in servicios %}
-                    <option value="{{ servicio.id }}" {% if servicio.id == peticion.id_servicio %}selected="selected"{% endif %}>{{ servicio.denominacion }}</option>
-                    {% endfor %}
-                </select>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <select id="select-servicio" class="form-control js-select2" name="id_servicio" {{ page.visibility }} {% if edicion %}disabled{% endif %} >
+                        {% for servicio in servicios %}
+                            <option value="{{ servicio.id }}"
+                                    {% if servicio.id == peticion.id_servicio %}selected="selected"{% endif %}>
+                                {{ servicio.denominacion }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
         </div>
         <div class="col-sm-6"> <!-- Vinculación -->
             <div class="form-group">
                 <label>{{ translate("UNLU.PETITION.VINCULATION") }}</label>
-                <select class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %} >
-                    <option value="">{{ translate("UNLU.PETITION.VINCULATION.MISSING") }}</option>
-                    {% for vinc in vinculaciones %}
-                        <option value="{{ vinc.id }}" {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>{{ vinc.actividad }}</option>
-                    {% endfor %}
-                </select>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <select id="select-vinculacion" class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %}>
+                        <option value="">{{ translate("UNLU.PETITION.VINCULATION.MISSING") }}</option>
+                        {% for vinc in vinculaciones %}
+                            <option value="{{ vinc.id }}"
+                                    {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>
+                                {{ vinc.actividad }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
                 {% if not edicion %}
                     <p class="help-block">{{ translate("UNLU.PETITION.VINCULATION.HELP") }}</p>
                 {% endif %}
@@ -63,7 +74,9 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <textarea class="form-control" name="descripcion" autocomplete="off"
-                           placeholder="{{ translate("UNLU.PETITION.DESCRIPTION") }}">{{ peticion.descripcion }}</textarea>
+                              placeholder="{{ translate("UNLU.PETITION.DESCRIPTION") }}">
+                        {{ peticion.descripcion }}
+                    </textarea>
                 </div>
             </div>
         </div>
@@ -75,7 +88,9 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <textarea class="form-control" name="observaciones" autocomplete="off"
-                           placeholder="{{ translate("UNLU.PETITION.OBSERVATIONS") }}">{{ peticion.observaciones }}</textarea>
+                              placeholder="{{ translate("UNLU.PETITION.OBSERVATIONS") }}">
+                        {{ peticion.observaciones }}
+                    </textarea>
                 </div>
             </div>
         </div>
@@ -90,7 +105,8 @@
     </div>
 </form>
 
-<!-- Include validation rules -->
-<script>
-    {% include "pages/partials/page.js.twig" %}
-</script>
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+
+    {{ assets.js('js/forms/peticion') | raw }}
+{% endblock %}

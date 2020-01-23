@@ -4,16 +4,15 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                {# <ul>
-                    {% for peticion in peticiones %}
-                    <li>{{ peticion.descripcion }}<br>{{ peticion.servicio }}</li>
-                    {% endfor %}
-                </ul> #}
                 <label>{{ translate("UNLU.PETITION") }}</label>
-                <select class="form-control js-select2" name="id" {{ page.visibility }}>
+                <select id="select-peticion" class="form-control js-select2" name="id" {{ page.visibility }}>
                     {% for peticion in peticiones %}
-                    <option value="{{ peticion.id }}">{{ peticion.descripcion }}</option>
-                    <option disabled>&uarr;{{ peticion.servicio.denominacion }}</option>
+                        <option value="{{ peticion.id }}"
+                                peticion="{{ peticion.descripcion }}"
+                                servicio="{{ peticion.servicio.denominacion }}">
+
+                            {{ peticion.descripcion }}{{ peticion.servicio.denominacion }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
@@ -28,3 +27,7 @@
         </div>
     </div>
 </form>
+
+{% block scripts_page %}
+    {{ assets.js('js/forms/baja-solicitud') | raw }}
+{% endblock %}
