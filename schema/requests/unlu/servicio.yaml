@@ -9,6 +9,14 @@ denominacion:
         required:
             label: "&UNLU.SERVICE.DENOMINATION"
             message: VALIDATE.REQUIRED
+necesita_acta:
+    validators:
+        boolean:
+            label: "&UNLU.SERVICE.CERTIFICATE_NEEDED"
+            message: VALIDATE.BOOLEAN
+        required:
+            label: "&UNLU.SERVICE.CERTIFICATE_NEEDED"
+            message: VALIDATE.REQUIRED
 observaciones:
     validators:
         length:

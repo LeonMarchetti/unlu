@@ -91,6 +91,10 @@ return [
                 "@TRANSLATION" => "Add service",
                 "SUCCESS" => "The service <b>{{denominacion}}</b> was added successfully",
             ],
+            "CERTIFICATE_NEEDED" => [
+                "@TRANSLATION" => "Certificate needed?",
+                "MISSING" => "Indicating if certificate is needed is missing",
+            ],
             "DELETE" => [
                 "@TRANSLATION" => "Delete",
                 "CONFIRM" => "Are you sure you want to delete the service <b>{{denominacion}}</b>?",

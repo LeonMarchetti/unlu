@@ -2,14 +2,25 @@
     {% include "forms/csrf.html.twig" %}
     <div class="js-form-alerts"></div>
 
-    <div class="row">
-        <div class="col-sm-12">
+    <div class="row"> <!-- Denominación y acta -->
+        <div class="col-sm-8"> <!-- Denominación -->
             <div class="form-group">
                 <label>{{ translate("UNLU.SERVICE.DENOMINATION") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="denominacion" autocomplete="off"
                            value="{{ servicio.denominacion }}" placeholder="{{ translate("UNLU.SERVICE.DENOMINATION") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4"> <!-- Acta -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.SERVICE.CERTIFICATE_NEEDED") }}</label>
+                <div class="form-check">
+                    <label>
+                        <input type="checkbox" class="form-check-input" name="necesita_acta"
+                               {%if servicio.necesita_acta %}checked{% endif %} />
+                    </label>
                 </div>
             </div>
         </div>

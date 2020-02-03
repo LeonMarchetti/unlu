@@ -91,6 +91,10 @@ return [
                 "@TRANSLATION" => "Agregar servicio",
                 "SUCCESS" => "El servicio <b>{{denominacion}}</b> fue agregado exitosamente",
             ],
+            "CERTIFICATE_NEEDED" => [
+                "@TRANSLATION" => "¿Necesita acta?",
+                "MISSING" => "Falta indicar si se necesita el acta",
+            ],
             "DELETE" => [
                 "@TRANSLATION" => "Eliminar",
                 "CONFIRM" => "¿Está seguro de eliminar el servicio <b>{{denominacion}}</b>?",

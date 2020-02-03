@@ -14,6 +14,7 @@ class Servicio extends Model
 
     protected $fillable = [
         'denominacion',
+        'necesita_acta',
         'observaciones'
     ];
 }

@@ -446,6 +446,11 @@ class UnluController extends SimpleController {
             $error = true;
         }
 
+        if (!isset($data['necesita_acta'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.SERVICE.CERTIFICATE_NEEDED.MISSING', $data);
+            $error = true;
+        }
+
         if ($error) {
             return $response->withJson([], 400);
         }
@@ -509,6 +514,11 @@ class UnluController extends SimpleController {
             $error = true;
         }
 
+        if (!isset($data['necesita_acta'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.SERVICE.CERTIFICATE_NEEDED.MISSING', $data);
+            $error = true;
+        }
+
         if ($error) {
             return $response->withJson([], 400);
         }
@@ -518,6 +528,7 @@ class UnluController extends SimpleController {
         // Begin transaction - DB will be rolled back if an exception occurs
         Capsule::transaction(function () use ($classMapper, $data, $servicio, $currentUser) {
             $servicio->denominacion = $data["denominacion"];
+            $servicio->necesita_acta = $data["necesita_acta"];
             $servicio->observaciones = $data["observaciones"];
             $servicio->save();
 

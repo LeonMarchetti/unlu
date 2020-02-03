@@ -19,6 +19,13 @@
                     nowrap>
                         {{ translate("UNLU.SERVICE.OBSERVATIONS") }}</i>
                 </th>
+                <th class="sorter-metatext"
+                    data-column-name="necesita_acta"
+                    data-column-template="#service-table-column-necesita_acta"
+                    data-priority="1"
+                    data-filter="false">
+                        {{ translate("UNLU.SERVICE.CERTIFICATE_NEEDED") }} <i class="fa fa-sort"></i>
+                </th>
                 <th data-column-name="acciones"
                     data-column-template="#service-table-column-actions"
                     data-sorter="false"
@@ -40,6 +47,16 @@
 
     <script id="service-table-column-observations" type="text/x-handlebars-template">
         <td data-text="{{ '{{row.observaciones}}' }}">{{ '{{row.observaciones}}' }}</td>
+    </script>
+
+    <script id="service-table-column-necesita_acta" type="text/x-handlebars-template">
+        <td style="text-align: center">
+            {{ '{{#if row.necesita_acta}}' }}
+                <span>{{ translate("YES") }}</span>
+            {{ '{{else}}' }}
+                <span>{{ translate("No") }}</span>
+            {{ '{{/if}}' }}
+        </td>
     </script>
 
     <script id="service-table-column-actions" type="text/x-handlebars-template">

@@ -10,7 +10,8 @@ class ServicioSprunje extends Sprunje {
     protected $name = 'servicios';
 
     protected $sortable = [
-        "denominacion"
+        "denominacion",
+        "necesita_acta"
     ];
 
     protected $filterable = [
