@@ -54,13 +54,12 @@
     <div class="row"><!-- Vinculaciones -->
         <div class="col-sm-12">
             <div id="tablaVinculaciones" class="box box-info">
-                <div class="box-header with-border">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#tablaVinculacionesBody" aria-expanded="true" aria-controls="collapseOne">
                     <h3>{{ translate("UNLU.VINCULATION.PLURAL") }}</h3>
-                </div>
-                <div class="box-body no-padding" style="overflow-x: scroll">
+                </button>
+                <div id="tablaVinculacionesBody" class="box-body no-padding accordion-body collapse in" style="overflow-x: scroll">
                     {% include "tables/vinculaciones.html.twig" with
-                        { "table": { "id": "tabla-vinculaciones" } }
-                    %}
+                        { "table": { "id": "tabla-vinculaciones" } } %}
                 </div>
             </div>
         </div>
@@ -70,18 +69,19 @@
         <div class="row">
             <div class="col-sm-12">
                 <div id="tablaServicios" class="box box-info">
-                    <div class="box-header with-border">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#tablaServiciosBody" aria-expanded="true" aria-controls="collapseOne">
                         <h3>{{ translate("UNLU.SERVICE.PLURAL") }}</h3>
-                    </div>
-                    <div class="box-body no-padding">
-                        {% include "tables/servicios.html.twig" with
-                            { "table": { "id": "tabla-servicios" } }
-                        %}
-                    </div>
-                    <div class="box-footer">
-                        <button type="button" class="btn btn-success agregar-servicio">
-                            <i class="fas fa-plus-square"></i> {{ translate("UNLU.SERVICE.ADD") }}
-                        </button>
+                    </button>
+                    <div id="tablaServiciosBody" class="accordion-body collapse in">
+                        <div class="box-body no-padding">
+                            {% include "tables/servicios.html.twig" with
+                                { "table": { "id": "tabla-servicios" } } %}
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success agregar-servicio">
+                                <i class="fas fa-plus-square"></i> {{ translate("UNLU.SERVICE.ADD") }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,13 +91,12 @@
     <div class="row"> <!-- Peticiones -->
         <div class="col-sm-12">
             <div id="tablaPeticiones" class="box box-info">
-                <div class="box-header with-border">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#tablaPeticionesBody" aria-expanded="true" aria-controls="collapseOne">
                     <h3>{{ translate("UNLU.PETITION") }}</h3>
-                </div>
-                <div class="box-body no-padding" style="overflow-x: scroll">
+                </button>
+                <div id="tablaPeticionesBody" class="box-body no-padding accordion-body collapse in" style="overflow-x: scroll">
                     {% include "tables/peticiones.html.twig" with
-                        { "table": { "id": "tabla-peticiones" } }
-                    %}
+                        { "table": { "id": "tabla-peticiones" } } %}
                 </div>
             </div>
         </div>
@@ -107,18 +106,19 @@
         <div class="row">
             <div class="col-sm-12">
                 <div id="tablaActas" class="box box-info">
-                    <div class="box-header with-border">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#tablaActasBody" aria-expanded="true" aria-controls="collapseOne">
                         <h3>{{ translate("UNLU.CERTIFICATE.PLURAL") }}</h3>
-                    </div>
-                    <div class="box-body no-padding">
-                        {% include "tables/actas.html.twig" with
-                            { "table": { "id": "tabla-actas" } }
-                        %}
-                    </div>
-                    <div class="box-footer">
-                        <button type="button" class="btn btn-success agregar-acta">
-                            <i class="fas fa-plus-square"></i> {{ translate("UNLU.CERTIFICATE.ADD") }}
-                        </button>
+                    </button>
+                    <div id="tablaActasBody" class="accordion-body collapse in">
+                        <div class="box-body no-padding">
+                            {% include "tables/actas.html.twig" with
+                                { "table": { "id": "tabla-actas" } } %}
+                        </div>
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-success agregar-acta">
+                                <i class="fas fa-plus-square"></i> {{ translate("UNLU.CERTIFICATE.ADD") }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
