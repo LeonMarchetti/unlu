@@ -349,4 +349,26 @@ class UnluModalController extends SimpleController {
             "id_vinculacion" => $request->getQueryParams()["id"],
         ]);
     }
+
+    public function asignarActaPeticionModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        return $this->ci->view->render($response, 'modals/asignar-acta-peticion.html.twig', [
+            "form" => [
+                "action" => "api/unlu/as",
+                "method" => "POST",
+                "submit_text" => "Asignar"
+            ],
+            "id_peticion" => $request->getQueryParams()["id"],
+        ]);
+    }
 }

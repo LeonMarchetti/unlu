@@ -48,6 +48,20 @@ return [
             "ADDED" => "The petition was requested succesfully",
             "APPROVE" => "Approve",
             "APPROVED" => "Approved",
+            "CERTIFICATE" => [
+                "@TRANSLATION" => "Certificate",
+                "ASSIGN" => [
+                    "@TRANSLATION" => "Assign certificate",
+                    "SUCCESS" => "The certificate was assigned to the petition successfully",
+                ],
+                "FILE" => [
+                    "@TRANSLATION" => "File",
+                    "ERROR" => "Error uploading the file",
+                    "MISSING" => "File is missing",
+                ],
+                "NEEDED" => "This service requires filling a form for the petition to be approved.",
+                "PETITION_MISSING" => "Petition's id to assign is missing",
+            ],
             "DELETE_SUCCESSFUL" => "The petition was deleted successfully",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Description",
@@ -60,6 +74,7 @@ return [
                 "BEFORE" => "The end date occurs before the start date",
                 "MISSING" => "End date is missing"
             ],
+            "HELP" => "<i class=\"fa fa-times\"></i> in Certificate column means the petition doesn't need a certificate.",
             "OBSERVATIONS" => "Observations",
             "SERVICE" => [
                 "@TRANSLATION" => "Service",

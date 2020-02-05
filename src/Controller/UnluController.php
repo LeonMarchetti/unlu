@@ -1036,4 +1036,111 @@ class UnluController extends SimpleController {
 
         return $response->withJson([], 200);
     }
+
+    public function getActaServicio(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        return $response->write($this->ci->filesystem->get("actas-peticiones/$args[ubicacion]"))
+                        ->withHeader('Content-type', 'application/pdf')
+                        ->withStatus(200);
+    }
+
+    public function asignarActaPeticion(Request $request, Response $response, $args) {
+        $params = $request->getParsedBody();
+        $archivos = $request->getUploadedFiles();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
+        $filesystem = $this->ci->filesystem;
+        $directorio = "actas-peticiones";
+
+        $schema = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $error = false;
+
+        if (!isset($data['id_peticion'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.CERTIFICATE.PETITION_MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($archivos['archivo'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.PETITION.CERTIFICATE.FILE.MISSING', $data);
+            $error = true;
+        } else {
+            $archivo = $archivos['archivo'];
+            if ($archivo->getError() !== UPLOAD_ERR_OK) {
+                $ms->addMessageTranslated('danger', 'UNLU.PETITION.CERTIFICATE.FILE.ERROR', $data);
+                $error = true;
+            }
+
+            /*  Determino el nombre del archivo para almacenarlo en le servidor.
+                Si ya existe un archivo con ese nombre entonces lo modifico
+                agregándole un número atrás. */
+            $nombre_base = pathinfo($archivo->getClientFilename(), PATHINFO_FILENAME);
+            $ext = pathinfo($archivo->getClientFilename(), PATHINFO_EXTENSION);
+            $nombre_archivo = $nombre_base.".pdf";
+            $i = 1;
+            while ($filesystem->exists("$directorio/$nombre_archivo")) {
+                $indice = sprintf("%04d", $i++);
+                $nombre_archivo = $nombre_base.".".$indice.".".$ext;
+            }
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        Capsule::transaction(function () use ($classMapper, $filesystem, $ms, $currentUser, $data, $archivo, $nombre_archivo) {
+            $filesystem->put("actas-peticiones/$nombre_archivo", $archivo->getStream()->getContents());
+
+            $id_peticion = $data["id_peticion"];
+
+            $peticion = $this->getObjectFromParams(['id' => $id_peticion], "peticion");
+            if (!$peticion) {
+                throw new NotFoundException($request, $response);
+            }
+
+            $peticion->ubicacion = $nombre_archivo;
+            $peticion->save();
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} added a new certificate {$nombre_archivo} to petition {$id_peticion}.", [
+                'type'    => 'petition_certificate_assign',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.PETITION.CERTIFICATE.ASSIGN.SUCCESS', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
 }

@@ -1,7 +1,6 @@
 <form class="js-form" method="{{ form.method | default('POST') }}" action="{{ site.uri.public }}/{{ form.action }}">
     {% include "forms/csrf.html.twig" %}
-    <div class="js-form-alerts">
-    </div>
+    <div class="js-form-alerts"></div>
     <div class="row"> <!-- Fecha Inicio + Fin -->
         <div class="col-sm-6"> <!-- Fecha Inicio -->
             <div class="form-group">
@@ -38,12 +37,14 @@
                     <select id="select-servicio" class="form-control js-select2" name="id_servicio" {{ page.visibility }} {% if edicion %}disabled{% endif %} >
                         {% for servicio in servicios %}
                             <option value="{{ servicio.id }}"
+                                    necesita-acta="{{ servicio.necesita_acta }}"
                                     {% if servicio.id == peticion.id_servicio %}selected="selected"{% endif %}>
                                 {{ servicio.denominacion }}
                             </option>
                         {% endfor %}
                     </select>
                 </div>
+                <p id="ayuda-acta-servicio" class="help-block">{{ translate("UNLU.PETITION.CERTIFICATE.NEEDED") }}</p>
             </div>
         </div>
         <div class="col-sm-6"> <!-- Vinculación -->
@@ -74,9 +75,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <textarea class="form-control" name="descripcion" autocomplete="off"
-                              placeholder="{{ translate("UNLU.PETITION.DESCRIPTION") }}">
-                        {{ peticion.descripcion }}
-                    </textarea>
+                              placeholder="{{ translate("UNLU.PETITION.DESCRIPTION") }}">{{ peticion.descripcion }}</textarea>
                 </div>
             </div>
         </div>
@@ -88,9 +87,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <textarea class="form-control" name="observaciones" autocomplete="off"
-                              placeholder="{{ translate("UNLU.PETITION.OBSERVATIONS") }}">
-                        {{ peticion.observaciones }}
-                    </textarea>
+                              placeholder="{{ translate("UNLU.PETITION.OBSERVATIONS") }}">{{ peticion.observaciones }}</textarea>
                 </div>
             </div>
         </div>

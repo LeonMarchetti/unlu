@@ -48,6 +48,20 @@ return [
             "ADDED" => "La petición fue solicitada exitosamente",
             "APPROVE" => "Aprobar",
             "APPROVED" => "Aprobada",
+            "CERTIFICATE" => [
+                "@TRANSLATION" => "Acta",
+                "ASSIGN" => [
+                    "@TRANSLATION" => "Asignar acta",
+                    "SUCCESS" => "El acta fue asignado a la petición exitosamente",
+                ],
+                "FILE" => [
+                    "@TRANSLATION" => "Archivo",
+                    "ERROR" => "Error al subir el archivo",
+                    "MISSING" => "Falta el archivo",
+                ],
+                "NEEDED" => "Este servicio requiere llenar un formulario para su aprobación",
+                "PETITION_MISSING" => "Falta el id de la petición a asignar",
+            ],
             "DELETE_SUCCESSFUL" => "La petición fue borrada exitosamente",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Descripción",
@@ -60,6 +74,7 @@ return [
                 "BEFORE" => "La fecha de finalización no puede ser anterior a la fecha de inicio",
                 "MISSING" => "Falta la fecha de finalización"
             ],
+            "HELP" => "<i class=\"fa fa-times\"></i> en la columna Acta significa que la petición no necesita un acta.",
             "OBSERVATIONS" => "Observaciones",
             "SERVICE" => [
                 "@TRANSLATION" => "Servicio",

@@ -211,6 +211,25 @@ $(function() {
 
             attachRenderSuccessUfModal();
         });
+
+        $(this).find(".ver-acta-servicio").click(function(e) {
+            e.preventDefault();
+            window.open(`${site.uri.public}/api/unlu/as/${$(this).data('ubicacion')}`, "_blank");
+        });
+
+        $(this).find(".asignar-acta").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/asignar-acta-peticion",
+                ajaxParams: {
+                    id: $(this).data('id'), // id de la petición
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
+        });
     });
 
     // Tabla de Actas ==========================================================

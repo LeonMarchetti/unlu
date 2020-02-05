@@ -53,6 +53,14 @@
                         {{ translate("UNLU.PETITION.APPROVED") }} <i class="fa fa-sort"></i>
                 </th>
                 <th class="sorter-metatext"
+                    data-column-name="acta"
+                    data-column-template="#peticion-table-column-acta"
+                    data-filter="false"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.PETITION.CERTIFICATE") }}
+                </th>
+                <th class="sorter-metatext"
                     data-column-name="descripcion"
                     data-column-template="#peticion-table-column-descripcion"
                     data-sorter="false"
@@ -98,7 +106,13 @@
     </script>
 
     <script id="peticion-table-column-vinculacion" type="text/x-handlebars-template">
-        <td nowrap data-text="{{ '{{row.vinculacion.actividad}}' }}">{{ '{{row.vinculacion.actividad}}' }}</td>
+        <td nowrap data-text="{{ '{{row.vinculacion.actividad}}' }}">
+            {{ '{{#if row.vinculacion}}' }}
+                <span>{{ '{{row.vinculacion.actividad}}' }}</span>
+            {{ '{{else}}' }}
+                <span><i class="fa fa-minus"></i></span>
+            {{ '{{/if}}' }}
+        </td>
     </script>
 
     <script id="peticion-table-column-servicio" type="text/x-handlebars-template">
@@ -106,12 +120,28 @@
     </script>
 
     <script id="peticion-table-column-aprobada" type="text/x-handlebars-template">
-        <td>
+        <td style="text-align: center">
             {{ '{{#if row.aprobada}}' }}
-                <i class="fas fa-check"></i>
+                <span><i class="fas fa-check"></i></span>
             {{ '{{/if}}' }}
         </td>
     </script>
+
+    <script id="peticion-table-column-acta" type="text/x-handlebars-template">
+        <td style="text-align: center">
+            {{ '{{#if row.servicio.necesita_acta}}' }}
+                {{ '{{#if row.ubicacion }}' }}
+                    <button type="button" class="btn btn-lg btn-primary ver-acta-servicio"
+                            data-ubicacion="{{ '{{ row.ubicacion }}' }}">
+                        <i class="fa fa-file-contract"></i>
+                    </button>
+                {{ '{{/if}}' }}
+            {{ '{{else}}' }}
+                <span><i class="fas fa-times"></i></span>
+            {{ '{{/if}}' }}
+        </td>
+    </script>
+
     <script id="peticion-table-column-descripcion" type="text/x-handlebars-template">
         <td><textarea readonly>{{ '{{row.descripcion}}' }}</textarea></td>
     </script>
@@ -135,6 +165,13 @@
                     <a href="#" class="editar-peticion" data-id="{{ '{{row.id}}' }}">
                         <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                     </a>
+                    {{ '{{#if row.servicio.necesita_acta}}' }}
+                        {{ '{{#unless row.ubicacion}}' }}
+                            <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
+                                <i class="fas fa-file-contract"></i> {{ translate("UNLU.PETITION.CERTIFICATE.ASSIGN") }}
+                            </a>
+                        {{ '{{/unless}}' }}
+                    {{ '{{/if}}' }}
                 </div>
             </div>
         </td>

@@ -1,0 +1,6 @@
+---
+id_peticion:
+    validators:
+        integer:
+            label: id
+            message: VALIDATE.INTEGER

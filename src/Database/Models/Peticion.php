@@ -20,7 +20,8 @@ class Peticion extends Model
         'id_usuario',
         'id_vinculacion',
         'id_servicio',
-        'aprobada'
+        'aprobada',
+        'ubicacion'
     ];
 
     public function servicio() {
