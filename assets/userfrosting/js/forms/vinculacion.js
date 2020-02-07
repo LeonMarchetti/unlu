@@ -13,6 +13,7 @@ $(function() {
     /*  Si se cambia el solicitante entonces automáticamente se lo selecciona
         como integrante. */
     $("#select-solicitante").on("change", function() {
+        $("#input-responsable").val($("option:selected", this).attr("full-name"));
         $("#select-integrante-solicitante").val($("#select-solicitante").val());
     });
 
