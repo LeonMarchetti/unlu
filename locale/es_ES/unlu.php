@@ -4,8 +4,10 @@ return [
     "UNLU" => [
         "@TRANSLATION" => "CIDETIC",
         "ACTIONS" => [
+            "ADD" => "Agregar",
             "DELETE_REQUEST" => "Baja Solicitud",
             "DENIED" => "No estás habilitado todavía para realizar acciones en el sistema. Consulte con el administrador.",
+            "REQUEST" => "Solicitar",
             "REQUEST_SERVICE" => "Solicitar Servicio",
             "REQUEST_VINCULATION" => "Solicitar Vinculación",
         ],
@@ -49,6 +51,7 @@ return [
             "APPROVE" => "Aprobar",
             "APPROVE_PETITION" => "Aprobar petición",
             "APPROVED" => "Aprobada",
+            "ASSIGN" => "Asignar",
             "CERTIFICATE" => [
                 "@TRANSLATION" => "Acta",
                 "ASSIGN" => [

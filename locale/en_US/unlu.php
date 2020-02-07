@@ -4,8 +4,10 @@ return [
     "UNLU" => [
         "@TRANSLATION" => "CIDETIC",
         "ACTIONS" => [
+            "ADD" => "Add",
             "DELETE_REQUEST" => "Delete Request",
             "DENIED" => "You are not enabled yet to perform actions in the system. Check with the administrator.",
+            "REQUEST" => "Solicitar",
             "REQUEST_SERVICE" => "Request Service",
             "REQUEST_VINCULATION" => "Request Vinculation",
         ],
@@ -49,6 +51,7 @@ return [
             "APPROVE" => "Approve",
             "APPROVE_PETITION" => "Approve petition",
             "APPROVED" => "Approved",
+            "ASSIGN" => "Assign",
             "CERTIFICATE" => [
                 "@TRANSLATION" => "Certificate",
                 "ASSIGN" => [

@@ -54,7 +54,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu",
                 "method" => "POST",
-                "submit_text" => "Solicitar"
+                "submit_text" => $this->ci->translator->translate("UNLU.ACTIONS.REQUEST")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
@@ -91,7 +91,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/peticion",
                 "method" => "POST",
-                "submit_text" => "Solicitar"
+                "submit_text" => $this->ci->translator->translate("UNLU.ACTIONS.REQUEST")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION"),
@@ -119,7 +119,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/baja-solicitud",
                 "method" => "POST",
-                "submit_text" => "Borrar"
+                "submit_text" => $this->ci->translator->translate("DELETE")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.DOWN"),
@@ -183,9 +183,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
         /*  Como origen de datos del select creo una lista con solamente la
             vinculación y el servicio a las que está asignada la petición (ya
             que comparto el formulario con "Solicitar Servicio").
@@ -209,7 +206,7 @@ class UnluModalController extends SimpleController {
             'form' => [
                 'action' => "api/unlu/p/{$peticion->id}",
                 "method" => "POST",
-                "submit_text" => "Actualizar"
+                "submit_text" => $this->ci->translator->translate("UPDATE")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION"),
@@ -234,7 +231,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/s",
                 "method" => "POST",
-                "submit_text" => "Agregar"
+                "submit_text" => $this->ci->translator->translate("UNLU.ACTIONS.ADD")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE"),
@@ -266,7 +263,7 @@ class UnluModalController extends SimpleController {
             'form' => [
                 'action' => "api/unlu/s/{$servicio->id}",
                 "method" => "POST",
-                "submit_text" => "Actualizar"
+                "submit_text" => $this->ci->translator->translate("UPDATE")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE"),
@@ -294,6 +291,8 @@ class UnluModalController extends SimpleController {
             'servicio' => $servicio,
             'form' => [
                 'action' => "api/unlu/s/{$servicio->id}",
+                'method' => "DELETE",
+                'submit_text' => $this->ci->translator->translate("DELETE")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE.DELETE"),
@@ -333,7 +332,7 @@ class UnluModalController extends SimpleController {
             'form' => [
                 'action' => "api/unlu/v/{$vinculacion->id}",
                 "method" => "POST",
-                "submit_text" => "Actualizar",
+                "submit_text" => $this->ci->translator->translate("UPDATE")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
@@ -358,7 +357,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/a",
                 "method" => "POST",
-                "submit_text" => "Agregar"
+                "submit_text" => $this->ci->translator->translate("UNLU.ACTIONS.ADD")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.CERTIFICATE"),
@@ -409,7 +408,7 @@ class UnluModalController extends SimpleController {
             "form" => [
                 "action" => "api/unlu/as",
                 "method" => "POST",
-                "submit_text" => "Asignar"
+                "submit_text" => $this->ci->translator->translate("UNLU.PETITION.ASSIGN")
             ],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.CERTIFICATE.ASSIGN"),
