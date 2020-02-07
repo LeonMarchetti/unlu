@@ -1,0 +1,19 @@
+<form class="js-form" method="{{ form.method }}" action="{{ site.uri.public }}/{{ form.action }}">
+    {% include "forms/csrf.html.twig" %}
+    <div class="js-form-alerts"></div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="tablaAsignarActa">
+                {% include "tables/asignar-acta.html.twig" with
+                    { "table": { "id": "tabla-asignar-actas" } } %}
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="id_vinculacion" value="{{ id_vinculacion }}">
+</form>
+
+<script>
+    {% include 'forms/js/asignar-acta.js.twig' %}
+</script>

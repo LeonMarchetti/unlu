@@ -47,6 +47,7 @@ return [
             "@TRANSLATION" => "Peticiones",
             "ADDED" => "La petición fue solicitada exitosamente",
             "APPROVE" => "Aprobar",
+            "APPROVE_PETITION" => "Aprobar petición",
             "APPROVED" => "Aprobada",
             "CERTIFICATE" => [
                 "@TRANSLATION" => "Acta",
@@ -89,7 +90,8 @@ return [
             "VINCULATION" => [
                 "@TRANSLATION" => "Vinculación",
                 "HELP" => "No es obligatorio que esté vinculado a una vinculación",
-                "MISSING" => "Sin vinculación"
+                "MISSING" => "Sin vinculación",
+                "NONE" => "Ninguna",
             ],
         ],
         "PHONE" => [

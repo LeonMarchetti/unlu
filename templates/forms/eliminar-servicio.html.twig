@@ -1,8 +1,3 @@
-{% extends "modals/modal.html.twig" %}
-
-{% block modal_title %}{{ translate("UNLU.SERVICE.DELETE") }}{% endblock %}
-
-{% block modal_body %}
 <form class="js-form" method="delete" action="{{site.uri.public}}/{{form.action}}">
     {% include "forms/csrf.html.twig" %}
     <div class="js-form-alerts"></div>
@@ -16,4 +11,3 @@
         <button type="button" class="btn btn-default btn-lg btn-block" data-dismiss="modal">{{ translate("CANCEL") }}</button>
     </div>
 </form>
-{% endblock %}

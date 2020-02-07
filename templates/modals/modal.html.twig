@@ -1,0 +1,7 @@
+{% extends "@core/modals/modal.html.twig" %}
+
+{% block modal_title %}{{ modal.title }}{% endblock %}
+
+{% block modal_body %}
+    {% include "forms/" ~ modal.form %}
+{% endblock %}

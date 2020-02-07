@@ -46,7 +46,7 @@ class UnluModalController extends SimpleController {
         $usuarios = Usuario::all();
         $usuarios_activos = Usuario::where("activo", true)->get();
 
-        return $this->ci->view->render($response, 'modals/vinculacion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "vinculacion" => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
             "usuarios" => $usuarios,
@@ -55,6 +55,10 @@ class UnluModalController extends SimpleController {
                 "action" => "api/unlu",
                 "method" => "POST",
                 "submit_text" => "Solicitar"
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
+                "form" => "vinculacion.html.twig"
             ]
         ]);
     }
@@ -81,13 +85,17 @@ class UnluModalController extends SimpleController {
             $vinculaciones = $currentUser->vinculaciones;
         }
 
-        return $this->ci->view->render($response, 'modals/peticion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "servicios" => $servicios,
             "vinculaciones" => $vinculaciones,
             "form" => [
                 "action" => "api/unlu/peticion",
                 "method" => "POST",
                 "submit_text" => "Solicitar"
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.PETITION"),
+                "form" => "peticion.html.twig"
             ]
         ]);
     }
@@ -106,12 +114,16 @@ class UnluModalController extends SimpleController {
 
         $peticiones = Peticion::all();
 
-        return $this->ci->view->render($response, 'modals/baja-solicitud.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "peticiones" => $peticiones,
             "form" => [
                 "action" => "api/unlu/baja-solicitud",
                 "method" => "POST",
                 "submit_text" => "Borrar"
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.PETITION.DOWN"),
+                "form" => "baja-solicitud.html.twig"
             ]
         ]);
     }
@@ -137,14 +149,16 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
-        return $this->ci->view->render($response, 'modals/aprobar-peticion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'peticion' => $peticion,
             'form' => [
                 'action' => "api/unlu/p/{$peticion->id}",
+                "submit_text" => $this->ci->translator->translate("UNLU.PETITION.APPROVE")
             ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.PETITION.APPROVE_PETITION"),
+                "form" => "aprobar-peticion.html.twig"
+            ]
         ]);
     }
 
@@ -187,7 +201,7 @@ class UnluModalController extends SimpleController {
             para editar la descripción y las observaciones con esta opción in-
             dico que se deshabiliten los demás controles.
         */
-        return $this->ci->view->render($response, 'modals/editar-peticion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "edicion" => true,
             'peticion' => $peticion,
             "servicios" => $servicios,
@@ -197,6 +211,10 @@ class UnluModalController extends SimpleController {
                 "method" => "POST",
                 "submit_text" => "Actualizar"
             ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.PETITION"),
+                "form" => "peticion.html.twig"
+            ]
         ]);
     }
 
@@ -212,11 +230,15 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/servicio.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "form" => [
                 "action" => "api/unlu/s",
                 "method" => "POST",
                 "submit_text" => "Agregar"
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.SERVICE"),
+                "form" => "servicio.html.twig"
             ]
         ]);
     }
@@ -239,13 +261,17 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/servicio.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "servicio" => $servicio,
             'form' => [
                 'action' => "api/unlu/s/{$servicio->id}",
                 "method" => "POST",
                 "submit_text" => "Actualizar"
             ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.SERVICE"),
+                "form" => "servicio.html.twig"
+            ]
         ]);
     }
 
@@ -264,11 +290,15 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/eliminar-servicio.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'servicio' => $servicio,
             'form' => [
                 'action' => "api/unlu/s/{$servicio->id}",
             ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.SERVICE.DELETE"),
+                "form" => "eliminar-servicio.html.twig"
+            ]
         ]);
     }
 
@@ -294,7 +324,7 @@ class UnluModalController extends SimpleController {
         $usuarios = Usuario::all();
         $usuarios_activos = Usuario::where("activo", true)->get();
 
-        return $this->ci->view->render($response, 'modals/vinculacion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'vinculacion' => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
             "usuarios" => $usuarios,
@@ -305,6 +335,10 @@ class UnluModalController extends SimpleController {
                 "method" => "POST",
                 "submit_text" => "Actualizar",
             ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
+                "form" => "vinculacion.html.twig"
+            ]
         ]);
     }
 
@@ -320,11 +354,15 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/acta.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "form" => [
                 "action" => "api/unlu/a",
                 "method" => "POST",
                 "submit_text" => "Agregar"
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE"),
+                "form" => "acta.html.twig"
             ]
         ]);
     }
@@ -341,12 +379,16 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/asignar-acta.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
+            "id_vinculacion" => $request->getQueryParams()["id"],
             "form" => [
                 "action" => "api/unlu/asignar-acta",
                 "method" => "POST"
             ],
-            "id_vinculacion" => $request->getQueryParams()["id"],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.PLURAL"),
+                "form" => "asignar-acta.html.twig"
+            ]
         ]);
     }
 
@@ -362,13 +404,17 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $this->ci->view->render($response, 'modals/asignar-acta-peticion.html.twig', [
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
+            "id_peticion" => $request->getQueryParams()["id"],
             "form" => [
                 "action" => "api/unlu/as",
                 "method" => "POST",
                 "submit_text" => "Asignar"
             ],
-            "id_peticion" => $request->getQueryParams()["id"],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.PETITION.CERTIFICATE.ASSIGN"),
+                "form" => "asignar-acta-peticion.html.twig"
+            ]
         ]);
     }
 }
