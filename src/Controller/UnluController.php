@@ -40,7 +40,6 @@ class UnluController extends SimpleController {
     }
 
     public function solicitarVinculacion(Request $request, Response $response, $args) {
-        // Get POST parameters: user_name, first_name, last_name, email, locale, (group)
         $params = $request->getParsedBody();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -48,9 +47,6 @@ class UnluController extends SimpleController {
 
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
-
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
@@ -132,16 +128,15 @@ class UnluController extends SimpleController {
 
         // Integrantes
         $integrantes = $data["integrantes"];
-        $integrantes[] = $data["id_solicitante"]; // Agregar usuario solicitante como integrante
 
         if ($error) {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser, $integrantes) {
-
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser, $integrantes) {
             $vinculacion = $classMapper->createInstance("vinculacion", $data);
             $vinculacion->save();
             /*  $vinculacion->id tiene el id generado para esta instancia, si
@@ -265,10 +260,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser) {
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
             $peticion = $classMapper->createInstance("peticion", $data);
             $peticion->save();
 
@@ -303,9 +295,6 @@ class UnluController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
         // Begin transaction - DB will be rolled back if an exception occurs
         Capsule::transaction(function () use ($peticion, $currentUser) {
             $peticion->delete();
@@ -334,9 +323,6 @@ class UnluController extends SimpleController {
         if (!$peticion) {
             throw new NotFoundException($request, $response);
         }
-
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
 
         // Get PUT parameters
         $params = $request->getParsedBody();
@@ -457,10 +443,7 @@ class UnluController extends SimpleController {
 
         $classMapper = $this->ci->classMapper;
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser) {
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
             $servicio = $classMapper->createInstance("servicio", $data);
             $servicio->save();
 
@@ -725,9 +708,6 @@ class UnluController extends SimpleController {
             throw new NotFoundException($request, $response);
         }
 
-        /** @var \UserFrosting\Support\Repository\Repository $config */
-        $config = $this->ci->config;
-
         // Get PUT parameters
         $params = $request->getParsedBody();
 
@@ -834,7 +814,7 @@ class UnluController extends SimpleController {
         $classMapper = $this->ci->classMapper;
 
         // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $config, $currentUser, $vinculacion, $editar_integrantes) {
+        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser, $vinculacion, $editar_integrantes) {
             $vinculacion->id_solicitante = $data["id_solicitante"];
             $vinculacion->responsable = $data["responsable"];
             $vinculacion->cargo = $data["cargo"];
