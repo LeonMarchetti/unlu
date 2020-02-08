@@ -8,7 +8,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <select id="select-solicitante" class="form-control js-select2"
-                            name="id_solicitante" {{ page.visibility }}
+                            name="id_solicitante" {{ page.visibility }} data-old="{{ vinculacion.id_solicitante | default(current_user.id) }}"
                             {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
                         {% for usuario in usuarios_activos %}
                             <option value="{{ usuario.id }}"
@@ -139,31 +139,27 @@
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.MEMBERS") }}</label>
                 <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <span class="input-group-addon"><i class="fas fa-user-friends fa-fw"></i></span>
                     <div id="integrantes">
-                        <select id="select-integrante-solicitante" class="form-control js-select2" {{ page.visibility }} disabled>
-                            {% for usuario in usuarios %}
-                                <option value="{{ usuario.id }}"
-                                        {% if vinculacion.id_solicitante %}
-                                            {% if usuario.id == vinculacion.id_solicitante %}selected{% endif %}
-                                        {% else %}
-                                            {% if usuario.id == current_user.id %}selected{% endif %}
-                                        {% endif %}>
-                                    {{ usuario.full_name }}
-                                </option>
-                            {% endfor %}
-                        </select>
+                        <input id="input-integrante-solicitante" class="form-control" disabled {{ page.visibility }}
+                               {% if vinculacion.solicitante %}
+                                   value="{{ vinculacion.solicitante.full_name }}"
+                               {% else %}
+                                   value="{{ current_user.full_name }}"
+                               {% endif %}>
                         {% for integrante in vinculacion.integrantes %}
                             {% if integrante.id_usuario %}
-                                {% if integrante.id_usuario != current_user.id %}
-                                    <select class="form-control js-select2" name="integrantes[]" {{ page.visibility }}>
-                                        {% for usuario in usuarios %}
-                                            <option value="{{ usuario.id }}" {% if usuario.id == integrante.id_usuario %}selected{% endif %}>{{ usuario.full_name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                {% endif %}
+                                <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }}>
+                                    {% for usuario in usuarios %}
+                                        <option value="{{ usuario.id }}"
+                                                {% if usuario.id == integrante.id_usuario %}selected{% endif %}>
+                                            {{ usuario.full_name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
                             {% else %}
-                                <input type="text" class="form-control" name="integrantes[]" value="{{ integrante.nombre }}" autocomplete="off" placeholder="Nombre"/>
+                                <input type="text" class="form-control" name="integrantes[]" autocomplete="off" placeholder="{{ translate("NAME") }}"
+                                       value="{{ integrante.nombre }}" />
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -194,7 +190,7 @@
 </form>
 
 <template id="agregar-integrante-usuario">
-    <select class="form-control js-select2" name="integrantes[]" {{ page.visibility }}>
+    <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }} data-old="">
         <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
         {% for usuario in usuarios %}
             <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>

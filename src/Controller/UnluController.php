@@ -79,7 +79,6 @@ class UnluController extends SimpleController {
         }
 
         if (!isset($data["cargo"]) || $data["cargo"] === "") {
-
             if ($currentUser->rol === "") {
                 $ms->addMessageTranslated('danger', 'UNLU.ROLE.MISSING', $data);
                 $error = true;
@@ -811,44 +810,41 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        // Begin transaction - DB will be rolled back if an exception occurs
         Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser, $vinculacion, $editar_integrantes) {
-            $vinculacion->id_solicitante = $data["id_solicitante"];
-            $vinculacion->responsable = $data["responsable"];
-            $vinculacion->cargo = $data["cargo"];
+            $vinculacion->id_solicitante  = $data["id_solicitante"];
+            $vinculacion->responsable     = $data["responsable"];
+            $vinculacion->cargo           = $data["cargo"];
             $vinculacion->tipo_de_usuario = $data["tipo_de_usuario"];
-            $vinculacion->actividad = $data["actividad"];
-            $vinculacion->telefono = $data["telefono"];
-            $vinculacion->fecha_fin = $data["fecha_fin"];
-            $vinculacion->descripcion = $data["descripcion"];
+            $vinculacion->actividad       = $data["actividad"];
+            $vinculacion->telefono        = $data["telefono"];
+            $vinculacion->fecha_fin       = $data["fecha_fin"];
+            $vinculacion->descripcion     = $data["descripcion"];
             $vinculacion->save();
 
             // Actualizar integrantes de la vinculación:
             if ($editar_integrantes) {
                 IntegrantesVinculacion::where('id_vinculacion', $vinculacion->id)->delete();
 
-                // Insertar usuario solicitante como integrante:
-                $data["integrantes"][] = $data["id_solicitante"];
-
                 foreach ($data["integrantes"] as $i) {
                     if (is_numeric($i)) {
-                        /*  Si $i es un número entonces se trata de un id de usua-
-                            rio, y busco el nombre de la base de datos. */
+                        // Si $i es un número entonces se trata de un id de
+                        // usuario, y busco el nombre en la base de datos.
                         $data_integrante = [
-                            "id_usuario" => $i,
+                            "id_usuario"     => $i,
                             "id_vinculacion" => $vinculacion->id,
-                            "nombre" => Usuario::find($i)->full_name
+                            "nombre"         => Usuario::find($i)->full_name
                         ];
 
                     } else {
-                        /*  Si $i es una cadena de texto entonces no se trata de un
-                            usuario del sistema y entonces ingreso el integrante
-                            sin id de usuario. */
+                        // Si $i es una cadena de texto entonces no se trata de
+                        // un usuario del sistema y entonces ingreso el
+                        // integrante sin id de usuario.
                         $data_integrante = [
                             "id_vinculacion" => $vinculacion->id,
-                            "nombre" => $i
+                            "nombre"         => $i
                         ];
                     }
 
@@ -908,6 +904,7 @@ class UnluController extends SimpleController {
         if (!isset($archivos['archivo'])) {
             $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.FILE.MISSING', $data);
             $error = true;
+
         } else {
             /*  Armo el nombre del archivo con el título y la fecha.
                 Reemplazo los espacios en el título con guión bajo.

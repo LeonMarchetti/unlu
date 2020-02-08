@@ -142,6 +142,7 @@
     <script id="vinculacion-table-column-integrantes" type="text/x-handlebars-template">
         <td nowrap>
             <ul>
+                <li>{{ '{{row.responsable}}' }}</li>
                 {{ '{{#each row.integrantes}}' }}
                     <li>{{ '{{this.nombre}}' }}</li>
                 {{ '{{/each}}' }}
