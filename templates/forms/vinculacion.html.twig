@@ -138,8 +138,8 @@
         <div class="col-sm-12">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.MEMBERS") }}</label>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-user-friends fa-fw"></i></span>
+                <div>
+                    <input id="integrante-placeholder" type="hidden" value="{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}">
                     <div id="integrantes">
                         <input id="input-integrante-solicitante" class="form-control" disabled {{ page.visibility }}
                                {% if vinculacion.solicitante %}
@@ -190,10 +190,14 @@
 </form>
 
 <template id="agregar-integrante-usuario">
-    <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }} data-old="">
-        <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
+    <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }}>
+        <option></option>
         {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
+            <option value="{{ usuario.id }}"
+                    full-name="{{ usuario.full_name }}"
+                    user-name="{{ usuario.user_name }}">
+                {{ usuario.full_name }}{{ usuario.user_name }}
+            </option>
         {% endfor %}
     </select>
 </template>
@@ -208,5 +212,4 @@
 
     {{ assets.js('js/forms/vinculacion') | raw }}
     {{ assets.css('css/forms/vinculacion') | raw }}
-
 {% endblock %}

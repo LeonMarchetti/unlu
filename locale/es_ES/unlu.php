@@ -156,7 +156,7 @@ return [
                 "HELP" =>
                     "\"Agregar usuario registrado\" agrega una lista desplegable para seleccionar un usuario registrado en el sistema.<br>
                     \"Agregar usuario no registrado\" agrega un cuadro de texto para ingresar el nombre de un integrante si no está registrado en el sistema.<br>
-                    El solicitante es obligatoriamente un integrante de la vinculación que solicite (el sistema lo agrega automáticamente).",
+                    El solicitante es obligatoriamente un integrante de la vinculación que solicite, no hay que agregarlo.",
                 "MISSING" => "Faltan los integrantes",
                 "REMOVE" => "Quitar",
                 "REPEATED" => "Hay integrantes repetidos",
