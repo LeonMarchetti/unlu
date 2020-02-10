@@ -130,6 +130,8 @@ $(function() {
                     .siblings("select")
                     .children(`option[value="${control.val()}"]`)
                     .removeAttr("disabled");
+
+                control.select2('destroy');
             }
 
             control.remove();
