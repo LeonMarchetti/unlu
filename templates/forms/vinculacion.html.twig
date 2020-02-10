@@ -190,10 +190,13 @@
 </form>
 
 <template id="agregar-integrante-usuario">
-    <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }} data-old="">
-        <option value="">{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}</option>
+    <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }}>
         {% for usuario in usuarios %}
-            <option value="{{ usuario.id }}">{{ usuario.full_name }}</option>
+            <option value="{{ usuario.id }}"
+                    full-name="{{ usuario.full_name }}"
+                    user-name="{{ usuario.user_name }}">
+                {{ usuario.full_name }}{{ usuario.user_name }}
+            </option>
         {% endfor %}
     </select>
 </template>

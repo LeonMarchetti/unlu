@@ -93,6 +93,9 @@ $(function() {
     $("#integrantes").on("DOMNodeInserted", ".select-integrante", function() {
         // Al insertar este select deshabilito todas las opciones seleccionadas en los otros select
         // También deshabilito al solicitante como opción
+
+        $(this).select2(select2_options);
+
         var $select = $(".select-integrante:first");
         var first_id = $select.val();
         var actual_ids = $("option[disabled]", $select)
