@@ -156,7 +156,7 @@ return [
                 "HELP" =>
                     "\"Add registered member\" adds a dropdown menu to select a user registered in the system.<br>
                     \"Add non-registered member\" adds a text box to input the name of a member not registered in the system.<br>
-                    The applicant is necessarily a member of the vinculation requested (the system appends it automatically).",
+                    The applicant is necessarily a member of the vinculation requested, you don't have to add them.",
                 "MISSING" => "Members are missing",
                 "REMOVE" => "Remove",
                 "REPEATED" => "There are repeated members",

@@ -1,9 +1,16 @@
 $(function() {
     var select2_options = {
+        allowClear: true,
         templateSelection: function(usuario) {
+            if (!$(usuario.element).attr("value")) {
+                return $(`<span>${$("#integrante-placeholder").val()}</span>`);
+            }
             return $(`<span>${$(usuario.element).attr("full-name")}</span>`);
         },
         templateResult: function(usuario) {
+            if (!$(usuario.element).attr("value")) {
+                return $(`<span>${$("#integrante-placeholder").val()}</span>`);
+            }
             return $(`<span><b>${$(usuario.element).attr("full-name")}</b><br>${$(usuario.element).attr("user-name")}</span>`);
         },
     };
@@ -93,7 +100,6 @@ $(function() {
     $("#integrantes").on("DOMNodeInserted", ".select-integrante", function() {
         // Al insertar este select deshabilito todas las opciones seleccionadas en los otros select
         // También deshabilito al solicitante como opción
-
         $(this).select2(select2_options);
 
         var $select = $(".select-integrante:first");
