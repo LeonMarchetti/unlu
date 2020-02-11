@@ -1,7 +1,4 @@
 $(function() {
-    // Barra de navegación inicialmente colapsada
-    $("body").addClass("sidebar-collapse");
-
     function attachRenderSuccessUfModal() {
         /*  Recargar página cuando el modal termina exitosamente.
             Hay que llamar a la función cada vez que se renderiza un modal. */
