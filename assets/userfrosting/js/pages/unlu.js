@@ -6,14 +6,20 @@ $(function() {
             var modal = $(this).ufModal('getModal');
             var form = modal.find('.js-form');
 
-            form.ufForm().on("submitSuccess.ufForm", function() {
-                window.location.reload(true);
-            });
+            form
+                .ufForm({
+                    validator: page.validators
+                })
+                .on("submitSuccess.ufForm", function() {
+                    window.location.reload();
+                });
         });
     }
 
     // Modal para solicitar una vinculación
     $(".solicitar-vinculacion").click(function(e) {
+        e.preventDefault();
+
         $("body").ufModal({
             sourceUrl: site.uri.public + "/modals/unlu/solicitar-vinculacion",
             msgTarget: $("#alerts-page")

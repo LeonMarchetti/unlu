@@ -1,23 +1,22 @@
 ---
 fecha_inicio:
     validators:
-        length:
+        required:
             label: "&UNLU.PETITION.START_DATE"
-            min: 1
-            max: 255
-            message: VALIDATE.LENGTH_RANGE
+            message: VALIDATE.REQUIRED
 fecha_fin:
     validators:
-        length:
+        required:
             label: "&UNLU.PETITION.END_DATE"
-            min: 1
-            max: 255
-            message: VALIDATE.LENGTH_RANGE
+            message: VALIDATE.REQUIRED
 id_servicio:
     validators:
         integer:
             label: "&UNLU.PETITION.SERVICE"
             message: VALIDATE.INTEGER
+        required:
+            label: "&UNLU.PETITION.SERVICE"
+            message: VALIDATE.REQUIRED
 id_vinculacion:
     validators:
         integer:
@@ -30,6 +29,9 @@ descripcion:
             min: 1
             max: 255
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PETITION.DESCRIPTION"
+            message: VALIDATE.REQUIRED
 observaciones:
     validators:
         length:

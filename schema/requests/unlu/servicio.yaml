@@ -14,9 +14,6 @@ necesita_acta:
         boolean:
             label: "&UNLU.SERVICE.CERTIFICATE_NEEDED"
             message: VALIDATE.BOOLEAN
-        required:
-            label: "&UNLU.SERVICE.CERTIFICATE_NEEDED"
-            message: VALIDATE.REQUIRED
 observaciones:
     validators:
         length:

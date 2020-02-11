@@ -1,24 +1,32 @@
 ---
+id_solicitante:
+    validators:
+        integer:
+            label: "&UNLU.VINCULATION.APPLICANT"
+            message: VALIDATE.INTEGER
+        required:
+            label: "&UNLU.VINCULATION.APPLICANT"
+            message: VALIDATE.REQUIRED
 responsable:
     validators:
-        length:
-            label: "&UNLU.VINCULATION.RESPONSABLE"
-            min: 1
-            max: 255
-            message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.VINCULATION.RESPONSABLE"
             message: VALIDATE.REQUIRED
+        length:
+            label: "&UNLU.VINCULATION.RESPONSABLE"
+            min: 1
+            max: 32
+            message: VALIDATE.LENGTH_RANGE
 cargo:
     validators:
-        length:
-            label: "&UNLU.VINCULATION.POSITION"
-            min: 1
-            max: 255
-            message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.VINCULATION.POSITION"
             message: VALIDATE.REQUIRED
+        length:
+            label: "&UNLU.VINCULATION.POSITION"
+            min: 1
+            max: 32
+            message: VALIDATE.LENGTH_RANGE
 tipo_de_usuario:
     validators:
         integer:
@@ -32,7 +40,7 @@ actividad:
         length:
             label: "&UNLU.VINCULATION.ACTIVITY"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.VINCULATION.ACTIVITY"
@@ -42,7 +50,7 @@ telefono:
         length:
             label: "&UNLU.PHONE"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.PHONE"
@@ -52,7 +60,7 @@ correo:
         length:
             label: "&EMAIL"
             min: 1
-            max: 150
+            max: 32
             message: VALIDATE.LENGTH_RANGE
         email:
             label: "&EMAIL"
@@ -62,11 +70,6 @@ correo:
             message: VALIDATE.REQUIRED
 fecha_fin:
     validators:
-        length:
-            label: "&UNLU.VINCULATION.END_DATE"
-            min: 1
-            max: 255
-            message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.VINCULATION.END_DATE"
             message: VALIDATE.REQUIRED
@@ -80,11 +83,6 @@ descripcion:
         required:
             label: "&UNLU.VINCULATION.DESCRIPTION"
             message: VALIDATE.REQUIRED
-id_solicitante:
-    validators:
-        integer:
-            label: "&UNLU.VINCULATION.APPLICANT"
-            message: VALIDATE.INTEGER
 integrantes:
     validators:
         length:

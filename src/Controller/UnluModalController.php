@@ -15,6 +15,8 @@ use UserFrosting\Sprinkle\Unlu\Database\Models\TipoUsuario;
 use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
 use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
 
+use UserFrosting\Fortress\Adapter\JqueryValidationAdapter;
+use UserFrosting\Fortress\RequestSchema;
 
 class UnluModalController extends SimpleController {
 
@@ -46,6 +48,10 @@ class UnluModalController extends SimpleController {
         $usuarios = Usuario::all();
         $usuarios_activos = Usuario::where("activo", true)->get();
 
+        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "vinculacion" => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
@@ -59,7 +65,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
                 "form" => "vinculacion.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -85,6 +92,10 @@ class UnluModalController extends SimpleController {
             $vinculaciones = $currentUser->vinculaciones;
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "servicios" => $servicios,
             "vinculaciones" => $vinculaciones,
@@ -96,7 +107,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION"),
                 "form" => "peticion.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -193,6 +205,10 @@ class UnluModalController extends SimpleController {
             $vinculaciones = [ $peticion->vinculacion ];
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         /*  edicion => true: Como comparto con el formulario de "Solicitar Ser-
             vicio", cuando quiero editar una petición y solo tener disponibles
             para editar la descripción y las observaciones con esta opción in-
@@ -211,7 +227,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION"),
                 "form" => "peticion.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -227,6 +244,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "form" => [
                 "action" => "api/unlu/s",
@@ -236,7 +257,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE"),
                 "form" => "servicio.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -258,6 +280,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "servicio" => $servicio,
             'form' => [
@@ -268,7 +294,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE"),
                 "form" => "servicio.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -323,6 +350,10 @@ class UnluModalController extends SimpleController {
         $usuarios = Usuario::all();
         $usuarios_activos = Usuario::where("activo", true)->get();
 
+        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'vinculacion' => $vinculacion,
             "tipos_de_usuario" => $tipos_de_usuario,
@@ -337,7 +368,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.VINCULATION"),
                 "form" => "vinculacion.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -353,6 +385,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "form" => [
                 "action" => "api/unlu/a",
@@ -362,7 +398,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.CERTIFICATE"),
                 "form" => "acta.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 

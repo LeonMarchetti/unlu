@@ -52,7 +52,6 @@
     </div>
 </form>
 
-<script>
-    <!-- Include validation rules -->
-    {% include "pages/partials/page.js.twig" %}
-</script>
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+{% endblock %}
