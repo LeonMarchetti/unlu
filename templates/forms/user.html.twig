@@ -1,8 +1,8 @@
 <form class="js-form" method="{{form.method | default('POST')}}" action="{{site.uri.public}}/{{form.action}}">
     {% include "forms/csrf.html.twig" %}
     <div class="js-form-alerts"></div>
-    <div class="row">
-        {% block user_form %}
+    {% block user_form %}
+        <div class="row">
             {% if 'user_name' not in form.fields.hidden %}
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -35,6 +35,8 @@
                     </div>
                 </div>
             {% endif %}
+        </div>
+        <div class="row">
             {% if 'name' not in form.fields.hidden %}
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -55,6 +57,8 @@
                     </div>
                 </div>
             {% endif %}
+        </div>
+        <div class="row">
             {% if 'email' not in form.fields.hidden %}
                 <div class="col-sm-6">
                     <div class="form-group">
@@ -90,29 +94,33 @@
                     </div>
                 </div>
             {% endif %}
-            {% if 'locale' not in form.fields.hidden %}
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="input-locale">{{translate('LOCALE')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fas fa-language fa-fw"></i></span>
-                            {% if 'locale' in form.fields.disabled %}
-                                <input type="text" class="form-control" name="theme" value="{{locales[user.locale]}}" disabled>
-                            {% else %}
-                                <select id="input-locale" class="form-control js-select2" name="locale">
-                                    {% for option, label in locales %}
-                                    <option value="{{option}}" {% if (option == user.locale) %}selected{% endif %}>{{label}}</option>
-                                    {% endfor %}
-                                </select>
-                            {% endif %}
-                        </div>
+        </div>
+        <div class="row">
+        {% if 'locale' not in form.fields.hidden %}
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label for="input-locale">{{translate('LOCALE')}}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fas fa-language fa-fw"></i></span>
+                        {% if 'locale' in form.fields.disabled %}
+                            <input type="text" class="form-control" name="theme" value="{{locales[user.locale]}}" disabled>
+                        {% else %}
+                            <select id="input-locale" class="form-control js-select2" name="locale">
+                                {% for option, label in locales %}
+                                <option value="{{option}}" {% if (option == user.locale) %}selected{% endif %}>{{label}}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
                     </div>
                 </div>
-            {% endif %}
-            {% if 'password' not in form.fields.hidden %}
-                {% include "forms/partials/user-set-password.html.twig" %}
-            {% endif %}
-            {% if 'unlu' not in form.fields.hidden %}
+            </div>
+        {% endif %}
+        {% if 'password' not in form.fields.hidden %}
+            {% include "forms/partials/user-set-password.html.twig" %}
+        {% endif %}
+        </div>
+        {% if 'unlu' not in form.fields.hidden %}
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>{{ translate("UNLU.PHONE") }}</label>
@@ -131,6 +139,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>{{ translate("UNLU.DEPENDENCY") }}</label>
@@ -149,20 +159,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label>{{ translate("UNLU.ACTIVE") }}</label>
                         <div class="checkbox icheck">
                             <label>
                                 <input type="checkbox" class="js-icheck" name="activo"
-                                       {%if user.activo %}checked{% endif %}>
+                                    {%if user.activo %}checked{% endif %}>
                             </label>
                         </div>
                     </div>
                 </div>
-            {% endif %}
-        {% endblock %}
-    </div>
+            </div>
+        {% endif %}
+    {% endblock %}
     <br>
     <div class="row">
         <div class="col-xs-8 col-sm-4">
@@ -175,8 +187,8 @@
 </form>
 
 <!-- Include validation rules -->
-<script>
-    {% include "pages/partials/page.js.twig" %}
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
     {{ assets.js('js/main') | raw }}
     {{ assets.css('css/main') | raw }}
-</script>
+{% endblock %}

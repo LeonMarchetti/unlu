@@ -104,29 +104,41 @@ telefono:
         length:
             label: "&UNLU.PHONE"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.PHONE"
+            message: VALIDATE.REQUIRED
 institucion:
     validators:
         length:
             label: "&UNLU.INSTITUTION"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.INSTITUTION"
+            message: VALIDATE.REQUIRED
 dependencia:
     validators:
         length:
             label: "&UNLU.DEPENDENCY"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.DEPENDENCY"
+            message: VALIDATE.REQUIRED
 rol:
     validators:
         length:
             label: "&UNLU.ROLE"
             min: 1
-            max: 255
+            max: 32
             message: VALIDATE.LENGTH_RANGE
+        required:
+            label: "&UNLU.ROLE"
+            message: VALIDATE.REQUIRED
 activo:
     validators:
         boolean:
