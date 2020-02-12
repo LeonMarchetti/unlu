@@ -1,5 +1,6 @@
 .skin-yellow .main-header .navbar,
-.skin-yellow .main-header .logo
+.skin-yellow .main-header .logo,
+li.user-header
 {
     background-color: #E05B1D !important;
 }
