@@ -3,10 +3,11 @@
 {% block stylesheets_page_group %}
     <!-- Page-group-specific CSS asset bundle -->
     {{ assets.css('css/admin') | raw }}
+    {{ assets.css('css/pages/dashboard') | raw }}
 {% endblock %}
 
 {% block body_attributes %}
-    class="hold-transition skin-green sidebar-mini sidebar-collapse"
+    class="hold-transition skin-yellow sidebar-mini sidebar-collapse"
 {% endblock %}
 
 {% block content %}

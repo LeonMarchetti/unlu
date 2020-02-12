@@ -39,6 +39,12 @@
             "styles": [
                 "userfrosting/css/pages/register.css"
             ]
+        },
+
+        "css/pages/dashboard" : {
+            "styles": [
+                "userfrosting/css/pages/dashboard.css"
+            ]
         }
     }
 }

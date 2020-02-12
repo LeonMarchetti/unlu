@@ -1,0 +1,14 @@
+.skin-yellow .main-header .navbar,
+.skin-yellow .main-header .logo
+{
+    background-color: #E05B1D !important;
+}
+
+.skin-yellow .main-header .navbar .sidebar-toggle:hover
+{
+    background-color: #c24f19 !important;
+}
+
+.skin-yellow .sidebar-menu > li.active > a {
+    border-left-color: #E05B1D !important;
+}
