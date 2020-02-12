@@ -19,3 +19,6 @@ archivo:
         required:
             label: "&UNLU.CERTIFICATE.FILE"
             message: VALIDATE.REQUIRED
+        regex:
+            regex: .*\.pdf
+            message: UNLU.CERTIFICATE.FILE.PDF_ONLY

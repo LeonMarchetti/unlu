@@ -22,12 +22,21 @@ return [
                 "@TRANSLATION" => "Fecha",
                 "MISSING" => "Falta la fecha",
             ],
+            "DELETE" => [
+                "@TRANSLATION" => "Eliminar",
+                "SUCCESS" => "El acta fue eliminado con éxito"
+            ],
             "FILE" => [
                 "@TRANSLATION" => "Archivo",
                 "ERROR" => "Error al subir el archivo",
                 "MISSING" => "Falta el archivo",
+                "PDF_ONLY" => "Solo se permite achivos .PDF"
             ],
             "PLURAL" => "Actas",
+            "REPLACE" => [
+                "@TRANSLATION" => "Reemplazar archivo",
+                "SUCCESS" => "El archivo del acta fue reemplazado con éxito"
+            ],
             "TITLE" => [
                 "@TRANSLATION" => "Título",
                 "MISSING" => "Falta el título",

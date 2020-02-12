@@ -1,0 +1,68 @@
+<form class="js-form" method="{{ form.method | default('POST') }}"
+      action="{{ site.uri.public }}/{{ form.action }}"
+      enctype="multipart/form-data">
+
+    {% include "forms/csrf.html.twig" %}
+    <div class="js-form-alerts"></div>
+
+    <div class="row"> <!-- Título y Fecha -->
+        <div class="col-sm-6"> <!-- Título -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.CERTIFICATE.TITLE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-heading fa-fw"></i></span>
+                    <input type="text" class="form-control" name="titulo" readonly="true"
+                           value="{{ acta.titulo }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6"> <!-- Fecha -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.CERTIFICATE.DATE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-calendar-alt fa-fw"></i></span>
+                    <input type="date" class="form-control" name="fecha"
+                           autocomplete="off" readonly="true"
+                           value="{{ acta.fecha | date("Y-m-d") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Archivo actual</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-file fa-fw"></i></span>
+                    <input class="form-control ver-acta" data-id="{{ acta.id }}" type="button"
+                           value="{{ acta.ubicacion }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Archivo nuevo</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-file fa-fw"></i></span>
+                    <input class="form-control" type="file" name="archivo">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-8 col-sm-4">
+            <button type="submit" class="btn btn-block btn-lg btn-success">{{ form.submit_text }}</button>
+        </div>
+        <div class="col-xs-4 col-sm-3 pull-right">
+            <button type="button" class="btn btn-block btn-lg btn-link" data-dismiss="modal">{{ translate("CANCEL") }}</button>
+        </div>
+    </div>
+</form>
+
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+
+    {{ assets.js('js/forms/reemplazar-acta') | raw }}
+{% endblock %}

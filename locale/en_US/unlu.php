@@ -22,12 +22,21 @@ return [
                 "@TRANSLATION" => "Date",
                 "MISSING" => "Date is missing",
             ],
+            "DELETE" => [
+                "@TRANSLATION" => "Delete",
+                "SUCCESS" => "The certificate was deleted successfully"
+            ],
             "FILE" => [
                 "@TRANSLATION" => "File",
                 "ERROR" => "Error uploading the file",
                 "MISSING" => "File is missing",
+                "PDF_ONLY" => "Only .PDF files permitted"
             ],
             "PLURAL" => "Certificates",
+            "REPLACE" => [
+                "@TRANSLATION" => "Replace file",
+                "SUCCESS" => "The certificate's file was replaced successfully"
+            ],
             "TITLE" => [
                 "@TRANSLATION" => "Title",
                 "MISSING" => "Title is missing",

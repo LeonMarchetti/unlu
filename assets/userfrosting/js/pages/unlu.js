@@ -252,11 +252,38 @@ $(function() {
     /*  Asignar eventos a los botones en la tabla de actas cuando termina
         de renderizar la tabla. */
     $("#tablaActas").on("pagerComplete.ufTable", function () {
-        // Ver acta
         $(this).find(".ver-acta").click(function(e) {
             e.preventDefault();
 
             window.open(site.uri.public + "/api/unlu/a/" + $(this).data('id'), "_blank");
+        });
+
+        $(this).find(".reemplazar-acta").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/reemplazar-acta",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
+        });
+
+        $(this).find(".eliminar-acta").click(function(e) {
+            e.preventDefault();
+
+            $("body").ufModal({
+                sourceUrl: site.uri.public + "/modals/unlu/eliminar-acta",
+                ajaxParams: {
+                    id: $(this).data('id')
+                },
+                msgTarget: $("#alerts-page")
+            });
+
+            attachRenderSuccessUfModal();
         });
     });
 

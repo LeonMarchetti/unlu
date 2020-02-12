@@ -35,6 +35,8 @@ $app->group('/modals/unlu', function () {
 
     // Actas
     $this->get('/agregar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:agregarActaModal');
+    $this->get('/reemplazar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:reemplazarActaModal');
+    $this->get('/eliminar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:eliminarActaModal');
 
     // Vinculaciones
     $this->get('/editar-vinculacion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarVinculacionModal');
@@ -51,6 +53,7 @@ $app->group("/api/unlu", function() {
     $this->get("/a", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarActas");
     $this->get("/a/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:getActa");
     $this->post("/a", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:agregarActa");
+    $this->post("/a-reemplazar/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:reemplazarActa");
 
     // Peticiones
     $this->get("/p", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticiones");

@@ -24,6 +24,14 @@
                     nowrap>
                         <i class="fa fa-file-contract"></i>
                 </th>
+                <!-- Acciones -->
+                <th data-column-name="acciones"
+                    data-column-template="#acta-table-column-acciones"
+                    data-sorter="false"
+                    data-filter="false"
+                    nowrap>
+                        {{ translate("ACTIONS") }}
+                </th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -44,6 +52,22 @@
             <button type="button" class="btn btn-lg btn-primary ver-acta" data-id="{{ '{{ row.id }}' }}">
                 <i class="fa fa-file-contract"></i>
             </button>
+        </td>
+    </script>
+
+    <script id="acta-table-column-acciones" type="text/x-handlebars-template">
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
+                <div class="dropdown-content">
+                    <a href="#" class="reemplazar-acta" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-pen"></i> {{ translate("UNLU.CERTIFICATE.REPLACE") }}
+                    </a>
+                    <a href="#" class="eliminar-acta" data-id="{{ '{{row.id}}' }}">
+                        <i class="fas fa-trash"></i> {{ translate("UNLU.CERTIFICATE.DELETE") }}
+                    </a>
+                </div>
+            </div>
         </td>
     </script>
 {% endblock %}

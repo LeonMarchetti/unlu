@@ -403,6 +403,43 @@ class UnluModalController extends SimpleController {
         ]);
     }
 
+    public function reemplazarActaModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
+        $acta = $this->getObjectFromParams($request->getQueryParams(), "acta");
+        if (!$acta) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
+            "acta" => $acta,
+            'form' => [
+                'action' => "api/unlu/a-reemplazar/{$acta->id}",
+                "method" => "POST",
+                "submit_text" => $this->ci->translator->translate("UPDATE")
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.REPLACE"),
+                "form" => "reemplazar-acta.html.twig"
+            ],
+            'page' => [ 'validators' => $rules ]
+        ]);
+    }
+
     public function asignarActaModal(Request $request, Response $response, $args) {
         /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
         $authorizer = $this->ci->authorizer;

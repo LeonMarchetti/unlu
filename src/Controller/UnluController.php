@@ -947,6 +947,69 @@ class UnluController extends SimpleController {
         return $response->withJson([], 200);
     }
 
+    public function reemplazarActa(Request $request, Response $response, $args) {
+        $params = $request->getParsedBody();
+        $archivos = $request->getUploadedFiles();
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $acta = $this->getObjectFromParams($args, "acta");
+        if (!$acta) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+
+        // Whitelist and set parameter defaults
+        $transformer = new RequestDataTransformer($schema);
+        $data = $transformer->transform($params);
+
+        $error = false;
+
+        if (!isset($archivos['archivo'])) {
+            $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE.FILE.MISSING', $data);
+            $error = true;
+
+        } else {
+            $archivo = $archivos['archivo'];
+        }
+
+        if ($error) {
+            return $response->withJson([], 400);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
+        $filesystem = $this->ci->filesystem;
+
+        Capsule::transaction(function () use ($filesystem, $ms, $currentUser, $archivo, $acta) {
+            $ubicacion = $acta->ubicacion;
+            $filesystem->put("actas/$ubicacion", $archivo->getStream()->getContents());
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} replaced file for certificate {$acta->titulo}.", [
+                'type'    => 'reemplazo_acta',
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.REPLACE.SUCCESS', $data);
+        });
+
+        return $response->withJson([], 200);
+    }
+
     public function asignarActa(Request $request, Response $response, $args) {
         $params = $request->getParsedBody();
 

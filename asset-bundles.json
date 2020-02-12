@@ -45,6 +45,12 @@
             "styles": [
                 "userfrosting/css/pages/dashboard.css"
             ]
+        },
+
+        "js/forms/reemplazar-acta": {
+            "scripts": [
+                "userfrosting/js/forms/reemplazar-acta.js"
+            ]
         }
     }
 }
