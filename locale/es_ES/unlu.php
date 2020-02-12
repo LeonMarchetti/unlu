@@ -23,8 +23,9 @@ return [
                 "MISSING" => "Falta la fecha",
             ],
             "DELETE" => [
-                "@TRANSLATION" => "Eliminar",
-                "SUCCESS" => "El acta fue eliminado con éxito"
+                "@TRANSLATION" => "Eliminar acta",
+                "CONFIRM" => "¿Está seguro de eliminar el acta <b>{{ titulo }}</b>?",
+                "SUCCESS" => "El acta \"{{ titulo }}\" fue eliminado con éxito"
             ],
             "FILE" => [
                 "@TRANSLATION" => "Archivo",
@@ -35,7 +36,7 @@ return [
             "PLURAL" => "Actas",
             "REPLACE" => [
                 "@TRANSLATION" => "Reemplazar archivo",
-                "SUCCESS" => "El archivo del acta fue reemplazado con éxito"
+                "SUCCESS" => "El archivo del acta \"{{ titulo }}\" fue reemplazado con éxito"
             ],
             "TITLE" => [
                 "@TRANSLATION" => "Título",

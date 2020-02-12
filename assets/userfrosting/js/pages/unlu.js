@@ -11,7 +11,7 @@ $(function() {
                     validator: page.validators
                 })
                 .on("submitSuccess.ufForm", function() {
-                    window.location.reload();
+                    window.location.reload(true);
                 });
         });
     }

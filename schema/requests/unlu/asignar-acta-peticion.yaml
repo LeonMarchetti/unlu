@@ -4,3 +4,11 @@ id_peticion:
         integer:
             label: id
             message: VALIDATE.INTEGER
+archivo:
+    validators:
+        required:
+            label: "&UNLU.PETITION.CERTIFICATE"
+            message: VALIDATE.REQUIRED
+        regex:
+            regex: .*\.pdf
+            message: UNLU.CERTIFICATE.FILE.PDF_ONLY

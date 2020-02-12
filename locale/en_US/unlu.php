@@ -24,7 +24,8 @@ return [
             ],
             "DELETE" => [
                 "@TRANSLATION" => "Delete",
-                "SUCCESS" => "The certificate was deleted successfully"
+                "CONFIRM" => "Are you sure of deleting the certificate <b>{{ titulo }}</b>?",
+                "SUCCESS" => "The certificate {{ titulo }} was deleted successfully"
             ],
             "FILE" => [
                 "@TRANSLATION" => "File",
@@ -35,7 +36,7 @@ return [
             "PLURAL" => "Certificates",
             "REPLACE" => [
                 "@TRANSLATION" => "Replace file",
-                "SUCCESS" => "The certificate's file was replaced successfully"
+                "SUCCESS" => "The certificate \"{{ titulo }}\"'s file was replaced successfully"
             ],
             "TITLE" => [
                 "@TRANSLATION" => "Title",

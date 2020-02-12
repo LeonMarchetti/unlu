@@ -54,6 +54,7 @@ $app->group("/api/unlu", function() {
     $this->get("/a/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:getActa");
     $this->post("/a", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:agregarActa");
     $this->post("/a-reemplazar/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:reemplazarActa");
+    $this->get("/a-eliminar/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:eliminarActa");
 
     // Peticiones
     $this->get("/p", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticiones");

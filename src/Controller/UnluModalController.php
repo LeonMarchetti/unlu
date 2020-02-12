@@ -126,6 +126,10 @@ class UnluModalController extends SimpleController {
 
         $peticiones = Peticion::all();
 
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "peticiones" => $peticiones,
             "form" => [
@@ -136,7 +140,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.DOWN"),
                 "form" => "baja-solicitud.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -161,6 +166,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'peticion' => $peticion,
             'form' => [
@@ -170,7 +179,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.APPROVE_PETITION"),
                 "form" => "aprobar-peticion.html.twig"
-            ]
+            ],
+            "page" => [ "validators" => $rules ]
         ]);
     }
 
@@ -314,6 +324,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'servicio' => $servicio,
             'form' => [
@@ -324,7 +338,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE.DELETE"),
                 "form" => "eliminar-servicio.html.twig"
-            ]
+            ],
+            'page' => [ 'validators' => $rules ]
         ]);
     }
 
@@ -404,7 +419,7 @@ class UnluModalController extends SimpleController {
     }
 
     public function reemplazarActaModal(Request $request, Response $response, $args) {
-        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $servicio */
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
         $acta = $this->getObjectFromParams($request->getQueryParams(), "acta");
         if (!$acta) {
             throw new NotFoundException($request, $response);
@@ -433,10 +448,48 @@ class UnluModalController extends SimpleController {
                 "submit_text" => $this->ci->translator->translate("UPDATE")
             ],
             "modal" => [
-                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.REPLACE"),
+                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.REPLACE",
+                    [ "acta" => $acta->titulo ]),
                 "form" => "reemplazar-acta.html.twig"
             ],
             'page' => [ 'validators' => $rules ]
+        ]);
+    }
+
+    public function eliminarActaModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
+        $acta = $this->getObjectFromParams($request->getQueryParams(), "acta");
+        if (!$acta) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
+        return $this->ci->view->render($response, 'modals/modal.html.twig', [
+            'acta' => $acta,
+            'form' => [
+                'action' => "api/unlu/a-eliminar/{$acta->id}",
+                'method' => "GET",
+                'submit_text' => $this->ci->translator->translate("DELETE")
+            ],
+            "modal" => [
+                "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.DELETE"),
+                "form" => "eliminar-acta.html.twig"
+            ],
+            "page" => [ "validators" => $rules ]
         ]);
     }
 
@@ -477,6 +530,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "id_peticion" => $request->getQueryParams()["id"],
             "form" => [
@@ -487,7 +544,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.CERTIFICATE.ASSIGN"),
                 "form" => "asignar-acta-peticion.html.twig"
-            ]
+            ],
+            "page" => [ "validators" => $rules ]
         ]);
     }
 }

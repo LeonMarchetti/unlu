@@ -541,10 +541,14 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        $denominacion = $servicio->denominacion;
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
 
         // Begin transaction - DB will be rolled back if an exception occurs
         Capsule::transaction(function () use ($servicio, $currentUser) {
+            $denominacion = $servicio->denominacion;
             $servicio->delete();
             unset($servicio);
 
@@ -558,7 +562,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
         $ms->addMessageTranslated('success', 'UNLU.SERVICE.DELETE.SUCCESS', [
-            'denominacion' => $servicio->denominacion,
+            'denominacion' => $denominacion,
         ]);
 
         return $response->withJson([], 200);
@@ -1001,10 +1005,59 @@ class UnluController extends SimpleController {
             // Create activity record
             $this->ci->userActivityLogger->info("User {$currentUser->user_name} replaced file for certificate {$acta->titulo}.", [
                 'type'    => 'reemplazo_acta',
+                'user_id' => $currentUser->id
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.REPLACE.SUCCESS', [
+                "titulo" => $acta->titulo
+            ]);
+        });
+
+        return $response->withJson([], 200);
+    }
+
+    public function eliminarActa(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Servicio $acta */
+        $acta = $this->getObjectFromParams($args, "acta");
+        if (!$acta) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException();
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
+        $filesystem = $this->ci->filesystem;
+
+        // Begin transaction - DB will be rolled back if an exception occurs
+        Capsule::transaction(function () use ($acta, $currentUser, $filesystem) {
+            $titulo    = $acta->titulo;
+            $ubicacion = $acta->ubicacion;
+
+            $acta->delete();
+            unset($acta);
+
+            $filesystem->delete("actas/$ubicacion");
+
+            // Create activity record
+            $this->ci->userActivityLogger->info("User {$currentUser->user_name} deleted the certificate {$titulo}.", [
+                'type'    => 'eliminar_acta',
                 'user_id' => $currentUser->id,
             ]);
 
-            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.REPLACE.SUCCESS', $data);
+            /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+            $ms = $this->ci->alerts;
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.DELETE.SUCCESS', [
+                'titulo' => $titulo,
+            ]);
         });
 
         return $response->withJson([], 200);
