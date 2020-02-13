@@ -140,20 +140,23 @@
                 <label>{{ translate("UNLU.VINCULATION.MEMBERS") }}</label>
                 <div>
                     <input id="integrante-placeholder" type="hidden" value="{{ translate("UNLU.VINCULATION.MEMBERS.SELECT_PLACEHOLDER") }}">
+                    <input id="input-integrante-solicitante" class="form-control" disabled {{ page.visibility }}
+                           {% if vinculacion.solicitante %}
+                               value="{{ vinculacion.solicitante.full_name }}"
+                           {% else %}
+                               value="{{ current_user.full_name }}"
+                           {% endif %}>
                     <div id="integrantes">
-                        <input id="input-integrante-solicitante" class="form-control" disabled {{ page.visibility }}
-                               {% if vinculacion.solicitante %}
-                                   value="{{ vinculacion.solicitante.full_name }}"
-                               {% else %}
-                                   value="{{ current_user.full_name }}"
-                               {% endif %}>
                         {% for integrante in vinculacion.integrantes %}
                             {% if integrante.id_usuario %}
                                 <select class="form-control js-select2 select-integrante" name="integrantes[]" {{ page.visibility }}>
+                                    <option></option>
                                     {% for usuario in usuarios %}
                                         <option value="{{ usuario.id }}"
+                                                full-name="{{ usuario.full_name }}"
+                                                user-name="{{ usuario.user_name }}"
                                                 {% if usuario.id == integrante.id_usuario %}selected{% endif %}>
-                                            {{ usuario.full_name }}
+                                            {{ usuario.full_name }}{{ usuario.user_name }}
                                         </option>
                                     {% endfor %}
                                 </select>

@@ -16,6 +16,7 @@ $(function() {
     };
 
     $("#select-solicitante").select2(select2_options);
+    $(".select-integrante").select2(select2_options);
 
     $("#select-solicitante").change(function() {
         // Al cambiar el solicitante:
@@ -120,20 +121,16 @@ $(function() {
     });
 
     $(".quitar-integrante").click(function() {
-        if ($("#integrantes .form-control").length > 1) {
-            // Si el integrante a quitar es un select de usuarios entonces
-            // rehabilito ese usuario en los otros select.
-            var control = $("#integrantes .form-control").last();
-
+        if (control = $("#integrantes .form-control").last()) {
             if (control.hasClass("select-integrante")) {
+                // Si el integrante a quitar es un select de usuarios entonces
+                // rehabilito ese usuario en los otros select.
                 control
                     .siblings("select")
                     .children(`option[value="${control.val()}"]`)
                     .removeAttr("disabled");
-
                 control.select2('destroy');
             }
-
             control.remove();
         }
     });
