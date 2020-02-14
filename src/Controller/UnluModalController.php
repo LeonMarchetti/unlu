@@ -92,11 +92,19 @@ class UnluModalController extends SimpleController {
             $vinculaciones = $currentUser->vinculaciones;
         }
 
+        // Última vinculación vigente
+        $id_vinculacion = Vinculacion
+            ::where("id_solicitante", $currentUser->id)
+            ->orderBy("fecha_solicitud", "desc")
+            ->first()
+            ->id;
+
         $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
         $rules = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
+            "peticion" => [ "id_vinculacion" => $id_vinculacion ],
             "servicios" => $servicios,
             "vinculaciones" => $vinculaciones,
             "form" => [
