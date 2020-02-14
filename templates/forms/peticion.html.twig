@@ -44,8 +44,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <p id="ayuda-acta-servicio" class="help-block">{{ translate("UNLU.PETITION.CERTIFICATE.NEEDED") }}</p>
             </div>
+            <p id="ayuda-acta-servicio" class="help-block">{{ translate("UNLU.PETITION.CERTIFICATE.NEEDED") }}</p>
         </div>
         <div class="col-sm-6"> <!-- Vinculación -->
             <div class="form-group">
@@ -62,10 +62,10 @@
                         {% endfor %}
                     </select>
                 </div>
-                {% if not edicion %}
-                    <p class="help-block">{{ translate("UNLU.PETITION.VINCULATION.HELP") }}</p>
-                {% endif %}
             </div>
+            {% if not edicion %}
+                <p class="help-block">{{ translate("UNLU.PETITION.VINCULATION.HELP") }}</p>
+            {% endif %}
         </div>
     </div>
     <div class="row"> <!-- Descripción -->
