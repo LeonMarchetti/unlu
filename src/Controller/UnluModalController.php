@@ -505,6 +505,10 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
+        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules = $validator->rules('json', false);
+
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "id_vinculacion" => $request->getQueryParams()["id"],
             "form" => [
@@ -514,7 +518,8 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.PLURAL"),
                 "form" => "asignar-acta.html.twig"
-            ]
+            ],
+            "page" => [ "validators" => $rules ]
         ]);
     }
 

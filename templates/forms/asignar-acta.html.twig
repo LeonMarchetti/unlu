@@ -14,6 +14,7 @@
     <input type="hidden" name="id_vinculacion" value="{{ id_vinculacion }}">
 </form>
 
-<script>
-    {% include 'forms/js/asignar-acta.js.twig' %}
-</script>
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+    <script>{% include 'forms/js/asignar-acta.js.twig' %}</script>
+{% endblock %}
