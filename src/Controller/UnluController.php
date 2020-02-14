@@ -349,12 +349,17 @@ class UnluController extends SimpleController {
 
         $error = false;
 
-        if ((!isset($data["descripcion"]) || $data["descripcion"] === "") && !isset($data["aprobada"])) {
-            /*  Verifico que la descripción no esté vacía. En el caso de que
-                quiera solamente aprobar una petición entonces evito esta veri-
-                ficación.
-            */
+        if (isset($data["aprobada"])) {
+            if ($peticion->servicio->necesita_acta && !$peticion->ubicacion) {
+                $ms->addMessageTranslated('danger', 'UNLU.PETITION.APPROVE.CERTIFICATE_MISSING', $data);
+                $error = true;
+            }
+        }
 
+        if ((!isset($data["descripcion"]) || $data["descripcion"] === "") && !isset($data["aprobada"])) {
+            // Verifico que la descripción no esté vacía. En el caso de que
+            // quiera solamente aprobar una petición entonces evito esta
+            // verificación.
             $ms->addMessageTranslated('danger', 'UNLU.PETITION.DESCRIPTION.MISSING', $data);
             $error = true;
         }

@@ -183,10 +183,18 @@ $(function() {
         }
     });
 
+    Handlebars.registerHelper('ifAndNot', function(a, b, options) {
+        // Ayudante de Handlebars para realizar una verificación de a && !b
+        if (a && !b) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     /*  Asignar eventos a los botones en la tabla de peticiones cuando termina
         de renderizar la tabla. */
     $("#tablaPeticiones").on("pagerComplete.ufTable", function () {
-
         // Modal para borrar una petición
         $(this).find(".aprobar-peticion").click(function(e) {
             e.preventDefault();

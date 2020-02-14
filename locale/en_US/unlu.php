@@ -58,7 +58,11 @@ return [
         "PETITION" => [
             "@TRANSLATION" => "Petitions",
             "ADDED" => "The petition was requested succesfully",
-            "APPROVE" => "Approve",
+            "APPROVE" => [
+                "@TRANSLATION" => "Approve",
+                "CERTIFICATE_MISSING" => "You can't approve this petition without it's assigned certificate",
+                "CONFIRM" => "Are you sure you want to approve this petition?"
+            ],
             "APPROVE_PETITION" => "Approve petition",
             "APPROVED" => "Approved",
             "ASSIGN" => "Assign",

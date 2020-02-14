@@ -156,22 +156,24 @@
                 <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
                 <div class="dropdown-content">
                     {% if checkAccess("admin_unlu") %}
-                        {{ '{{#unless row.aprobada}}' }}
-                            <a href="#" class="aprobar-peticion" data-id="{{ '{{row.id}}' }}">
-                                <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
-                            </a>
-                        {{ '{{/unless}}' }}
+                        {{ '{{#ifAndNot row.servicio.necesita_acta row.ubicacion}}' }}
+                            {# vacío #}
+                        {{ '{{else}}' }}
+                            {{ '{{#unless row.aprobada}}' }}
+                                <a href="#" class="aprobar-peticion" data-id="{{ '{{row.id}}' }}">
+                                    <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
+                                </a>
+                            {{ '{{/unless}}' }}
+                        {{ '{{/ifAndNot}}' }}
                     {% endif %}
                     <a href="#" class="editar-peticion" data-id="{{ '{{row.id}}' }}">
                         <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                     </a>
-                    {{ '{{#if row.servicio.necesita_acta}}' }}
-                        {{ '{{#unless row.ubicacion}}' }}
-                            <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
-                                <i class="fas fa-file-contract"></i> {{ translate("UNLU.PETITION.CERTIFICATE.ASSIGN") }}
-                            </a>
-                        {{ '{{/unless}}' }}
-                    {{ '{{/if}}' }}
+                    {{ '{{#ifAndNot row.servicio.necesita_acta row.ubicacion}}' }}
+                        <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
+                            <i class="fas fa-file-contract"></i> {{ translate("UNLU.PETITION.CERTIFICATE.ASSIGN") }}
+                        </a>
+                    {{ '{{/ifAndNot}}' }}
                 </div>
             </div>
         </td>

@@ -58,7 +58,11 @@ return [
         "PETITION" => [
             "@TRANSLATION" => "Peticiones",
             "ADDED" => "La petición fue solicitada exitosamente",
-            "APPROVE" => "Aprobar",
+            "APPROVE" => [
+                "@TRANSLATION" => "Aprobar",
+                "CERTIFICATE_MISSING" => "No se puede aprobar esta acta sin asignar un acta",
+                "CONFIRM" => "¿Está seguro que quiere aprobar esta petición?"
+            ],
             "APPROVE_PETITION" => "Aprobar petición",
             "APPROVED" => "Aprobada",
             "ASSIGN" => "Asignar",

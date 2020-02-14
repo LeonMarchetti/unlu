@@ -2,9 +2,9 @@
     {% include "forms/csrf.html.twig" %}
     <div class="js-form-alerts"></div>
     <h4>
-        ¿Está seguro que quiere aprobar esta petición?:<br>
-        Vinculación: {% if peticion.id_vinculacion %}<b>{{ peticion.vinculacion.actividad }}</b>{% else %}{{ translate("UNLU.PETITION.VINCULATION.NONE") }}{% endif %}<br>
-        Servicio: <b>{{ peticion.servicio.denominacion }}</b>
+        {{ translate("UNLU.PETITION.APPROVE.CONFIRM") }}<br>
+        {{ translate("UNLU.VINCULATION") }}: {% if peticion.id_vinculacion %}<b>{{ peticion.vinculacion.actividad }}</b>{% else %}{{ translate("UNLU.PETITION.VINCULATION.NONE") }}{% endif %}<br>
+        {{ translate("UNLU.SERVICE") }}: <b>{{ peticion.servicio.denominacion }}</b>
     </h4>
     <br>
     <input type="hidden" name="aprobada" value="true"/>
@@ -13,3 +13,7 @@
         <button type="button" class="btn btn-default btn-lg btn-block" data-dismiss="modal">{{ translate("CANCEL") }}</button>
     </div>
 </form>
+
+{% block scripts_page %}
+    <script>{% include "pages/partials/page.js.twig" %}</script>
+{% endblock %}
