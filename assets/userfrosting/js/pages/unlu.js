@@ -192,6 +192,18 @@ $(function() {
         }
     });
 
+    Handlebars.registerHelper('ifPuedeAprobar', function(a, b, c, d, options) {
+        // a -> row.necesita_acta
+        // b -> row.ubicacion
+        // c -> row.vinculacion
+        // d -> row.vinculacion.id_acta
+        if ((!a && !c) || (!a && d) || (b && !c) || (b && d)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     /*  Asignar eventos a los botones en la tabla de peticiones cuando termina
         de renderizar la tabla. */
     $("#tablaPeticiones").on("pagerComplete.ufTable", function () {

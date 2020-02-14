@@ -36,3 +36,7 @@ td textarea {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+.vinculacion-no-aprobada {
+    color: red;
+}

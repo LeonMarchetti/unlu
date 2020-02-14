@@ -109,6 +109,7 @@ return [
                 "HELP" => "It's not required to be linked to a vinculation",
                 "MISSING" => "Without vinculation",
                 "NONE" => "None",
+                "NOT_APPROVED" => "This vinculation is not approved",
             ],
         ],
         "PHONE" => [

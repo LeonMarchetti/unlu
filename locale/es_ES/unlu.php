@@ -109,6 +109,7 @@ return [
                 "HELP" => "No es obligatorio que esté vinculado a una vinculación",
                 "MISSING" => "Sin vinculación",
                 "NONE" => "Ninguna",
+                "NOT_APPROVED" => "Esta vinculación no está aprobada",
             ],
         ],
         "PHONE" => [

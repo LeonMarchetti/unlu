@@ -109,6 +109,9 @@
         <td nowrap data-text="{{ '{{row.vinculacion.actividad}}' }}">
             {{ '{{#if row.vinculacion}}' }}
                 <span>{{ '{{row.vinculacion.actividad}}' }}</span>
+                {{ '{{#unless row.vinculacion.id_acta }}' }}
+                    <br><span class="vinculacion-no-aprobada">{{ translate("UNLU.PETITION.VINCULATION.NOT_APPROVED") }}</span>
+                {{ '{{/unless}}' }}
             {{ '{{else}}' }}
                 <span><i class="fa fa-minus"></i></span>
             {{ '{{/if}}' }}
@@ -156,15 +159,13 @@
                 <button class="dropbtn btn btn-primary">{{ translate("ACTIONS") }}</button>
                 <div class="dropdown-content">
                     {% if checkAccess("admin_unlu") %}
-                        {{ '{{#ifAndNot row.servicio.necesita_acta row.ubicacion}}' }}
-                            {# vacío #}
-                        {{ '{{else}}' }}
-                            {{ '{{#unless row.aprobada}}' }}
+                        {{ '{{#unless row.aprobada}}' }}
+                            {{ '{{#ifPuedeAprobar row.servicio.necesita_acta row.ubicacion row.vinculacion row.vinculacion.id_acta}}' }}
                                 <a href="#" class="aprobar-peticion" data-id="{{ '{{row.id}}' }}">
                                     <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
                                 </a>
-                            {{ '{{/unless}}' }}
-                        {{ '{{/ifAndNot}}' }}
+                            {{ '{{/ifPuedeAprobar}}' }}
+                        {{ '{{/unless}}' }}
                     {% endif %}
                     <a href="#" class="editar-peticion" data-id="{{ '{{row.id}}' }}">
                         <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
