@@ -107,8 +107,9 @@ return [
             "VINCULATION" => [
                 "@TRANSLATION" => "Vinculation",
                 "HELP" => "It's not required to be linked to a vinculation",
-                "MISSING" => "Without vinculation",
-                "NONE" => "None",
+                "MISSING" => "Missing vinculation (the selected service requires it)",
+                "NEEDED" => "This service requires to be assigned to a vinculation for the petition to be requested.",
+                "NONE" => "No vinculation",
                 "NOT_APPROVED" => "This vinculation is not approved",
             ],
         ],

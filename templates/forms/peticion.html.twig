@@ -38,6 +38,7 @@
                         {% for servicio in servicios %}
                             <option value="{{ servicio.id }}"
                                     necesita-acta="{{ servicio.necesita_acta }}"
+                                    necesita-vinculacion="{{ servicio.necesita_vinculacion }}"
                                     {% if servicio.id == peticion.id_servicio %}selected="selected"{% endif %}>
                                 {{ servicio.denominacion }}
                             </option>
@@ -46,6 +47,7 @@
                 </div>
             </div>
             <p id="ayuda-acta-servicio" class="help-block">{{ translate("UNLU.PETITION.CERTIFICATE.NEEDED") }}</p>
+            <p id="ayuda-vinculacion-servicio" class="help-block">{{ translate("UNLU.PETITION.VINCULATION.NEEDED") }}</p>
         </div>
         <div class="col-sm-6"> <!-- Vinculación -->
             <div class="form-group">
@@ -53,7 +55,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <select id="select-vinculacion" class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %}>
-                        <option value="">{{ translate("UNLU.PETITION.VINCULATION.MISSING") }}</option>
+                        <option value="">{{ translate("UNLU.PETITION.VINCULATION.NONE") }}</option>
                         {% for vinc in vinculaciones %}
                             <option value="{{ vinc.id }}"
                                     {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>

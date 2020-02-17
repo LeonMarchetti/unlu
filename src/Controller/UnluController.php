@@ -205,6 +205,9 @@ class UnluController extends SimpleController {
         $transformer = new RequestDataTransformer($schema);
         $data = $transformer->transform($params);
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
         $error = false;
 
         // Asigno el id del usuario actual como id del solicitante de la petición
@@ -238,6 +241,13 @@ class UnluController extends SimpleController {
         if (!isset($data["id_servicio"]) || $data["id_servicio"] === "") {
             $ms->addMessageTranslated('danger', 'UNLU.PETITION.SERVICE.MISSING', $data);
             $error = true;
+
+        } else {
+            $servicio = $this->getObjectFromParams([ "id" => $data["id_servicio"] ], "servicio");
+            if ($servicio->necesita_vinculacion && (!isset($data["vinculacion"]) || $data["vinculacion"] === "")) {
+                $ms->addMessageTranslated('danger', 'UNLU.PETITION.VINCULATION.MISSING', $data);
+                $error = true;
+            }
         }
 
         if (!isset($data["descripcion"]) || $data["descripcion"] === "") {
@@ -255,9 +265,6 @@ class UnluController extends SimpleController {
         if ($error) {
             return $response->withJson([], 400);
         }
-
-        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
-        $classMapper = $this->ci->classMapper;
 
         Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
             $peticion = $classMapper->createInstance("peticion", $data);
@@ -368,6 +375,7 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
         // Begin transaction - DB will be rolled back if an exception occurs
@@ -440,6 +448,7 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
         Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
@@ -505,6 +514,7 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
         // Begin transaction - DB will be rolled back if an exception occurs

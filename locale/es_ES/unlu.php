@@ -107,8 +107,9 @@ return [
             "VINCULATION" => [
                 "@TRANSLATION" => "Vinculación",
                 "HELP" => "No es obligatorio que esté vinculado a una vinculación",
-                "MISSING" => "Sin vinculación",
-                "NONE" => "Ninguna",
+                "MISSING" => "Falta la vinculación (el servicio seleccionado lo requiere).",
+                "NEEDED" => "Este servicio requiere asignado a una vinculación para su solicitud",
+                "NONE" => "Ninguna vinculación",
                 "NOT_APPROVED" => "Esta vinculación no está aprobada",
             ],
         ],
