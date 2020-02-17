@@ -79,6 +79,10 @@ return [
                 ],
                 "NEEDED" => "This service requires filling a form for the petition to be approved.",
                 "PETITION_MISSING" => "Petition's id to assign is missing",
+                "REASSIGN" => [
+                    "@TRANSLATION" => "Reassign certificate",
+                    "SUCCESS" => "The certificate reassignation was successful",
+                ],
             ],
             "DELETE_SUCCESSFUL" => "The petition was deleted successfully",
             "DESCRIPTION" => [

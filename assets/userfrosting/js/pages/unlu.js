@@ -183,15 +183,6 @@ $(function() {
         }
     });
 
-    Handlebars.registerHelper('ifAndNot', function(a, b, options) {
-        // Ayudante de Handlebars para realizar una verificación de a && !b
-        if (a && !b) {
-            return options.fn(this);
-        } else {
-            return options.inverse(this);
-        }
-    });
-
     Handlebars.registerHelper('ifPuedeAprobar', function(a, b, c, d, options) {
         // a -> row.necesita_acta
         // b -> row.ubicacion

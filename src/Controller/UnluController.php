@@ -1196,6 +1196,7 @@ class UnluController extends SimpleController {
         if (!isset($archivos['archivo'])) {
             $ms->addMessageTranslated('danger', 'UNLU.PETITION.CERTIFICATE.FILE.MISSING', $data);
             $error = true;
+
         } else {
             $archivo = $archivos['archivo'];
             if ($archivo->getError() !== UPLOAD_ERR_OK) {
@@ -1214,6 +1215,9 @@ class UnluController extends SimpleController {
                 $indice = sprintf("%04d", $i++);
                 $nombre_archivo = $nombre_base.".".$indice.".".$ext;
             }
+
+            $peticion = $this->getObjectFromParams([ "id" => $data["id_peticion"] ], "peticion");
+            $archivo_viejo = $peticion->ubicacion;
         }
 
         if ($error) {
@@ -1223,8 +1227,11 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $filesystem, $ms, $currentUser, $data, $archivo, $nombre_archivo) {
+        Capsule::transaction(function () use ($classMapper, $filesystem, $ms, $currentUser, $data, $archivo, $nombre_archivo, $archivo_viejo) {
             $filesystem->put("actas-peticiones/$nombre_archivo", $archivo->getStream()->getContents());
+            if ($archivo_viejo) {
+                $filesystem->delete("actas-peticiones/$archivo_viejo");
+            }
 
             $id_peticion = $data["id_peticion"];
 

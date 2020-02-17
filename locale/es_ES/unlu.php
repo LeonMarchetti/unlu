@@ -79,6 +79,10 @@ return [
                 ],
                 "NEEDED" => "Este servicio requiere llenar un formulario para su aprobación",
                 "PETITION_MISSING" => "Falta el id de la petición a asignar",
+                "REASSIGN" => [
+                    "@TRANSLATION" => "Reasignar acta",
+                    "SUCCESS" => "La reasignación del acta fue exitosa",
+                ],
             ],
             "DELETE_SUCCESSFUL" => "La petición fue borrada exitosamente",
             "DESCRIPTION" => [
