@@ -3,7 +3,7 @@
     <div class="js-form-alerts"></div>
 
     <div class="row"> <!-- Denominación y acta -->
-        <div class="col-sm-8"> <!-- Denominación -->
+        <div class="col-sm-12"> <!-- Denominación -->
             <div class="form-group">
                 <label>{{ translate("UNLU.SERVICE.DENOMINATION") }}</label>
                 <div class="input-group">
@@ -13,7 +13,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4"> <!-- Acta -->
+    </div>
+
+    <div class="row"> <!-- Acta y vinculación -->
+        <div class="col-sm-6"> <!-- Acta -->
             <div class="form-group">
                 <label>{{ translate("UNLU.SERVICE.CERTIFICATE_NEEDED") }}</label>
                 <div class="form-check">
@@ -23,6 +26,19 @@
                     </label>
                 </div>
             </div>
+            <p class="help-block">{{ translate("UNLU.SERVICE.CERTIFICATE_NEEDED.HELP") }}
+        </div>
+        <div class="col-sm-6"> <!-- Vinculación -->
+            <div class="form-group">
+                <label>{{ translate("UNLU.SERVICE.VINCULATION_NEEDED") }}</label>
+                <div class="form-check">
+                    <label>
+                        <input type="checkbox" class="form-check-input" name="necesita_vinculacion"
+                               {%if servicio.necesita_vinculacion %}checked{% endif %} />
+                    </label>
+                </div>
+            </div>
+            <p class="help-block">{{ translate("UNLU.SERVICE.VINCULATION_NEEDED.HELP") }}
         </div>
     </div>
 

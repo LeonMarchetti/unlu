@@ -26,6 +26,13 @@
                     data-filter="false">
                         {{ translate("UNLU.SERVICE.CERTIFICATE_NEEDED") }} <i class="fa fa-sort"></i>
                 </th>
+                <th class="sorter-metatext"
+                    data-column-name="necesita_vinculacion"
+                    data-column-template="#service-table-column-necesita_vinculacion"
+                    data-priority="1"
+                    data-filter="false">
+                        {{ translate("UNLU.SERVICE.VINCULATION_NEEDED") }} <i class="fa fa-sort"></i>
+                </th>
                 <th data-column-name="acciones"
                     data-column-template="#service-table-column-actions"
                     data-sorter="false"
@@ -52,6 +59,16 @@
     <script id="service-table-column-necesita_acta" type="text/x-handlebars-template">
         <td style="text-align: center">
             {{ '{{#if row.necesita_acta}}' }}
+                <span>{{ translate("YES") }}</span>
+            {{ '{{else}}' }}
+                <span>{{ translate("NO") }}</span>
+            {{ '{{/if}}' }}
+        </td>
+    </script>
+
+    <script id="service-table-column-necesita_vinculacion" type="text/x-handlebars-template">
+        <td style="text-align: center">
+            {{ '{{#if row.necesita_vinculacion}}' }}
                 <span>{{ translate("YES") }}</span>
             {{ '{{else}}' }}
                 <span>{{ translate("NO") }}</span>

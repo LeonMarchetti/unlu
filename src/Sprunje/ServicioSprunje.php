@@ -11,7 +11,8 @@ class ServicioSprunje extends Sprunje {
 
     protected $sortable = [
         "denominacion",
-        "necesita_acta"
+        "necesita_acta",
+        "necesita_vinculacion"
     ];
 
     protected $filterable = [

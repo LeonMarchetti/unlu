@@ -128,7 +128,7 @@ return [
             ],
             "CERTIFICATE_NEEDED" => [
                 "@TRANSLATION" => "Certificate needed?",
-                "MISSING" => "Indicating if certificate is needed is missing",
+                "HELP" => "If requesting a petition of this service needs a certificate",
             ],
             "DELETE" => [
                 "@TRANSLATION" => "Delete",
@@ -142,7 +142,11 @@ return [
             "EDIT" => "Edit",
             "OBSERVATIONS" => "Observations",
             "PLURAL" => "Services",
-            "UPDATED" => "The service was updated successfully",
+            "UPDATED" => "The service <b>{{denominacion}}</b> was updated successfully",
+            "VINCULATION_NEEDED" => [
+                "@TRANSLATION" => "Vinculation needed?",
+                "HELP" => "If to request a petition of this service needs to be assigned to a vinculation",
+            ],
         ],
         "VINCULATION" => [
             "@TRANSLATION" => "Vinculation",

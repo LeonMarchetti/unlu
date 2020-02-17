@@ -128,7 +128,7 @@ return [
             ],
             "CERTIFICATE_NEEDED" => [
                 "@TRANSLATION" => "¿Necesita acta?",
-                "MISSING" => "Falta indicar si se necesita el acta",
+                "HELP" => "Si realizar una petición de este servicio requiere de adjuntar algún acta",
             ],
             "DELETE" => [
                 "@TRANSLATION" => "Eliminar",
@@ -142,7 +142,11 @@ return [
             "EDIT" => "Editar",
             "OBSERVATIONS" => "Observaciones",
             "PLURAL" => "Servicios",
-            "UPDATED" => "El servicio fue actualizado exitosamente",
+            "UPDATED" => "El servicio <b>{{denominacion}}</b> fue actualizado exitosamente",
+            "VINCULATION_NEEDED" => [
+                "@TRANSLATION" => "¿Necesita una vinculación?",
+                "HELP" => "Si realizar una petición de este servicio requiere de estar necesariamente asignado a una vinculación",
+            ],
         ],
         "VINCULATION" => [
             "@TRANSLATION" => "Vinculación",

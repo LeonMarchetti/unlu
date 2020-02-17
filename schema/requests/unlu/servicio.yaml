@@ -14,6 +14,11 @@ necesita_acta:
         boolean:
             label: "&UNLU.SERVICE.CERTIFICATE_NEEDED"
             message: VALIDATE.BOOLEAN
+necesita_vinculacion:
+    validators:
+        boolean:
+            label: "&UNLU.SERVICE.VINCULATION_NEEDED"
+            message: VALIDATE.BOOLEAN
 observaciones:
     validators:
         length:
