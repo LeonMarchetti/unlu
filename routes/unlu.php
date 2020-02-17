@@ -61,7 +61,7 @@ $app->group("/api/unlu", function() {
     $this->post("/p/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarPeticion");
     // Actas de servicios asignadas a peticiones
     $this->post("/as", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:asignarActaPeticion");
-    $this->get("/as/{acta}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:getActaServicio");
+    $this->get("/as/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:getActaServicio");
 
     // Servicios
     $this->get("/s", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarServicios");

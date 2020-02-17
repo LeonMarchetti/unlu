@@ -230,7 +230,7 @@ $(function() {
 
         $(this).find(".ver-acta-servicio").click(function(e) {
             e.preventDefault();
-            window.open(`${site.uri.public}/api/unlu/as/${$(this).data('acta')}`, "_blank");
+            window.open(`${site.uri.public}/api/unlu/as/${$(this).data('id')}`, "_blank");
         });
 
         $(this).find(".asignar-acta").click(function(e) {

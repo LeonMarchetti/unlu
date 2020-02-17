@@ -135,7 +135,7 @@
             {{ '{{#if row.servicio.necesita_acta}}' }}
                 {{ '{{#if row.acta }}' }}
                     <button type="button" class="btn btn-lg btn-primary ver-acta-servicio"
-                            data-acta="{{ '{{ row.acta }}' }}">
+                            data-id="{{ '{{row.id}}' }}">
                         <i class="fa fa-file-contract"></i>
                     </button>
                 {{ '{{/if}}' }}

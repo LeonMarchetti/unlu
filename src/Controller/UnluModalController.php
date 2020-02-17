@@ -32,7 +32,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
 
         // Valores por defecto de la vinculación que provienen de los datos del usuario actual.
@@ -79,7 +79,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
 
         $servicios = Servicio::all();
@@ -129,7 +129,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $peticiones = Peticion::all();
@@ -210,7 +210,10 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
+
+        } else if (!$authorizer->checkAccess($currentUser, 'admin_unlu') && ($peticion->id_usuario != $currentUser->id)) {
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.WRONG_USER_ACCESS"));
         }
 
         /*  Como origen de datos del select creo una lista con solamente la
@@ -259,7 +262,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
@@ -295,7 +298,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
@@ -329,7 +332,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
@@ -352,21 +355,23 @@ class UnluModalController extends SimpleController {
     }
 
     public function editarVinculacionModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+        $vinculacion = $this->getObjectFromParams($request->getQueryParams(), "vinculacion");
+        if (!$vinculacion) {
+            throw new NotFoundException($request, $response);
+        }
+
         /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
         $authorizer = $this->ci->authorizer;
 
         /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
-            throw new ForbiddenException();
-        }
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
 
-        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
-        $vinculacion = $this->getObjectFromParams($request->getQueryParams(), "vinculacion");
-        if (!$vinculacion) {
-            throw new NotFoundException($request, $response);
+        } else if (!$authorizer->checkAccess($currentUser, 'admin_unlu') && ($vinculacion->id_solicitante != $currentUser->id)) {
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.WRONG_USER_ACCESS"));
         }
 
         $tipos_de_usuario = TipoUsuario::all();
@@ -405,7 +410,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
@@ -441,7 +446,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
@@ -479,7 +484,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
@@ -510,7 +515,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
@@ -540,7 +545,7 @@ class UnluModalController extends SimpleController {
 
         // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            throw new ForbiddenException();
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
         $schema = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');

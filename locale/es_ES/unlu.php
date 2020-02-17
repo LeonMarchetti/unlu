@@ -54,6 +54,11 @@ return [
         ],
         "DEPENDENCY" => "Dependencia",
         "DESCRIPTION" => "Investigación. Docencia. Extensión. Universidad Nacional de Luján",
+        "FORBIDDEN" => [
+            "NOT_ADMIN_USER" => "Este usuario no es un usuario administrador del sistema de CIDETIC",
+            "NOT_UNLU_USER" => "Este usuario no es un usuario del sistema de CIDETIC",
+            "WRONG_USER_ACCESS" => "Este usuario no puede acceder a objetos de otros usuarios",
+        ],
         "INSTITUTION" => "Institución",
         "PETITION" => [
             "@TRANSLATION" => "Peticiones",

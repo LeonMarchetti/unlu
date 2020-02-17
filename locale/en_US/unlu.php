@@ -54,6 +54,11 @@ return [
         ],
         "DEPENDENCY" => "Dependency",
         "DESCRIPTION" => "Research. Teaching. Extension. National University of Luján",
+        "FORBIDDEN" => [
+            "NOT_ADMIN_USER" => "This user is not a CIDETIC system administrator user",
+            "NOT_UNLU_USER" => "This user is not a CIDETIC system user",
+            "WRONG_USER_ACCESS" => "This user can't access other users' objects",
+        ],
         "INSTITUTION" => "Institution",
         "PETITION" => [
             "@TRANSLATION" => "Petitions",
