@@ -357,7 +357,7 @@ class UnluController extends SimpleController {
         $error = false;
 
         if (isset($data["aprobada"])) {
-            if ($peticion->servicio->necesita_acta && !$peticion->ubicacion) {
+            if ($peticion->servicio->necesita_acta && !$peticion->acta) {
                 $ms->addMessageTranslated('danger', 'UNLU.PETITION.APPROVE.CERTIFICATE_MISSING', $data);
                 $error = true;
             }
@@ -1152,7 +1152,7 @@ class UnluController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        return $response->write($this->ci->filesystem->get("actas-peticiones/$args[ubicacion]"))
+        return $response->write($this->ci->filesystem->get("actas-peticiones/$args[acta]"))
                         ->withHeader('Content-type', 'application/pdf')
                         ->withStatus(200);
     }
@@ -1216,7 +1216,7 @@ class UnluController extends SimpleController {
             }
 
             $peticion = $this->getObjectFromParams([ "id" => $data["id_peticion"] ], "peticion");
-            $archivo_viejo = $peticion->ubicacion;
+            $archivo_viejo = $peticion->acta;
         }
 
         if ($error) {
@@ -1239,7 +1239,7 @@ class UnluController extends SimpleController {
                 throw new NotFoundException($request, $response);
             }
 
-            $peticion->ubicacion = $nombre_archivo;
+            $peticion->acta = $nombre_archivo;
             if ($peticion->aprobada) {
                 $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', [
                     "descripcion" => $peticion->descripcion

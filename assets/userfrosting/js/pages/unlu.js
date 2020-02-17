@@ -185,7 +185,7 @@ $(function() {
 
     Handlebars.registerHelper('ifPuedeAprobar', function(a, b, c, d, options) {
         // a -> row.necesita_acta
-        // b -> row.ubicacion
+        // b -> row.acta
         // c -> row.vinculacion
         // d -> row.vinculacion.id_acta
         if ((!a && !c) || (!a && d) || (b && !c) || (b && d)) {
@@ -230,7 +230,7 @@ $(function() {
 
         $(this).find(".ver-acta-servicio").click(function(e) {
             e.preventDefault();
-            window.open(`${site.uri.public}/api/unlu/as/${$(this).data('ubicacion')}`, "_blank");
+            window.open(`${site.uri.public}/api/unlu/as/${$(this).data('acta')}`, "_blank");
         });
 
         $(this).find(".asignar-acta").click(function(e) {

@@ -21,7 +21,7 @@ class Peticion extends Model
         'id_vinculacion',
         'id_servicio',
         'aprobada',
-        'ubicacion'
+        'acta'
     ];
 
     public function servicio() {

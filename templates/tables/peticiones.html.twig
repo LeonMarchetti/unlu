@@ -133,9 +133,9 @@
     <script id="peticion-table-column-acta" type="text/x-handlebars-template">
         <td style="text-align: center">
             {{ '{{#if row.servicio.necesita_acta}}' }}
-                {{ '{{#if row.ubicacion }}' }}
+                {{ '{{#if row.acta }}' }}
                     <button type="button" class="btn btn-lg btn-primary ver-acta-servicio"
-                            data-ubicacion="{{ '{{ row.ubicacion }}' }}">
+                            data-acta="{{ '{{ row.acta }}' }}">
                         <i class="fa fa-file-contract"></i>
                     </button>
                 {{ '{{/if}}' }}
@@ -160,7 +160,7 @@
                 <div class="dropdown-content">
                     {% if checkAccess("admin_unlu") %}
                         {{ '{{#unless row.aprobada}}' }}
-                            {{ '{{#ifPuedeAprobar row.servicio.necesita_acta row.ubicacion row.vinculacion row.vinculacion.id_acta}}' }}
+                            {{ '{{#ifPuedeAprobar row.servicio.necesita_acta row.acta row.vinculacion row.vinculacion.id_acta}}' }}
                                 <a href="#" class="aprobar-peticion" data-id="{{ '{{row.id}}' }}">
                                     <i class="fas fa-plus-square"></i> {{ translate("UNLU.PETITION.APPROVE") }}
                                 </a>
