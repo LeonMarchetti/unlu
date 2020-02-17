@@ -170,11 +170,13 @@
                     <a href="#" class="editar-peticion" data-id="{{ '{{row.id}}' }}">
                         <i class="fas fa-pen-square"></i> {{ translate("UNLU.PETITION.EDIT") }}
                     </a>
-                    {{ '{{#if row.servicio.necesita_acta}}' }}
-                        <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
-                            <i class="fas fa-file-contract"></i> {{ translate("UNLU.PETITION.CERTIFICATE.ASSIGN") }}
-                        </a>
-                    {{ '{{/if}}' }}
+                    {% if checkAccess("admin_unlu") %}
+                        {{ '{{#if row.servicio.necesita_acta}}' }}
+                            <a href="#" class="asignar-acta" data-id="{{ '{{row.id}}' }}">
+                                <i class="fas fa-file-contract"></i> {{ translate("UNLU.PETITION.CERTIFICATE.ASSIGN") }}
+                            </a>
+                        {{ '{{/if}}' }}
+                    {% endif %}
                 </div>
             </div>
         </td>
