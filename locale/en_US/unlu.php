@@ -91,6 +91,7 @@ return [
             ],
             "DOWN" => "Remove Request",
             "EDIT" => "Edit",
+            "EDIT_DISAPPROVED" => "The modified petition <b>{{descripcion}}</b> lost its approved status",
             "END_DATE" => [
                 "@TRANSLATION" => "End date",
                 "BEFORE" => "The end date occurs before the start date",
@@ -107,7 +108,7 @@ return [
                 "BEFORE" => "Start date occurs before today",
                 "MISSING" => "Start date is missing"
             ],
-            "UPDATED" => "Petition updated",
+            "UPDATED" => "Petition <b>{{descripcion}}</b> updated",
             "VINCULATION" => [
                 "@TRANSLATION" => "Vinculation",
                 "HELP" => "It's not required to be linked to a vinculation",

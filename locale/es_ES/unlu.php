@@ -91,6 +91,7 @@ return [
             ],
             "DOWN" => "Baja Solicitud",
             "EDIT" => "Editar",
+            "EDIT_DISAPPROVED" => "La petición modificada <b>{{descripcion}}</b> perdió su condición de aprobada",
             "END_DATE" => [
                 "@TRANSLATION" => "Fecha de finalización",
                 "BEFORE" => "La fecha de finalización no puede ser anterior a la fecha de inicio",
@@ -107,7 +108,7 @@ return [
                 "BEFORE" => "La fecha de inicio no puede ser anterior a hoy",
                 "MISSING" => "Falta la fecha de inicio"
             ],
-            "UPDATED" => "Petición actualizada",
+            "UPDATED" => "Petición <b>{{descripcion}}</b> actualizada",
             "VINCULATION" => [
                 "@TRANSLATION" => "Vinculación",
                 "HELP" => "No es obligatorio que esté vinculado a una vinculación",

@@ -379,7 +379,7 @@ class UnluController extends SimpleController {
         $classMapper = $this->ci->classMapper;
 
         // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($classMapper, $data, $peticion, $currentUser) {
+        Capsule::transaction(function () use ($classMapper, $ms, $data, $peticion, $currentUser) {
 
             if (isset($data["aprobada"])) {
                 $peticion->aprobada = $data["aprobada"];
@@ -394,6 +394,7 @@ class UnluController extends SimpleController {
             if (isset($data["fecha_fin"])) {
                 if ($data["fecha_fin"] != $peticion->fecha_fin) {
                     $peticion->fecha_fin = $data["fecha_fin"];
+                    $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', $data);
                     $peticion->aprobada = false;
                 }
             }
@@ -407,9 +408,7 @@ class UnluController extends SimpleController {
             ]);
         });
 
-        $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', [
-            'user_name' => $peticion->id,
-        ]);
+        $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', $data);
 
         return $response->withJson([], 200);
     }
@@ -1241,6 +1240,12 @@ class UnluController extends SimpleController {
             }
 
             $peticion->ubicacion = $nombre_archivo;
+            if ($peticion->aprobada) {
+                $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', [
+                    "descripcion" => $peticion->descripcion
+                ]);
+                $peticion->aprobada = false;
+            }
             $peticion->save();
 
             // Create activity record
