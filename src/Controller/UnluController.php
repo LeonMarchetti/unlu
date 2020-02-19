@@ -41,7 +41,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
@@ -49,11 +48,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
-
-        // Whitelist and set parameter defaults
+        $schema      = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -118,7 +115,6 @@ class UnluController extends SimpleController {
             $error = true;
         }
 
-        // Integrantes
         $integrantes = $data["integrantes"];
 
         if ($error) {
@@ -128,7 +124,10 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser, $integrantes) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $integrantes, $ms) {
             $vinculacion = $classMapper->createInstance("vinculacion", $data);
             $vinculacion->save();
             /*  $vinculacion->id tiene el id generado para esta instancia, si
@@ -160,9 +159,8 @@ class UnluController extends SimpleController {
                 $integrante->save();
             }
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} created a new vinculation {$vinculacion->id}.", [
-                'type'    => 'pastry_create',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} solicitó la vinculación {$vinculacion->id} ({$vinculacion->actividad}).", [
+                'type'    => $config["actividad.tipo.vinculacion.solicitud"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -173,9 +171,6 @@ class UnluController extends SimpleController {
     }
 
     public function solicitarServicio(Request $request, Response $response, $args) {
-        /*  Get POST parameters: user_name, first_name, last_name, email,
-            locale, (group)
-        */
         $params = $request->getParsedBody();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -184,7 +179,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
@@ -192,11 +186,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
-
-        // Whitelist and set parameter defaults
+        $schema      = new RequestSchema('schema://requests/unlu/peticion.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
@@ -249,8 +241,7 @@ class UnluController extends SimpleController {
         }
 
         /*  Borro la instancia de id_vinculacion si viene vacía del formulario
-            (o sea, que la petición no está vinculada a ninguna vinculación):
-        */
+            (o sea, que la petición no está vinculada a ninguna vinculación): */
         if ($data["id_vinculacion"] === "") {
             unset($data["id_vinculacion"]);
         }
@@ -259,13 +250,15 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $ms) {
             $peticion = $classMapper->createInstance("peticion", $data);
             $peticion->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} solicitó una petición {$data->descripcion}.", [
-                'type'    => 'pastry_create',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} solicitó la petición {$peticion->id} ({$peticion->descripcion}).", [
+                'type'    => $config["actividad.tipo.peticion.solicitud"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -277,6 +270,7 @@ class UnluController extends SimpleController {
 
     public function bajaSolicitud(Request $request, Response $response, $args) {
         $params = $request->getParsedBody();
+
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Peticion $peticion */
         $peticion = $this->getObjectFromParams($params, "peticion");
         if (!$peticion) {
@@ -289,23 +283,26 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
+
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
 
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
         // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($peticion, $currentUser, $ms) {
+        Capsule::transaction(function () use ($config, $currentUser, $ms, $peticion) {
+            $id_peticion = $peticion->id;
             $descripcion = $peticion->descripcion;
+
             $peticion->delete();
             unset($peticion);
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("Usuario {$currentUser->user_name} borró la petición {$peticion->id}.", [
-                'type'    => 'pastry_delete',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} bajó la solicitud de servicio {$id_peticion} ({$descripcion}).", [
+                'type'    => $config["actividad.tipo.peticion.baja"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -332,7 +329,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
 
@@ -371,8 +367,10 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($classMapper, $ms, $data, $peticion, $currentUser) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $ms, $peticion) {
             if (isset($data["aprobada"])) {
                 $peticion->aprobada = $data["aprobada"];
 
@@ -381,8 +379,8 @@ class UnluController extends SimpleController {
                 $peticion->observaciones = $data["observaciones"];
             }
 
-            /*  Si cambia la fecha de finalización entonces se le quita el es-
-                tado de aprobada a la petición */
+            /*  Si cambia la fecha de finalización entonces se le quita el
+                estado de aprobada a la petición */
             if (isset($data["fecha_fin"])) {
                 if ($data["fecha_fin"] != $peticion->fecha_fin) {
                     $peticion->fecha_fin = $data["fecha_fin"];
@@ -393,14 +391,13 @@ class UnluController extends SimpleController {
 
             $peticion->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} updated info for petition {$peticion->id}.", [
-                'type'    => 'account_update_info',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} editó la petition {$peticion->id} ({$peticion->descripcion}).", [
+                'type'    => $config["actividad.tipo.peticion.editar"],
                 'user_id' => $currentUser->id,
             ]);
-        });
 
-        $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', $data);
+            $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', $data);
+        });
 
         return $response->withJson([], 200);
     }
@@ -414,7 +411,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -422,11 +418,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
-
-        // Whitelist and set parameter defaults
+        $schema      = new RequestSchema('schema://requests/unlu/servicio.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -442,13 +436,15 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $ms) {
             $servicio = $classMapper->createInstance("servicio", $data);
             $servicio->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} created a new service {$servicio->denominacion}.", [
-                'type'    => 'service_create',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} agregó el servicio {$servicio->id} ({$servicio->denominacion}).", [
+                'type'    => $config["actividad.tipo.servicio.agregar"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -465,7 +461,6 @@ class UnluController extends SimpleController {
             throw new NotFoundException($request, $response);
         }
 
-        // Get PUT parameters
         $params = $request->getParsedBody();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -474,7 +469,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -482,9 +476,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $schema      = new RequestSchema('schema://requests/unlu/servicio.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -500,24 +494,25 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($classMapper, $data, $servicio, $currentUser) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $servicio) {
             $servicio->denominacion         = $data["denominacion"];
             $servicio->necesita_acta        = $data["necesita_acta"];
             $servicio->necesita_vinculacion = $data["necesita_vinculacion"];
             $servicio->observaciones        = $data["observaciones"];
             $servicio->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} updated info for service {$servicio->id}.", [
-                'type'    => 'account_update_info',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} editó el servicio {$servicio->id} ({$servicio->denominacion}).", [
+                'type'    => $config["actividad.tipo.servicio.editar"],
                 'user_id' => $currentUser->id,
             ]);
-        });
 
-        $ms->addMessageTranslated('success', 'UNLU.SERVICE.UPDATED', [
-            'denominacion' => $servicio->denominacion,
-        ]);
+            $ms->addMessageTranslated('success', 'UNLU.SERVICE.UPDATED', [
+                'denominacion' => $servicio->denominacion,
+            ]);
+        });
 
         return $response->withJson([], 200);
     }
@@ -535,35 +530,37 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($servicio, $currentUser) {
-            $denominacion = $servicio->denominacion;
-            $servicio->delete();
-            unset($servicio);
-
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} deleted the service {$denominacion}.", [
-                'type'    => 'pastry_delete',
-                'user_id' => $currentUser->id,
-            ]);
-        });
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
 
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
-        $ms->addMessageTranslated('success', 'UNLU.SERVICE.DELETE.SUCCESS', [
-            'denominacion' => $denominacion,
-        ]);
+
+        Capsule::transaction(function () use ($config, $currentUser, $ms, $servicio) {
+            $id           = $servicio->id;
+            $denominacion = $servicio->denominacion;
+
+            $servicio->delete();
+            unset($servicio);
+
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} eliminó el servicio {$id} ({$denominacion}).", [
+                'type'    => $config["actividad.tipo.servicio.eliminar"],
+                'user_id' => $currentUser->id,
+            ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.SERVICE.DELETE.SUCCESS', [
+                'denominacion' => $denominacion,
+            ]);
+        });
 
         return $response->withJson([], 200);
     }
 
     public function listarActas(Request $request, Response $response, $args) {
-        // GET parameters
         $params = $request->getQueryParams();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -572,7 +569,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -581,14 +577,10 @@ class UnluController extends SimpleController {
         $classMapper = $this->ci->classMapper;
 
         $sprunje = $classMapper->createInstance('acta_sprunje', $classMapper, $params);
-
-        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
-        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
         return $sprunje->toResponse($response);
     }
 
     public function listarPeticiones(Request $request, Response $response, $args) {
-        // GET parameters
         $params = $request->getQueryParams();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -597,7 +589,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
@@ -608,20 +599,17 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Unlu\Sprunje\PeticionSprunje $sprunje */
         $sprunje = $classMapper->createInstance('peticion_sprunje', $classMapper, $params);
 
-        /*  Extiendo la consulta del sprunje para que solo traiga las peticiones del usuario (si no es administrador). */
+        /* Extiendo la consulta del sprunje para que solo traiga las peticiones del usuario (si no es administrador). */
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             $sprunje->extendQuery(function($query) use ($currentUser) {
                 return $query->where('id_usuario', $currentUser->id);
             });
         }
 
-        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
-        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
         return $sprunje->toResponse($response);
     }
 
     public function listarServicios(Request $request, Response $response, $args) {
-        // GET parameters
         $params = $request->getQueryParams();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -630,7 +618,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -641,13 +628,10 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Unlu\Sprunje\ServicioSprunje $sprunje */
         $sprunje = $classMapper->createInstance('servicio_sprunje', $classMapper, $params);
 
-        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
-        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
         return $sprunje->toResponse($response);
     }
 
     public function listarVinculaciones(Request $request, Response $response, $args) {
-        // GET parameters
         $params = $request->getQueryParams();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
@@ -656,7 +640,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
@@ -667,15 +650,13 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Unlu\Sprunje\VinculacionSprunje $sprunje */
         $sprunje = $classMapper->createInstance('vinculacion_sprunje', $classMapper, $params);
 
-        /*  Extiendo la consulta del sprunje para que solo traiga las vinculaciones del usuario (si no es administrador). */
+        /* Extiendo la consulta del sprunje para que solo traiga las vinculaciones del usuario (si no es administrador). */
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             $sprunje->extendQuery(function($query) use ($currentUser) {
                 return $query->where('id_solicitante', $currentUser->id);
             });
         }
 
-        // Be careful how you consume this data - it has not been escaped and contains untrusted user-supplied content.
-        // For example, if you plan to insert it into an HTML DOM, you must escape it on the client side (or use client-side templating).
         return $sprunje->toResponse($response);
     }
 
@@ -692,7 +673,6 @@ class UnluController extends SimpleController {
         /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
@@ -727,9 +707,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+        $schema      = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -812,7 +792,10 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser, $vinculacion, $editar_integrantes) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $editar_integrantes, $ms, $vinculacion) {
             $vinculacion->id_solicitante  = $data["id_solicitante"];
             $vinculacion->responsable     = $data["responsable"];
             $vinculacion->cargo           = $data["cargo"];
@@ -852,9 +835,8 @@ class UnluController extends SimpleController {
                 }
             }
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} updated vinculation {$vinculacion->id}.", [
-                'type'    => 'pastry_create',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} editó la vinculación {$vinculacion->id} ({$vinculacion->actividad}).", [
+                'type'    => $config["actividad.tipo.vinculacion.editar"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -874,7 +856,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -882,9 +863,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+        $schema      = new RequestSchema('schema://requests/unlu/acta.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -903,10 +884,9 @@ class UnluController extends SimpleController {
             $error = true;
 
         } else {
-            /*  Armo el nombre del archivo con el título y la fecha.
-                Reemplazo los espacios en el título con guión bajo.
-                Reemplazo las barras en la fecha con guiones.
-             */
+            // Armo el nombre del archivo con el título y la fecha.
+            // Reemplazo los espacios en el título con guión bajo.
+            // Reemplazo las barras en la fecha con guiones.
             $titulo = str_replace(" ", "_", $data["titulo"]);
             $data["ubicacion"] = $titulo."_".$data["fecha"].".pdf";
 
@@ -924,18 +904,20 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
         /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
         $filesystem = $this->ci->filesystem;
 
-        Capsule::transaction(function () use ($classMapper, $filesystem, $data, $ms, $currentUser, $archivo) {
+        Capsule::transaction(function () use ($archivo, $classMapper, $config, $currentUser, $data, $filesystem, $ms) {
             $filesystem->put("actas/$data[ubicacion]", $archivo->getStream()->getContents());
 
             $acta = $classMapper->createInstance("acta", $data);
             $acta->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} added a new certificate {$acta->titulo}.", [
-                'type'    => 'service_create',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} agregó el certificado ${$acta->id} ({$acta->titulo}).", [
+                'type'    => $config["actividad.tipo.acta.agregar"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -968,9 +950,9 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/acta.yaml');
+        $schema      = new RequestSchema('schema://requests/unlu/acta.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -986,16 +968,18 @@ class UnluController extends SimpleController {
             return $response->withJson([], 400);
         }
 
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
         /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
         $filesystem = $this->ci->filesystem;
 
-        Capsule::transaction(function () use ($filesystem, $ms, $currentUser, $archivo, $acta) {
+        Capsule::transaction(function () use ($acta, $archivo, $config, $currentUser, $filesystem, $ms) {
             $ubicacion = $acta->ubicacion;
             $filesystem->put("actas/$ubicacion", $archivo->getStream()->getContents());
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} replaced file for certificate {$acta->titulo}.", [
-                'type'    => 'reemplazo_acta',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} reemplazó el archivo del acta {$acta->id} ({$acta->titulo}).", [
+                'type'    => $config["actividad.tipo.acta.reemplazar"],
                 'user_id' => $currentUser->id
             ]);
 
@@ -1020,16 +1004,21 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
         /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
         $filesystem = $this->ci->filesystem;
 
-        // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($acta, $currentUser, $filesystem) {
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
+        Capsule::transaction(function () use ($acta, $config, $currentUser, $filesystem, $ms) {
+            $id        = $acta->id;
             $titulo    = $acta->titulo;
             $ubicacion = $acta->ubicacion;
 
@@ -1038,14 +1027,11 @@ class UnluController extends SimpleController {
 
             $filesystem->delete("actas/$ubicacion");
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} deleted the certificate {$titulo}.", [
-                'type'    => 'eliminar_acta',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} eliminó el acta {$id} ({$titulo}).", [
+                'type'    => $config["actividad.tipo.acta.eliminar"],
                 'user_id' => $currentUser->id,
             ]);
 
-            /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
-            $ms = $this->ci->alerts;
             $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.DELETE.SUCCESS', [
                 'titulo' => $titulo
             ]);
@@ -1063,7 +1049,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -1071,20 +1056,34 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
         $ms = $this->ci->alerts;
 
-        $schema = new RequestSchema('schema://requests/unlu/asignar-acta.yaml');
+        $schema      = new RequestSchema('schema://requests/unlu/asignar-acta.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
         if (!isset($data['id_acta'])) {
             $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE_ASSIGN.CERTIFICATE_ID.MISSING', $data);
             $error = true;
+
+        } else {
+            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
+            $acta = $this->getObjectFromParams(['id' => $data["id_acta"]], "acta");
+            if (!$acta) {
+                throw new NotFoundException($request, $response);
+            }
         }
 
         if (!isset($data['id_vinculacion'])) {
             $ms->addMessageTranslated('danger', 'UNLU.CERTIFICATE_ASSIGN.VINCULATION_ID.MISSING', $data);
             $error = true;
+
+        } else {
+            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
+            $vinculacion = $this->getObjectFromParams(['id' => $data["id_vinculacion"]], "vinculacion");
+            if (!$vinculacion) {
+                throw new NotFoundException($request, $response);
+            }
         }
 
         if ($error) {
@@ -1094,28 +1093,15 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $data, $ms, $currentUser) {
-            $id_acta        = $data['id_acta'];
-            $id_vinculacion = $data['id_vinculacion'];
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
 
-            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
-            $acta = $this->getObjectFromParams(['id' => $id_acta], "acta");
-            if (!$acta) {
-                throw new NotFoundException($request, $response);
-            }
-
-            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
-            $vinculacion = $this->getObjectFromParams(['id' => $id_vinculacion], "vinculacion");
-            if (!$vinculacion) {
-                throw new NotFoundException($request, $response);
-            }
-
-            $vinculacion->id_acta = $id_acta;
+        Capsule::transaction(function () use ($acta, $classMapper, $config, $currentUser, $data, $ms, $vinculacion) {
+            $vinculacion->id_acta = $acta->id;
             $vinculacion->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} assigned a certificate {$id_acta} to vinculation {$id_vinculacion}.", [
-                'type'    => 'certificate_assignment',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} asignó el acta {$acta->id} ({$acta->titulo}) a la vinculación {$vinculacion->id} ({$vinculacion->actividad}).", [
+                'type'    => $config["actividad.tipo.acta.asignar"],
                 'user_id' => $currentUser->id,
             ]);
 
@@ -1141,7 +1127,6 @@ class UnluController extends SimpleController {
         /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
 
@@ -1170,7 +1155,6 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
         $currentUser = $this->ci->currentUser;
 
-        // Access-controlled page
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
@@ -1182,11 +1166,9 @@ class UnluController extends SimpleController {
         $filesystem = $this->ci->filesystem;
         $directorio = "actas-peticiones";
 
-        $schema = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
-
-        // Whitelist and set parameter defaults
+        $schema      = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
         $transformer = new RequestDataTransformer($schema);
-        $data = $transformer->transform($params);
+        $data        = $transformer->transform($params);
 
         $error = false;
 
@@ -1201,9 +1183,9 @@ class UnluController extends SimpleController {
                 $error = true;
             }
 
-            /*  Determino el nombre del archivo para almacenarlo en le servidor.
-                Si ya existe un archivo con ese nombre entonces lo modifico
-                agregándole un número atrás. */
+            // Determino el nombre del archivo para almacenarlo en le servidor.
+            // Si ya existe un archivo con ese nombre entonces lo modifico
+            // agregándole un número atrás.
             $nombre_base = pathinfo($archivo->getClientFilename(), PATHINFO_FILENAME);
             $ext = pathinfo($archivo->getClientFilename(), PATHINFO_EXTENSION);
             $nombre_archivo = $nombre_base.".pdf";
@@ -1221,7 +1203,10 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
 
-        Capsule::transaction(function () use ($classMapper, $filesystem, $ms, $currentUser, $data, $peticion, $archivo, $nombre_archivo) {
+        /** @var \UserFrosting\Support\Repository\Repository $config */
+        $config = $this->ci->config;
+
+        Capsule::transaction(function () use ($archivo, $classMapper, $config, $currentUser, $data, $filesystem, $ms, $nombre_archivo, $peticion) {
             $filesystem->put("actas-peticiones/$nombre_archivo", $archivo->getStream()->getContents());
             if ($peticion->acta) {
                 $filesystem->delete("actas-peticiones/$peticion->acta");
@@ -1236,9 +1221,8 @@ class UnluController extends SimpleController {
             }
             $peticion->save();
 
-            // Create activity record
-            $this->ci->userActivityLogger->info("User {$currentUser->user_name} added a new certificate {$peticion->acta} to petition {$peticion->id}.", [
-                'type'    => 'petition_certificate_assign',
+            $this->ci->userActivityLogger->info("{$currentUser->user_name} asignó el acta {$peticion->acta} a la petición {$peticion->id} ({$peticion->descripcion}).", [
+                'type'    => $config["actividad.tipo.peticion.asignar_acta"],
                 'user_id' => $currentUser->id,
             ]);
 

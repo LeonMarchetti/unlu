@@ -74,5 +74,31 @@ return [
             ]
         ],
         'title' => 'CIDETIC',
+    ],
+
+    'actividad' => [
+        'tipo' => [
+            "acta" => [
+                "agregar" => "agregar_acta",
+                "asignar" => "asignar_acta_vinculacion",
+                "eliminar" => "eliminar_acta",
+                "reemplazar" => "reemplazar_acta",
+            ],
+            "peticion" => [
+                "asignar_acta" => "asignar_acta_peticion",
+                "baja" => "baja_solicitud",
+                "editar" => "editar_peticion",
+                "solicitud" => "solicitud_servicio",
+            ],
+            "servicio" => [
+                "agregar" => "agregar_servicio",
+                "editar" => "editar_servicio",
+                "eliminar" => "eliminar_servicio",
+            ],
+            'vinculacion' => [
+                "editar" => "editar_vinculacion",
+                "solicitud" => "solicitud_vinculacion",
+            ],
+        ]
     ]
 ];
