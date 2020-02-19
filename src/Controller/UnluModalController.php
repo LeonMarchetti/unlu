@@ -9,12 +9,6 @@ use UserFrosting\Sprinkle\Core\Controller\SimpleController;
 use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
 
-use UserFrosting\Sprinkle\Unlu\Database\Models\Peticion;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Servicio;
-use UserFrosting\Sprinkle\Unlu\Database\Models\TipoUsuario;
-use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
-
 use UserFrosting\Fortress\Adapter\JqueryValidationAdapter;
 use UserFrosting\Fortress\RequestSchema;
 

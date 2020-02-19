@@ -9,13 +9,6 @@ use UserFrosting\Sprinkle\Core\Controller\SimpleController;
 use UserFrosting\Support\Exception\ForbiddenException;
 use UserFrosting\Sprinkle\Core\Facades\Debug;
 
-use UserFrosting\Sprinkle\Unlu\Database\Models\Acta;
-use UserFrosting\Sprinkle\Unlu\Database\Models\IntegrantesVinculacion;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Peticion;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Servicio;
-use UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu as Usuario;
-use UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion;
-
 use UserFrosting\Fortress\RequestDataTransformer;
 use UserFrosting\Fortress\RequestSchema;
 use Illuminate\Database\Capsule\Manager as Capsule;
