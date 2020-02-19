@@ -301,8 +301,12 @@ class UnluController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
+
         // Begin transaction - DB will be rolled back if an exception occurs
-        Capsule::transaction(function () use ($peticion, $currentUser) {
+        Capsule::transaction(function () use ($peticion, $currentUser, $ms) {
+            $descripcion = $peticion->descripcion;
             $peticion->delete();
             unset($peticion);
 
@@ -311,14 +315,11 @@ class UnluController extends SimpleController {
                 'type'    => 'pastry_delete',
                 'user_id' => $currentUser->id,
             ]);
+
+            $ms->addMessageTranslated('success', 'UNLU.PETITION.DELETE_SUCCESSFUL', [
+                "descripcion" => $descripcion
+            ]);
         });
-
-        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
-        $ms = $this->ci->alerts;
-
-        $ms->addMessageTranslated('success', 'UNLU.PETITION.DELETE_SUCCESSFUL', [
-            'user_name' => $peticon->id,
-        ]);
 
         return $response->withJson([], 200);
     }
@@ -496,11 +497,6 @@ class UnluController extends SimpleController {
 
         if (!isset($data["denominacion"]) || $data["denominacion"] === "") {
             $ms->addMessageTranslated('danger', 'UNLU.SERVICE.DENOMINATION.MISSING', $data);
-            $error = true;
-        }
-
-        if (!isset($data['necesita_acta'])) {
-            $ms->addMessageTranslated('danger', 'UNLU.SERVICE.CERTIFICATE_NEEDED.MISSING', $data);
             $error = true;
         }
 
@@ -749,7 +745,6 @@ class UnluController extends SimpleController {
         }
 
         if (!isset($data["cargo"]) || $data["cargo"] === "") {
-
             if ($currentUser->rol === "") {
                 $ms->addMessageTranslated('danger', 'UNLU.ROLE.MISSING', $data);
                 $error = true;
@@ -935,6 +930,7 @@ class UnluController extends SimpleController {
 
         /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
         $classMapper = $this->ci->classMapper;
+
         /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
         $filesystem = $this->ci->filesystem;
 
@@ -1057,7 +1053,9 @@ class UnluController extends SimpleController {
 
             /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
             $ms = $this->ci->alerts;
-            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.DELETE.SUCCESS', ['titulo' => $titulo]);
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE.DELETE.SUCCESS', [
+                'titulo' => $titulo
+            ]);
         });
 
         return $response->withJson([], 200);
@@ -1107,6 +1105,12 @@ class UnluController extends SimpleController {
             $id_acta        = $data['id_acta'];
             $id_vinculacion = $data['id_vinculacion'];
 
+            /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Acta $acta */
+            $acta = $this->getObjectFromParams(['id' => $id_acta], "acta");
+            if (!$acta) {
+                throw new NotFoundException($request, $response);
+            }
+
             /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Vinculacion $vinculacion */
             $vinculacion = $this->getObjectFromParams(['id' => $id_vinculacion], "vinculacion");
             if (!$vinculacion) {
@@ -1122,7 +1126,10 @@ class UnluController extends SimpleController {
                 'user_id' => $currentUser->id,
             ]);
 
-            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE_ASSIGN.SUCCESS', $data);
+            $ms->addMessageTranslated('success', 'UNLU.CERTIFICATE_ASSIGN.SUCCESS', [
+                "titulo"    => $acta->titulo,
+                "actividad" => $vinculacion->actividad
+            ]);
         });
 
         return $response->withJson([], 200);
@@ -1229,7 +1236,9 @@ class UnluController extends SimpleController {
 
             $peticion->acta = $nombre_archivo;
             if ($peticion->aprobada) {
-                $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', [ "descripcion" => $peticion->descripcion ]);
+                $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', [
+                    "descripcion" => $peticion->descripcion
+                ]);
                 $peticion->aprobada = false;
             }
             $peticion->save();
@@ -1240,7 +1249,10 @@ class UnluController extends SimpleController {
                 'user_id' => $currentUser->id,
             ]);
 
-            $ms->addMessageTranslated('success', 'UNLU.PETITION.CERTIFICATE.ASSIGN.SUCCESS', $data);
+            $ms->addMessageTranslated('success', 'UNLU.PETITION.CERTIFICATE.ASSIGN.SUCCESS', [
+                "archivo"     => $nombre_archivo,
+                "descripcion" => $peticion->descripcion
+            ]);
         });
 
         return $response->withJson([], 200);

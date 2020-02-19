@@ -16,7 +16,7 @@ return [
             "@TRANSLATION" => "Certificate",
             "ADD" => [
                 "@TRANSLATION" => "Add certificate",
-                "SUCCESS" => "The certificate was added successfully",
+                "SUCCESS" => "The certificate <b>{{titulo}}</b> was added successfully",
             ],
             "DATE" => [
                 "@TRANSLATION" => "Date",
@@ -47,7 +47,7 @@ return [
             "CERTIFICATE_ID" => [
                 "MISSING" => "Certificate not found",
             ],
-            "SUCCESS" => "Certificate was assigned successfully",
+            "SUCCESS" => "Certificate <b>{{titulo}}</b> was assigned successfully to vinculation <b>{{actividad}}</b>",
             "VINCULATION_ID" => [
                 "MISSING" => "Vinculation not found",
             ],
@@ -62,7 +62,7 @@ return [
         "INSTITUTION" => "Institution",
         "PETITION" => [
             "@TRANSLATION" => "Petitions",
-            "ADDED" => "The petition was requested succesfully",
+            "ADDED" => "The petition <b>{{descripcion}}</b> was requested succesfully",
             "APPROVE" => [
                 "@TRANSLATION" => "Approve",
                 "CERTIFICATE_MISSING" => "You can't approve this petition without it's assigned certificate",
@@ -75,7 +75,7 @@ return [
                 "@TRANSLATION" => "Certificate",
                 "ASSIGN" => [
                     "@TRANSLATION" => "Assign certificate",
-                    "SUCCESS" => "The certificate was assigned to the petition successfully",
+                    "SUCCESS" => "The certificate <b>{{archivo}}</b> was assigned to the petition <b>{{descripcion}}</b> successfully",
                 ],
                 "FILE" => [
                     "@TRANSLATION" => "File",
@@ -89,7 +89,7 @@ return [
                     "SUCCESS" => "The certificate reassignation was successful",
                 ],
             ],
-            "DELETE_SUCCESSFUL" => "The petition was deleted successfully",
+            "DELETE_SUCCESSFUL" => "The petition <b>{{descripcion}}</b> was deleted successfully",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Description",
                 "MISSING" => "Description is missing"
@@ -165,7 +165,7 @@ return [
                 "@TRANSLATION" => "Activity",
                 "MISSING" => "Activity is missing"
             ],
-            "ADDED" => "Vinculation requested",
+            "ADDED" => "Vinculation <b>{{actividad}}</b> requested successfully",
             "APPLICANT" => "Applicant user",
             "ASSIGN" => "Asignar",
             "CERTIFICATE" => "Certificate",
@@ -196,7 +196,7 @@ return [
             "POSITION" => "Position",
             "REQUEST_DATE" => "Request date",
             "RESPONSABLE" => "Responsable",
-            "UPDATED" => "The vinculation was updated successfully",
+            "UPDATED" => "The vinculation <b>{{actividad}}</b> was updated successfully",
             "USERTYPE" => [
                 "@TRANSLATION" => "User type",
                 "MISSING" => "User type is missing",

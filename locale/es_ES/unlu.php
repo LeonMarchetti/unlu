@@ -16,7 +16,7 @@ return [
             "@TRANSLATION" => "Acta",
             "ADD" => [
                 "@TRANSLATION" => "Agregar acta",
-                "SUCCESS" => "El acta fue agregado con éxito",
+                "SUCCESS" => "El acta <b>{{titulo}}</b> fue agregado con éxito",
             ],
             "DATE" => [
                 "@TRANSLATION" => "Fecha",
@@ -47,7 +47,7 @@ return [
             "CERTIFICATE_ID" => [
                 "MISSING" => "No se encontró el acta",
             ],
-            "SUCCESS" => "El acta fue asignado exitosamente",
+            "SUCCESS" => "El acta <b>{{titulo}}</b> fue asignado exitosamente a la vinculación <b>{{actividad}}</b>",
             "VINCULATION_ID" => [
                 "MISSING" => "No se encontró la vinculación",
             ],
@@ -62,7 +62,7 @@ return [
         "INSTITUTION" => "Institución",
         "PETITION" => [
             "@TRANSLATION" => "Peticiones",
-            "ADDED" => "La petición fue solicitada exitosamente",
+            "ADDED" => "La petición <b>{{descripcion}}</b> fue solicitada exitosamente",
             "APPROVE" => [
                 "@TRANSLATION" => "Aprobar",
                 "CERTIFICATE_MISSING" => "No se puede aprobar esta acta sin asignar un acta",
@@ -75,7 +75,7 @@ return [
                 "@TRANSLATION" => "Acta",
                 "ASSIGN" => [
                     "@TRANSLATION" => "Asignar acta",
-                    "SUCCESS" => "El acta fue asignado a la petición exitosamente",
+                    "SUCCESS" => "El acta <b>{{archivo}}</b> fue asignado a la petición <b>{{descripcion}}</b> exitosamente",
                 ],
                 "FILE" => [
                     "@TRANSLATION" => "Archivo",
@@ -89,7 +89,7 @@ return [
                     "SUCCESS" => "La reasignación del acta fue exitosa",
                 ],
             ],
-            "DELETE_SUCCESSFUL" => "La petición fue borrada exitosamente",
+            "DELETE_SUCCESSFUL" => "La petición <b>{{descripcion}}</b> fue borrada exitosamente",
             "DESCRIPTION" => [
                 "@TRANSLATION" => "Descripción",
                 "MISSING" => "Falta la descripción"
@@ -165,7 +165,7 @@ return [
                 "@TRANSLATION" => "Actividad",
                 "MISSING" => "Falta la actividad"
             ],
-            "ADDED" => "Vinculación solicitada",
+            "ADDED" => "Vinculación <b>{{actividad}}</b> solicitada exitosamente",
             "APPLICANT" => "Usuario solicitante",
             "ASSIGN" => "Asignar",
             "CERTIFICATE" => "Acta",
@@ -196,7 +196,7 @@ return [
             "POSITION" => "Cargo",
             "REQUEST_DATE" => "Fecha solicitud",
             "RESPONSABLE" => "Responsable",
-            "UPDATED" => "La vinculación fue actualizada satisfactoriamente",
+            "UPDATED" => "La vinculación <b>{{actividad}}</b> fue actualizada satisfactoriamente",
             "USERTYPE" => [
                 "@TRANSLATION" => "Tipo de usuario",
                 "MISSING" => "Falta el tipo de usuario",
