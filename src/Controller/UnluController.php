@@ -384,8 +384,10 @@ class UnluController extends SimpleController {
             if (isset($data["fecha_fin"])) {
                 if ($data["fecha_fin"] != $peticion->fecha_fin) {
                     $peticion->fecha_fin = $data["fecha_fin"];
-                    $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', $data);
-                    $peticion->aprobada = false;
+                    if ($peticion->aprobada) {
+                        $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', $data);
+                        $peticion->aprobada = false;
+                    }
                 }
             }
 
