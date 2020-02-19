@@ -146,9 +146,9 @@ class UnluController extends SimpleController {
                     /*  Si $i es un número entonces se trata de un id de usua-
                         rio, y busco el nombre de la base de datos. */
                     $data_integrantes = [
-                        "id_usuario" => $i,
+                        "id_usuario"     => $i,
                         "id_vinculacion" => $vinculacion->id,
-                        "nombre" => Usuario::find($i)->full_name
+                        "nombre"         => $this->getObjectFromParams(["id" => $i], "user")->full_name
                     ];
 
                 } else {
@@ -837,7 +837,7 @@ class UnluController extends SimpleController {
 
             // Actualizar integrantes de la vinculación:
             if ($editar_integrantes) {
-                IntegrantesVinculacion::where('id_vinculacion', $vinculacion->id)->delete();
+                $classMapper->getClassMapping("integrante")::where('id_vinculacion', $vinculacion->id)->delete();
 
                 foreach ($data["integrantes"] as $i) {
                     if (is_numeric($i)) {
@@ -846,7 +846,7 @@ class UnluController extends SimpleController {
                         $data_integrante = [
                             "id_usuario"     => $i,
                             "id_vinculacion" => $vinculacion->id,
-                            "nombre"         => Usuario::find($i)->full_name
+                            "nombre"         => $this->getObjectFromParams(["id" => $i], "user")->full_name
                         ];
 
                     } else {

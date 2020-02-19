@@ -43,10 +43,11 @@ class UnluModalController extends SimpleController {
             "telefono" => $currentUser->telefono,
         ];
 
-        // Lista de tipos de usuario
-        $tipos_de_usuario = TipoUsuario::all();
-        $usuarios = Usuario::all();
-        $usuarios_activos = Usuario::where("activo", true)->get();
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+        $tipos_de_usuario = $classMapper->getClassMapping("tipo_de_usuario")::all();
+        $usuarios         = $classMapper->getClassMapping("user")::all();
+        $usuarios_activos = $classMapper->getClassMapping("user")::where("activo", true)->get();
 
         $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
@@ -82,18 +83,20 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
         }
 
-        $servicios = Servicio::all();
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        $servicios = $classMapper->getClassMapping("servicio")::all();
 
         if ($authorizer->checkAccess($currentUser, 'admin_unlu')) {
             // Usuario administrador
-            $vinculaciones = Vinculacion::all();
-
+            $vinculaciones = $classMapper->getClassMapping("vinculacion")::all();
         } else {
             $vinculaciones = $currentUser->vinculaciones;
         }
 
         // Última vinculación vigente
-        $id_vinculacion = Vinculacion
+        $id_vinculacion = $classMapper->getClassMapping("vinculacion")
             ::where("id_solicitante", $currentUser->id)
             ->orderBy("fecha_solicitud", "desc")
             ->first()
@@ -132,7 +135,9 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $peticiones = Peticion::all();
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+        $peticiones = $classMapper->getClassMapping("peticion")::all();
 
         $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
@@ -374,9 +379,11 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.WRONG_USER_ACCESS"));
         }
 
-        $tipos_de_usuario = TipoUsuario::all();
-        $usuarios = Usuario::all();
-        $usuarios_activos = Usuario::where("activo", true)->get();
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+        $tipos_de_usuario = $classMapper->getClassMapping("tipo_de_usuario")::all();
+        $usuarios         = $classMapper->getClassMapping("user")::all();
+        $usuarios_activos = $classMapper->getClassMapping("user")::where("activo", true)->get();
 
         $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
