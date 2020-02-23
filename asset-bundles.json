@@ -51,6 +51,12 @@
             "scripts": [
                 "userfrosting/js/forms/reemplazar-acta.js"
             ]
+        },
+
+        "js/modals/peticiones-vencidas": {
+            "scripts": [
+                "userfrosting/js/modals/peticiones-vencidas.js"
+            ]
         }
     }
 }

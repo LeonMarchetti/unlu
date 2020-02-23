@@ -41,6 +41,9 @@ $app->group('/modals/unlu', function () {
     // Vinculaciones
     $this->get('/editar-vinculacion', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:editarVinculacionModal');
     $this->get('/asignar-acta', 'UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:asignarActaModal');
+
+    // Informes
+    $this->get("/informe-peticiones", "UserFrosting\Sprinkle\Unlu\Controller\UnluModalController:peticionesVencidasModal");
 })->add('authGuard')->add(new NoCache());
 
 $app->group("/api/unlu", function() {
@@ -74,4 +77,7 @@ $app->group("/api/unlu", function() {
     $this->post("/v/{id}", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:editarVinculacion");
     // Asignar acta a vinculación
     $this->post("/asignar-acta", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:asignarActa");
+
+    // Informes
+    $this->get("/peticiones-vencidas", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticionesVencidas");
 })->add('authGuard')->add(new NoCache());

@@ -608,6 +608,11 @@ class UnluController extends SimpleController {
             });
         }
 
+        $sprunje->extendQuery(function($query) {
+            $fecha_hoy = date("d-m-Y", time());
+            return $query->where('fecha_fin', '>=', $fecha_hoy);
+        });
+
         return $sprunje->toResponse($response);
     }
 
@@ -652,13 +657,37 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Sprinkle\Unlu\Sprunje\VinculacionSprunje $sprunje */
         $sprunje = $classMapper->createInstance('vinculacion_sprunje', $classMapper, $params);
 
-        /* Extiendo la consulta del sprunje para que solo traiga las vinculaciones del usuario (si no es administrador). */
+        // Extiendo la consulta del sprunje para que solo traiga las vinculaciones del usuario (si no es administrador).
         if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
             $sprunje->extendQuery(function($query) use ($currentUser) {
                 return $query->where('id_solicitante', $currentUser->id);
             });
         }
 
+        return $sprunje->toResponse($response);
+    }
+
+    public function listarPeticionesVencidas(Request $request, Response $response, $args) {
+        $params = $request->getQueryParams();
+
+        /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var \UserFrosting\Sprinkle\Account\Database\Models\Interfaces\UserInterface $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
+        }
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        /** @var \UserFrosting\Sprinkle\Unlu\Sprunje\PeticionSprunje $sprunje */
+        $sprunje = $classMapper->createInstance('peticion_sprunje', $classMapper, $params);
+        $sprunje->extendQuery(function ($query) use ($params) {
+            return $query->whereBetween("fecha_fin", [$params["fecha_min"], $params["fecha_max"]]);
+        });
         return $sprunje->toResponse($response);
     }
 

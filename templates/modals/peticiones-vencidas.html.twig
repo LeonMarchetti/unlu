@@ -1,0 +1,28 @@
+{% extends "@core/modals/modal.html.twig" %}
+
+{% block modal_title %}{{ modal.title }}{% endblock %}
+
+{% block modal_body %}
+    <div class="js-form-alerts"></div>
+    <div class="row form-group">
+        <div class="col-md-6">
+            <input id="input-date-min" type="date" class="form-control" value='{{ "" | date_modify("-1 month") | date("Y-m-d") }}'>
+        </div>
+        <div class="col-md-6">
+            <input id="input-date-max" type="date" class="form-control" value='{{ "now" | date("Y-m-d") }}'>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="tablaPeticionesVencidas" style="overflow-x: scroll">
+                {% include "tables/peticiones.html.twig" with
+                    { "table": { "id": "tabla-peticiones" } } %}
+            </div>
+        </div>
+    </div>
+
+    {% block scripts_page %}
+        <script>{% include "pages/partials/page.js.twig" %}</script>
+        <script>{% include 'modals/js/peticiones-vencidas.js.twig' %}</script>
+    {% endblock %}
+{% endblock %}

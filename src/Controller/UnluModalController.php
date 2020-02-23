@@ -567,4 +567,28 @@ class UnluModalController extends SimpleController {
             "page" => [ "validators" => $rules ]
         ]);
     }
+
+    public function peticionesVencidasModal(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        // Access-controlled page
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
+        }
+
+        $schema    = new RequestSchema('schema://requests/unlu/peticion.yaml');
+        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules     = $validator->rules('json', false);
+
+        return $this->ci->view->render($response, 'modals/peticiones-vencidas.html.twig', [
+            "modal" => [
+                "title" => "Informe de peticiones vencidas"
+            ],
+            'page' => [ 'validators' => $rules ]
+        ]);
+    }
 }

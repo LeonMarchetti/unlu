@@ -31,15 +31,8 @@ class PeticionSprunje extends Sprunje {
      * Set the initial query used by your Sprunje.
      */
     protected function baseQuery() {
-        $instance = new Peticion();
-
-        // Alternatively, if you have defined a class mapping, you can use the classMapper:
-        // $instance = $this->classMapper->createInstance('owl');
-
-        $fecha_hoy = date("d-m-Y", time());
-
-        return $instance->newQuery()->with('servicio', 'usuario', 'vinculacion')
-            ->where('fecha_fin', '>=', $fecha_hoy);
+        $instance = $this->classMapper->createInstance('peticion');
+        return $instance->newQuery()->with('servicio', 'usuario', 'vinculacion');
     }
 
     /**

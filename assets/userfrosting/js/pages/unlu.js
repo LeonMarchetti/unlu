@@ -309,5 +309,16 @@ $(function() {
 
         attachRenderSuccessUfModal();
     });
+
+    $(".informe-peticiones").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/informe-peticiones",
+            msgTarget: $("#alerts-page"),
+        });
+
+        attachRenderSuccessUfModal();
+    });
 });
 

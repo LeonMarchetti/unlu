@@ -127,6 +127,27 @@
             </div>
         </div>
     {% endif %}
+
+    {% if checkAccess("admin_unlu") %}<!-- Informes -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-info">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#divInformes" aria-expanded="true" aria-controls="collapseOne">
+                        <h3>Informes</h3>
+                    </button>
+                    <div id="divInformes" class="box-body no-padding accordion-body collapse in">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <button class="btn btn-link informe-peticiones">Peticiones vencidas</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block scripts_page %}
