@@ -16,5 +16,5 @@
 
 {% block scripts_page %}
     <script>{% include "pages/partials/page.js.twig" %}</script>
-    <script>{% include 'forms/js/asignar-acta.js.twig' %}</script>
+    {{ assets.js('js/forms/asignar-acta') | raw }}
 {% endblock %}

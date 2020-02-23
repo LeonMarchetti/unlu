@@ -1,6 +1,4 @@
 $(function() {
-
-    /* Fuente de datos de la tabla de actas. */
     $("#tablaAsignarActa").ufTable({
         dataUrl: site.uri.public + "/api/unlu/a",
         msgTarget: "#js-form-alerts",
@@ -11,14 +9,10 @@ $(function() {
         }
     });
 
-    /*  Asignar eventos a los botones en la tabla de actas cuando termina
-        de renderizar la tabla. */
     $("#tablaAsignarActa").on("pagerComplete.ufTable", function () {
-        // Ver acta
         $(this).find(".ver-acta").click(function(e) {
             e.preventDefault();
-
-            window.open(site.uri.public + "/api/unlu/a/" + $(this).data('id'), "_blank");
+            window.open(`${site.uri.public}/api/unlu/a/${$(this).data('id')}`, "_blank");
         });
     });
 });

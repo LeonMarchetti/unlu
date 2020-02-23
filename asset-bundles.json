@@ -57,6 +57,12 @@
             "scripts": [
                 "userfrosting/js/modals/peticiones-vencidas.js"
             ]
+        },
+
+        "js/forms/asignar-acta" : {
+            "scripts": [
+                "userfrosting/js/forms/asignar-acta.js"
+            ]
         }
     }
 }

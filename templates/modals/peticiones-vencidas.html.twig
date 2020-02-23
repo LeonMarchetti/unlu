@@ -23,6 +23,6 @@
 
     {% block scripts_page %}
         <script>{% include "pages/partials/page.js.twig" %}</script>
-        <script>{% include 'modals/js/peticiones-vencidas.js.twig' %}</script>
+        {{ assets.js('js/modals/peticiones-vencidas') | raw }}
     {% endblock %}
 {% endblock %}
