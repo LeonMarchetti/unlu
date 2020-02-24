@@ -138,9 +138,9 @@
                     <div id="divInformes" class="box-body no-padding accordion-body collapse in">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="col-md-4">
-                                    <button class="btn btn-link informe-peticiones">Peticiones vencidas</button>
-                                </div>
+                                <div class="col-md-4"><button class="btn btn-link informe-peticiones">Peticiones vencidas</button></div>
+                                <div class="col-md-4"><input id="inputInformePeticionesMin" type="date" class="form-control" value='{{ "" | date_modify("-1 month") | date("Y-m-d") }}'></div>
+                                <div class="col-md-4"><input id="inputInformePeticionesMax" type="date" class="form-control" value='{{ "now" | date("Y-m-d") }}'></div>
                             </div>
                         </div>
                     </div>

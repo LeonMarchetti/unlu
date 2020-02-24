@@ -315,6 +315,10 @@ $(function() {
 
         $("body").ufModal({
             sourceUrl: site.uri.public + "/modals/unlu/informe-peticiones",
+            ajaxParams: {
+                fecha_min: $("#inputInformePeticionesMin").val(),
+                fecha_max: $("#inputInformePeticionesMax").val()
+            },
             msgTarget: $("#alerts-page"),
         });
 

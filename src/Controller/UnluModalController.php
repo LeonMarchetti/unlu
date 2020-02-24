@@ -584,7 +584,11 @@ class UnluModalController extends SimpleController {
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
         $rules     = $validator->rules('json', false);
 
+        $params = $request->getQueryParams();
+
         return $this->ci->view->render($response, 'modals/peticiones-vencidas.html.twig', [
+            "fecha_min" => $params["fecha_min"],
+            "fecha_max" => $params["fecha_max"],
             "modal" => [
                 "title" => "Informe de peticiones vencidas"
             ],

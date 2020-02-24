@@ -8,8 +8,8 @@ $(function() {
             }
         },
         addParams: {
-            fecha_min: $("#input-date-min").val(),
-            fecha_max: $("#input-date-max").val(),
+            fecha_min: $("#inputFechaMin").val(),
+            fecha_max: $("#inputFechaMax").val()
         }
     });
 
@@ -60,13 +60,5 @@ $(function() {
 
             attachRenderSuccessUfModal();
         });
-    });
-
-    $("#input-date-min").change(function() {
-        $("#tablaPeticionesVencidas").ufTable("refresh");
-    });
-
-    $("#input-date-max").change(function() {
-        $("#tablaPeticionesVencidas").ufTable("refresh");
     });
 });
