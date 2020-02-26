@@ -590,7 +590,7 @@ class UnluModalController extends SimpleController {
             "fecha_min" => $params["fecha_min"],
             "fecha_max" => $params["fecha_max"],
             "modal" => [
-                "title" => "Informe de peticiones vencidas"
+                "title" => $this->ci->translator->translate("UNLU.REPORT.EXPIRED_PETITIONS.TITLE")
             ],
             'page' => [ 'validators' => $rules ]
         ]);

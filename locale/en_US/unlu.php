@@ -127,6 +127,14 @@ return [
             "@TRANSLATION" => "Phone",
             "MISSING" => "Phone number is not assigned in user profile"
         ],
+        "REPORT" => [
+            "@TRANSLATION" => "Reports",
+            "EXPIRED_PETITIONS" => [
+                "@TRANSLATION" => "Expired Petitions",
+                "DESCRIPTION" => "Expired petitions between <b>{{fecha_min}}</b> and <b>{{fecha_max}}</b>",
+                "TITLE" => "Expired Petitions Report",
+            ],
+        ],
         "ROLE" => [
             "@TRANSLATION" => "Role",
             "MISSING" => "Role is not assigned in user profile"

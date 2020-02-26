@@ -127,6 +127,14 @@ return [
             "@TRANSLATION" => "Teléfono",
             "MISSING" => "Falta asignar el número de teléfono en el perfil"
         ],
+        "REPORT" => [
+            "@TRANSLATION" => "Informes",
+            "EXPIRED_PETITIONS" => [
+                "@TRANSLATION" => "Peticiones vencidas",
+                "DESCRIPTION" => "Peticiones vencidas entre <b>{{fecha_min}}</b> y <b>{{fecha_max}}</b>",
+                "TITLE" => "Informe de peticiones vencidas",
+            ],
+        ],
         "ROLE" => [
             "@TRANSLATION" => "Rol",
             "MISSING" => "Falta asignar el rol en el perfil de usuario"
