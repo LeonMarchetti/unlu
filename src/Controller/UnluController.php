@@ -499,7 +499,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Support\Repository\Repository $config */
         $config = $this->ci->config;
 
-        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $servicio) {
+        Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $ms, $servicio) {
             $servicio->denominacion         = $data["denominacion"];
             $servicio->necesita_acta        = $data["necesita_acta"];
             $servicio->necesita_vinculacion = $data["necesita_vinculacion"];
