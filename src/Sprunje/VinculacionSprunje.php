@@ -31,15 +31,15 @@ class VinculacionSprunje extends Sprunje {
         "usuario", // Join con "users" a través de "id_solicitante"
     ];
 
+    protected $listable = [
+        "tipo_usuario"
+    ];
+
     /**
      * Set the initial query used by your Sprunje.
      */
     protected function baseQuery() {
-        $instance = new Vinculacion();
-
-        // Alternatively, if you have defined a class mapping, you can use the classMapper:
-        // $instance = $this->classMapper->createInstance('owl');
-
+        $instance = $this->classMapper->createInstance("vinculacion");
         return $instance->newQuery()->with('integrantes', 'solicitante', 'tipo_usuario');
     }
 
@@ -56,6 +56,24 @@ class VinculacionSprunje extends Sprunje {
         });
 
         return $this;
+    }
+
+    /**
+     * Listar por tipo de usuario según su descripcion
+     *
+     * @param Builder $query
+     * @param mixed $value
+     * @return $this
+     */
+    protected function listTipoUsuario() {
+        $resultado = [];
+        $tipos_usuario = $this->classMapper->getClassMapping("tipo_de_usuario")::all();
+
+        foreach ($tipos_usuario as $tipo) {
+            $resultado[] = [ "value" => $tipo->description, "text" => $tipo->description ];
+        }
+
+        return $resultado;
     }
 
     /**
