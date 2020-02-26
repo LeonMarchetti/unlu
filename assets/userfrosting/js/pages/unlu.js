@@ -16,6 +16,9 @@ $(function() {
         });
     }
 
+    // Inicialización de sectores de alertas:
+    $("#alertas-servicios").ufAlerts();
+
     // Modal para solicitar una vinculación
     $(".solicitar-vinculacion").click(function(e) {
         e.preventDefault();
@@ -149,10 +152,27 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                // msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-servicios")
             });
 
-            attachRenderSuccessUfModal();
+            // attachRenderSuccessUfModal();
+            $("body").on('renderSuccess.ufModal', function() {
+                var modal = $(this).ufModal('getModal');
+                var form = modal.find('.js-form');
+
+                form
+                    .ufForm({
+                        validator: page.validators
+                    })
+                    .on("submitSuccess.ufForm", function() {
+                        $("#tablaServicios").ufTable("refresh");
+                        $("body").ufModal("destroy");
+                        $("body").removeClass("modal-open");
+                        $(".modal-backdrop").remove();
+                        $("#alertas-servicios").ufAlerts("fetch").ufAlerts("render");
+                    });
+            });
         });
 
         // Eliminar Servicios
