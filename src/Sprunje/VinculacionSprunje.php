@@ -27,11 +27,13 @@ class VinculacionSprunje extends Sprunje {
         "descripcion",
         "correo",
 
+        "aprobada", // Si la vinculación está aprobada, si tiene un acta asignada
         "tipo_usuario", // Join con "tipo_usuario" a través de "tipo_de_usuario"
         "usuario", // Join con "users" a través de "id_solicitante"
     ];
 
     protected $listable = [
+        "aprobada",
         "tipo_usuario"
     ];
 
@@ -41,6 +43,39 @@ class VinculacionSprunje extends Sprunje {
     protected function baseQuery() {
         $instance = $this->classMapper->createInstance("vinculacion");
         return $instance->newQuery()->with('integrantes', 'solicitante', 'tipo_usuario');
+    }
+
+    /**
+     * Filtrar por si tiene un acta y por lo tanto está aprobada
+     *
+     * @param Builder $query
+     * @param mixed $value
+     * @return $this
+     */
+    protected function filterAprobada($query, $value) {
+        switch ($value) {
+            case "aprobada":
+                $query->whereNotNull('id_acta');
+                break;
+            case "no-aprobada":
+                $query->whereNull('id_acta');
+                break;
+        }
+        return $this;
+    }
+
+    /**
+     * Listar por si tiene un acta y por lo tanto está aprobada
+     *
+     * @param Builder $query
+     * @param mixed $value
+     * @return $this
+     */
+    protected function listAprobada() {
+        return [
+            [ "value" => "aprobada", "text" => "Aprobada" ],
+            [ "value" => "no-aprobada", "text" => "No aprobada" ],
+        ];
     }
 
     /**
