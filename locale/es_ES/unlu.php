@@ -25,7 +25,7 @@ return [
             "DELETE" => [
                 "@TRANSLATION" => "Eliminar acta",
                 "CONFIRM" => "¿Está seguro de eliminar el acta <b>{{ titulo }}</b>?",
-                "SUCCESS" => "El acta \"{{ titulo }}\" fue eliminado con éxito"
+                "SUCCESS" => "El acta <b>{{ titulo }}</b> fue eliminado con éxito"
             ],
             "FILE" => [
                 "@TRANSLATION" => "Archivo",
@@ -36,7 +36,7 @@ return [
             "PLURAL" => "Actas",
             "REPLACE" => [
                 "@TRANSLATION" => "Reemplazar archivo",
-                "SUCCESS" => "El archivo del acta \"{{ titulo }}\" fue reemplazado con éxito"
+                "SUCCESS" => "El archivo del acta <b>{{ titulo }}</b> fue reemplazado con éxito"
             ],
             "TITLE" => [
                 "@TRANSLATION" => "Título",
@@ -66,7 +66,8 @@ return [
             "APPROVE" => [
                 "@TRANSLATION" => "Aprobar",
                 "CERTIFICATE_MISSING" => "No se puede aprobar esta acta sin asignar un acta",
-                "CONFIRM" => "¿Está seguro que quiere aprobar esta petición?"
+                "CONFIRM" => "¿Está seguro que quiere aprobar esta petición?",
+                "SUCCESS" => "Petición <b>{{descripcion}}</b> aprobada exitosamente",
             ],
             "APPROVE_PETITION" => "Aprobar petición",
             "APPROVED" => "Aprobada",

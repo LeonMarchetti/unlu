@@ -398,7 +398,14 @@ class UnluController extends SimpleController {
                 'user_id' => $currentUser->id,
             ]);
 
-            $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', $data);
+            if (isset($data["aprobada"])) {
+                $ms->addMessageTranslated('success', 'UNLU.PETITION.APPROVE.SUCCESS', [
+                    "descripcion" => $peticion->descripcion
+                ]);
+            } else {
+                $ms->addMessageTranslated('success', 'UNLU.PETITION.UPDATED', $data);
+            }
+
         });
 
         return $response->withJson([], 200);

@@ -133,10 +133,6 @@ class UnluModalController extends SimpleController {
         $classMapper = $this->ci->classMapper;
         $peticiones = $classMapper->getClassMapping("peticion")::all();
 
-        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
-
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "peticiones" => $peticiones,
             "form" => [
@@ -147,8 +143,7 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.DOWN"),
                 "form" => "baja-solicitud.html.twig"
-            ],
-            'page' => [ 'validators' => $rules ]
+            ]
         ]);
     }
 
@@ -173,10 +168,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException();
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/peticion.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
-
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'peticion' => $peticion,
             'form' => [
@@ -186,8 +177,7 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.PETITION.APPROVE_PETITION"),
                 "form" => "aprobar-peticion.html.twig"
-            ],
-            "page" => [ "validators" => $rules ]
+            ]
         ]);
     }
 
@@ -264,9 +254,9 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
+        $schema     = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $validator  = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules      = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "form" => [
@@ -300,9 +290,9 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
+        $schema     = new RequestSchema('schema://requests/unlu/servicio.yaml');
+        $validator  = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules      = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "servicio" => $servicio,
@@ -334,10 +324,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/servicio.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
-
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'servicio' => $servicio,
             'form' => [
@@ -348,8 +334,7 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.SERVICE.DELETE"),
                 "form" => "eliminar-servicio.html.twig"
-            ],
-            'page' => [ 'validators' => $rules ]
+            ]
         ]);
     }
 
@@ -379,9 +364,9 @@ class UnluModalController extends SimpleController {
         $usuarios         = $classMapper->getClassMapping("user")::all();
         $usuarios_activos = $classMapper->getClassMapping("user")::where("activo", true)->get();
 
-        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
+        $schema     = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
+        $validator  = new JqueryValidationAdapter($schema, $this->ci->translator);
+        $rules      = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             'vinculacion' => $vinculacion,
@@ -519,10 +504,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/vinculacion.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
-
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "id_vinculacion" => $request->getQueryParams()["id"],
             "form" => [
@@ -532,8 +513,7 @@ class UnluModalController extends SimpleController {
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.CERTIFICATE.PLURAL"),
                 "form" => "asignar-acta.html.twig"
-            ],
-            "page" => [ "validators" => $rules ]
+            ]
         ]);
     }
 
@@ -549,9 +529,9 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
+        $schema    = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
         $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules = $validator->rules('json', false);
+        $rules     = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
             "id_peticion" => $request->getQueryParams()["id"],
@@ -580,10 +560,6 @@ class UnluModalController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        $schema    = new RequestSchema('schema://requests/unlu/peticion.yaml');
-        $validator = new JqueryValidationAdapter($schema, $this->ci->translator);
-        $rules     = $validator->rules('json', false);
-
         $params = $request->getQueryParams();
 
         return $this->ci->view->render($response, 'modals/peticiones-vencidas.html.twig', [
@@ -591,8 +567,7 @@ class UnluModalController extends SimpleController {
             "fecha_max" => $params["fecha_max"],
             "modal" => [
                 "title" => $this->ci->translator->translate("UNLU.REPORT.EXPIRED_PETITIONS.TITLE")
-            ],
-            'page' => [ 'validators' => $rules ]
+            ]
         ]);
     }
 }

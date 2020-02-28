@@ -25,7 +25,7 @@ return [
             "DELETE" => [
                 "@TRANSLATION" => "Delete",
                 "CONFIRM" => "Are you sure of deleting the certificate <b>{{ titulo }}</b>?",
-                "SUCCESS" => "The certificate {{ titulo }} was deleted successfully"
+                "SUCCESS" => "The certificate <b>{{ titulo }}</b> was deleted successfully"
             ],
             "FILE" => [
                 "@TRANSLATION" => "File",
@@ -36,7 +36,7 @@ return [
             "PLURAL" => "Certificates",
             "REPLACE" => [
                 "@TRANSLATION" => "Replace file",
-                "SUCCESS" => "The certificate \"{{ titulo }}\"'s file was replaced successfully"
+                "SUCCESS" => "The certificate <b>{{ titulo }}</b>'s file was replaced successfully"
             ],
             "TITLE" => [
                 "@TRANSLATION" => "Title",
@@ -66,7 +66,8 @@ return [
             "APPROVE" => [
                 "@TRANSLATION" => "Approve",
                 "CERTIFICATE_MISSING" => "You can't approve this petition without it's assigned certificate",
-                "CONFIRM" => "Are you sure you want to approve this petition?"
+                "CONFIRM" => "Are you sure you want to approve this petition?",
+                "SUCCESS" => "Petition <b>{{descripcion}}</b> approved successfully",
             ],
             "APPROVE_PETITION" => "Approve petition",
             "APPROVED" => "Approved",

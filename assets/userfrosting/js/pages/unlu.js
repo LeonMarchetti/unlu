@@ -1,23 +1,36 @@
 $(function() {
-    function attachRenderSuccessUfModal() {
-        /*  Recargar página cuando el modal termina exitosamente.
-            Hay que llamar a la función cada vez que se renderiza un modal. */
+    function attachRenderSuccessUfModal(tablaRefresh, msgTarget, hasValidator) {
+        /**
+         * Vincula el modal a la página.
+         *
+         * @param {string}  tablaRefresh    Selector de la tabla a refrescar al terminar este modal.
+         * @param {string}  msgTarget       Selector del destino del flujo de alertas.
+         * @param {boolean} hasValidator    Si el formulario del modal usa un validador.
+         */
         $("body").on('renderSuccess.ufModal', function() {
             var modal = $(this).ufModal('getModal');
             var form = modal.find('.js-form');
+            var validator = hasValidator ? { validator: page.validators } : {};
 
-            form
-                .ufForm({
-                    validator: page.validators
-                })
+            form.ufForm(validator)
                 .on("submitSuccess.ufForm", function() {
-                    window.location.reload(true);
+                    // Refrescar tabla
+                    $(tablaRefresh).ufTable("refresh");
+                    // Sacar el modal
+                    $("body").ufModal("destroy");
+                    $("body").removeClass("modal-open");
+                    $(".modal-backdrop").remove();
+                    // Actualizar el flujo de alertas
+                    $(msgTarget).ufAlerts("fetch").ufAlerts("render");
                 });
         });
     }
 
     // Inicialización de sectores de alertas:
+    $("#alertas-vinculaciones").ufAlerts();
     $("#alertas-servicios").ufAlerts();
+    $("#alertas-peticiones").ufAlerts();
+    $("#alertas-actas").ufAlerts();
 
     // Modal para solicitar una vinculación
     $(".solicitar-vinculacion").click(function(e) {
@@ -28,7 +41,7 @@ $(function() {
             msgTarget: $("#alerts-page")
         });
 
-        attachRenderSuccessUfModal();
+        attachRenderSuccessUfModal("#tablaVinculaciones", "#alerts-page", true);
     });
 
     // Modal para solicitar un servicio
@@ -40,7 +53,7 @@ $(function() {
             msgTarget: $("#alerts-page")
         });
 
-        attachRenderSuccessUfModal();
+        attachRenderSuccessUfModal("#tablaPeticiones", "#alerts-page", true);
     });
 
     // Modal para eliminar una petición
@@ -52,25 +65,7 @@ $(function() {
             msgTarget: $("#alerts-page")
         });
 
-        attachRenderSuccessUfModal();
-    });
-
-    $(".ver-acta").click(function(e) {
-        e.preventDefault();
-
-        alert("TODO Acta N°: \"" + $(this).data("id") + "\"");
-    });
-
-    // Modal para agregar un servicio
-    $(".agregar-servicio").click(function(e) {
-        e.preventDefault();
-
-        $("body").ufModal({
-            sourceUrl: site.uri.public + "/modals/unlu/agregar-servicio",
-            msgTarget: $("#alerts-page")
-        });
-
-        attachRenderSuccessUfModal();
+        attachRenderSuccessUfModal("#tablaPeticiones", "#alerts-page", false);
     });
 
     // Tabla de Vinculaciones ==================================================
@@ -98,10 +93,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-vinculaciones")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaVinculaciones", "#alertas-vinculaciones", true);
         });
 
         // Ver acta
@@ -123,7 +118,7 @@ $(function() {
                 msgTarget: $("#alerts-page")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaVinculaciones", "#alertas-vinculaciones", false);
         });
     });
 
@@ -142,8 +137,6 @@ $(function() {
     /*  Asignar eventos a los botones en la tabla de servicios cuando termina
         de renderizar la tabla. */
     $("#tablaServicios").on("pagerComplete.ufTable", function () {
-
-        // Editar servicios
         $(this).find(".editar-servicio").click(function(e) {
             e.preventDefault();
 
@@ -152,27 +145,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                // msgTarget: $("#alerts-page")
                 msgTarget: $("#alertas-servicios")
             });
 
-            // attachRenderSuccessUfModal();
-            $("body").on('renderSuccess.ufModal', function() {
-                var modal = $(this).ufModal('getModal');
-                var form = modal.find('.js-form');
-
-                form
-                    .ufForm({
-                        validator: page.validators
-                    })
-                    .on("submitSuccess.ufForm", function() {
-                        $("#tablaServicios").ufTable("refresh");
-                        $("body").ufModal("destroy");
-                        $("body").removeClass("modal-open");
-                        $(".modal-backdrop").remove();
-                        $("#alertas-servicios").ufAlerts("fetch").ufAlerts("render");
-                    });
-            });
+            attachRenderSuccessUfModal("#tablaServicios", "#alertas-servicios", true);
         });
 
         // Eliminar Servicios
@@ -184,11 +160,23 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-servicios")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaServicios", "#alertas-servicios", false);
         });
+    });
+
+    // Modal para agregar un servicio
+    $(".agregar-servicio").click(function(e) {
+        e.preventDefault();
+
+        $("body").ufModal({
+            sourceUrl: site.uri.public + "/modals/unlu/agregar-servicio",
+            msgTarget: $("#alertas-servicios")
+        });
+
+        attachRenderSuccessUfModal("#tablaServicios", "#alertas-servicios", true);
     });
 
     // Tabla de Peticiones======================================================
@@ -227,10 +215,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-peticiones")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaPeticiones", "#alertas-peticiones", false);
         });
 
         // Modal para editar una petición
@@ -242,10 +230,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-peticiones")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaPeticiones", "#alertas-peticiones", true);
         });
 
         $(this).find(".ver-acta-servicio").click(function(e) {
@@ -259,12 +247,12 @@ $(function() {
             $("body").ufModal({
                 sourceUrl: site.uri.public + "/modals/unlu/asignar-acta-peticion",
                 ajaxParams: {
-                    id: $(this).data('id'), // id de la petición
+                    id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-peticiones")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaPeticiones", "#alertas-peticiones", true);
         });
     });
 
@@ -297,10 +285,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-actas")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaActas", "#alertas-actas", true);
         });
 
         $(this).find(".eliminar-acta").click(function(e) {
@@ -311,10 +299,10 @@ $(function() {
                 ajaxParams: {
                     id: $(this).data('id')
                 },
-                msgTarget: $("#alerts-page")
+                msgTarget: $("#alertas-actas")
             });
 
-            attachRenderSuccessUfModal();
+            attachRenderSuccessUfModal("#tablaActas", "#alertas-actas", false);
         });
     });
 
@@ -324,10 +312,10 @@ $(function() {
 
         $("body").ufModal({
             sourceUrl: site.uri.public + "/modals/unlu/agregar-acta",
-            msgTarget: $("#alerts-page")
+            msgTarget: $("#alertas-actas")
         });
 
-        attachRenderSuccessUfModal();
+        attachRenderSuccessUfModal("#tablaActas", "#alertas-actas", true);
     });
 
     $(".informe-peticiones").click(function(e) {
@@ -342,7 +330,7 @@ $(function() {
             msgTarget: $("#alerts-page"),
         });
 
-        attachRenderSuccessUfModal();
+        attachRenderSuccessUfModal("", "#alerts-page", false);
     });
 });
 

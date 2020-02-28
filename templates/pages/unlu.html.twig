@@ -57,6 +57,7 @@
                 <button class="btn btn-link" data-toggle="collapse" data-target="#tablaVinculacionesBody" aria-expanded="true" aria-controls="collapseOne">
                     <h3>{{ translate("UNLU.VINCULATION.PLURAL") }}</h3>
                 </button>
+                <div id="alertas-vinculaciones"></div>
                 <div id="tablaVinculacionesBody" class="box-body no-padding accordion-body collapse in" style="overflow-x: scroll">
                     {% include "tables/vinculaciones.html.twig" with
                         { "table": { "id": "tabla-vinculaciones" } } %}
@@ -95,6 +96,7 @@
                 <button class="btn btn-link" data-toggle="collapse" data-target="#tablaPeticionesBody" aria-expanded="true" aria-controls="collapseOne">
                     <h3>{{ translate("UNLU.PETITION") }}</h3>
                 </button>
+                <div id="alertas-peticiones"></div>
                 <div id="tablaPeticionesBody" class="box-body no-padding accordion-body collapse in" style="overflow-x: scroll">
                     {% include "tables/peticiones.html.twig" with
                         { "table": { "id": "tabla-peticiones" } } %}
@@ -113,6 +115,7 @@
                     <button class="btn btn-link" data-toggle="collapse" data-target="#tablaActasBody" aria-expanded="true" aria-controls="collapseOne">
                         <h3>{{ translate("UNLU.CERTIFICATE.PLURAL") }}</h3>
                     </button>
+                    <div id="alertas-actas"></div>
                     <div id="tablaActasBody" class="accordion-body collapse in">
                         <div class="box-body no-padding">
                             {% include "tables/actas.html.twig" with
