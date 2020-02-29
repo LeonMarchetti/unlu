@@ -1178,14 +1178,14 @@ class UnluController extends SimpleController {
     }
 
     public function asignarActaPeticion(Request $request, Response $response, $args) {
+        $params     = $request->getParsedBody();
+        $archivos   = $request->getUploadedFiles();
+
         /** @var UserFrosting\Sprinkle\Unlu\Database\Models\Peticion $peticion */
-        $peticion = $this->getObjectFromParams($args, "peticion");
+        $peticion = $this->getObjectFromParams($params, "peticion");
         if (!$peticion) {
             throw new NotFoundException($request, $response);
         }
-
-        $params = $request->getParsedBody();
-        $archivos = $request->getUploadedFiles();
 
         /** @var \UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager $authorizer */
         $authorizer = $this->ci->authorizer;
@@ -1197,9 +1197,6 @@ class UnluController extends SimpleController {
             throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_ADMIN_USER"));
         }
 
-        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
-        $ms = $this->ci->alerts;
-
         /** @var \UserFrosting\Sprinkle\Core\Filesystem\FilesystemManager $filesystem */
         $filesystem = $this->ci->filesystem;
         $directorio = "actas-peticiones";
@@ -1207,6 +1204,9 @@ class UnluController extends SimpleController {
         $schema      = new RequestSchema('schema://requests/unlu/asignar-acta-peticion.yaml');
         $transformer = new RequestDataTransformer($schema);
         $data        = $transformer->transform($params);
+
+        /** @var \UserFrosting\Sprinkle\Core\Alert\AlertStream $ms */
+        $ms = $this->ci->alerts;
 
         $error = false;
 
@@ -1244,7 +1244,7 @@ class UnluController extends SimpleController {
         /** @var \UserFrosting\Support\Repository\Repository $config */
         $config = $this->ci->config;
 
-        Capsule::transaction(function () use ($archivo, $classMapper, $config, $currentUser, $data, $filesystem, $ms, $nombre_archivo, $peticion) {
+        Capsule::transaction(function () use ($archivo, $config, $currentUser, $filesystem, $ms, $nombre_archivo, $peticion) {
             $filesystem->put("actas-peticiones/$nombre_archivo", $archivo->getStream()->getContents());
             if ($peticion->acta) {
                 $filesystem->delete("actas-peticiones/$peticion->acta");
@@ -1252,16 +1252,14 @@ class UnluController extends SimpleController {
 
             $peticion->acta = $nombre_archivo;
             if ($peticion->aprobada) {
-                $ms->addMessageTranslated('success', 'UNLU.PETITION.EDIT_DISAPPROVED', [
-                    "descripcion" => $peticion->descripcion
-                ]);
+                $ms->addMessageTranslated('warning', 'UNLU.PETITION.EDIT_DISAPPROVED', [ "descripcion" => $peticion->descripcion ]);
                 $peticion->aprobada = false;
             }
             $peticion->save();
 
             $this->ci->userActivityLogger->info("{$currentUser->user_name} asignó el acta {$peticion->acta} a la petición {$peticion->id} ({$peticion->descripcion}).", [
                 'type'    => $config["actividad.tipo.peticion.asignar_acta"],
-                'user_id' => $currentUser->id,
+                'user_id' => $currentUser->id
             ]);
 
             $ms->addMessageTranslated('success', 'UNLU.PETITION.CERTIFICATE.ASSIGN.SUCCESS', [

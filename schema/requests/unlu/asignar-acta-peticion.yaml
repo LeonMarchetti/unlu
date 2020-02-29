@@ -7,7 +7,7 @@ id_peticion:
 archivo:
     validators:
         required:
-            label: "&UNLU.PETITION.CERTIFICATE"
+            label: "&UNLU.PETITION.CERTIFICATE.FILE"
             message: VALIDATE.REQUIRED
         regex:
             regex: .*\.pdf
