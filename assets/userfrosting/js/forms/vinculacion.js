@@ -3,13 +3,13 @@ $(function() {
         allowClear: true,
         templateSelection: function(usuario) {
             if (!$(usuario.element).attr("value")) {
-                return $(`<span>${$("#integrante-placeholder").val()}</span>`);
+                return $(`<span>${integrante_placeholder}</span>`);
             }
             return $(`<span>${$(usuario.element).attr("full-name")}</span>`);
         },
         templateResult: function(usuario) {
             if (!$(usuario.element).attr("value")) {
-                return $(`<span>${$("#integrante-placeholder").val()}</span>`);
+                return $(`<span>${integrante_placeholder}</span>`);
             }
             return $(`<span><b>${$(usuario.element).attr("full-name")}</b><br>${$(usuario.element).attr("user-name")}</span>`);
         },
