@@ -40,7 +40,7 @@ actividad:
         length:
             label: "&UNLU.VINCULATION.ACTIVITY"
             min: 1
-            max: 32
+            max: 255
             message: VALIDATE.LENGTH_RANGE
         required:
             label: "&UNLU.VINCULATION.ACTIVITY"
