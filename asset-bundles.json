@@ -63,6 +63,12 @@
             "scripts": [
                 "userfrosting/js/forms/asignar-acta.js"
             ]
+        },
+
+        "js/forms/user": {
+            "scripts": [
+                "userfrosting/js/forms/user.js"
+            ]
         }
     }
 }

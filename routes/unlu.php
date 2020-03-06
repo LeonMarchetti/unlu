@@ -80,4 +80,9 @@ $app->group("/api/unlu", function() {
 
     // Informes
     $this->get("/peticiones-vencidas", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:listarPeticionesVencidas");
+
+    // Usuarios
+    //$this->post("/existe-usuario", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:existeUsuario");
+    $this->get("/existe-usuario", "UserFrosting\Sprinkle\Unlu\Controller\UnluController:existeUsuario");
+
 })->add('authGuard')->add(new NoCache());

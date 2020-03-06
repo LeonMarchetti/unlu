@@ -1270,4 +1270,30 @@ class UnluController extends SimpleController {
 
         return $response->withJson([], 200);
     }
+
+    /**
+     * Comprueba si un usuario, según su nombre de usuario, no está ingresado en la base de datos.
+     *
+     * Devuelve "false" si ya existe.
+     *
+     * Para usar en la validación de nombre de usuario no existente, que necesita obtener un "false" para mostrar un error.
+     */
+    public function existeUsuario(Request $request, Response $response, $args) {
+        $user_name = $request->getQueryParams()["user_name"];
+        $email = $request->getQueryParams()["email"];
+
+        /** @var \UserFrosting\Sprinkle\Core\Util\ClassMapper $classMapper */
+        $classMapper = $this->ci->classMapper;
+
+        $usuario = $classMapper->getClassMapping("user")
+                               ::where("user_name", $user_name)
+                               ->orWhere("email", $email)
+                               ->first();
+
+        $resultado = empty($usuario);
+
+        return $response->withJSON($resultado)
+                        ->withHeader('Content-type', 'application/json')
+                        ->withStatus(200);
+    }
 }

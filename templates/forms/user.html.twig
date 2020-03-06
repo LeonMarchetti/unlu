@@ -186,9 +186,16 @@
     </div>
 </form>
 
-<!-- Include validation rules -->
 {% block scripts_page %}
     <script>{% include "pages/partials/page.js.twig" %}</script>
+
+    <script>
+        var nombre_usuario_en_uso = '{{ translate("USERNAME.IN_USE") }}';
+        var email_en_uso = '{{ translate("EMAIL.IN_USE") }}';
+    </script>
+
     {{ assets.js('js/main') | raw }}
     {{ assets.css('css/main') | raw }}
+
+    {{ assets.js("js/forms/user") | raw }}
 {% endblock %}
