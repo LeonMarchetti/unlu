@@ -15,36 +15,48 @@ $(function() {
         },
     };
 
-    $("#select-solicitante").select2(select2_options);
+    $('select[name="id_solicitante"]').select2(select2_options);
     $(".select-integrante").select2(select2_options);
 
-    $("#select-solicitante").change(function() {
-        // Al cambiar el solicitante:
-        // * Cambio el nombre del responsable.
-        // * Muestro el nombre del solicitante en la sección de integrantes.
-        // * Deshabilito al solicitante como opción en los selects de integrantes.
-        // * Si hay un select con el nuevo solicitante elegido entonces lo elimino.
-        var full_name = $("option:selected", this).attr("full-name");
-        $("#input-responsable, #input-integrante-solicitante").val(full_name);
+    $('select[name="id_solicitante"]').change(function() {
+        /* Al cambiar el solicitante:
+            * Cambio el nombre del responsable.
+            * Cambio el teléfono al del nuevo solicitante.
+            * Cambio el email al del nuevo solicitante.
+            * Muestro el nombre del solicitante en la sección de integrantes.
+            * Deshabilito al solicitante como opción en los selects de integrantes.
+            * Si hay un select con el nuevo solicitante elegido entonces lo elimino.
+        */
 
-        var old_id = $(this).data("old");
-        var new_id = this.value;
-        var $integrantes_select = $("#integrantes .select-integrante");
+        var id = $("option:selected", this).val();
+        $.get(site.uri.public + `/api/unlu/u/${id}`, function(data, status) {
+            var full_name = data["full_name"];
+            var correo    = data["email"];
+            var telefono  = data["telefono"];
 
-        $integrantes_select
-            .children(`option[value="${new_id}"]`)
-            .attr('disabled', true);
+            $('input[name="responsable"], #input-integrante-solicitante').val(full_name);
+            $('input[name="telefono"]').val(telefono);
+            $('input[name="correo"]').val(correo);
 
-        $integrantes_select
-            .children(`option[value="${old_id}"]`)
-            .removeAttr('disabled');
+            var old_id = $(this).data("old");
+            var new_id = this.value;
+            var $integrantes_select = $("#integrantes .select-integrante");
 
-        $integrantes_select
-            .find(`option[value=${new_id}]:selected`)
-            .parent()
-            .remove();
+            $integrantes_select
+                .children(`option[value="${new_id}"]`)
+                .attr('disabled', true);
 
-        $(this).data("old", new_id);
+            $integrantes_select
+                .children(`option[value="${old_id}"]`)
+                .removeAttr('disabled');
+
+            $integrantes_select
+                .find(`option[value=${new_id}]:selected`)
+                .parent()
+                .remove();
+
+            $(this).data("old", new_id);
+        });
     });
 
     // Integrantes

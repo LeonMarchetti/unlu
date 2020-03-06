@@ -7,8 +7,8 @@
                 <label>{{ translate("UNLU.VINCULATION.APPLICANT") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <select id="select-solicitante" class="form-control js-select2"
-                            name="id_solicitante" {{ page.visibility }} data-old="{{ vinculacion.id_solicitante | default(current_user.id) }}"
+                    <select class="form-control js-select2" name="id_solicitante"
+                            {{ page.visibility }} data-old="{{ vinculacion.id_solicitante | default(current_user.id) }}"
                             {% if not checkAccess("admin_unlu") %}disabled{% endif %}>
                         {% for usuario in usuarios_activos %}
                             <option value="{{ usuario.id }}"
@@ -28,7 +28,7 @@
                 <label>{{ translate("UNLU.VINCULATION.RESPONSABLE") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <input id="input-responsable" type="text" class="form-control" name="responsable"
+                    <input type="text" class="form-control" name="responsable"
                            autocomplete="off" value="{{ vinculacion.responsable }}"
                            placeholder="{{ translate("UNLU.VINCULATION.RESPONSABLE") }}">
                 </div>

@@ -1296,4 +1296,26 @@ class UnluController extends SimpleController {
                         ->withHeader('Content-type', 'application/json')
                         ->withStatus(200);
     }
+
+    public function getUsuario(Request $request, Response $response, $args) {
+        /** @var UserFrosting\Sprinkle\Account\Authorize\AuthorizationManager */
+        $authorizer = $this->ci->authorizer;
+
+        /** @var UserFrosting\Sprinkle\Account\Database\Models\User $currentUser */
+        $currentUser = $this->ci->currentUser;
+
+        if (!$authorizer->checkAccess($currentUser, 'usuario_unlu')) {
+            throw new ForbiddenException($this->ci->translator->translate("UNLU.FORBIDDEN.NOT_UNLU_USER"));
+        }
+
+        /** @var UserFrosting\Sprinkle\Unlu\Database\Models\UsuarioUnlu $usuario */
+        $usuario = $this->getObjectFromParams($args, "user");
+        if (!$usuario) {
+            throw new NotFoundException($request, $response);
+        }
+
+        return $response->withJSON($usuario)
+                        ->withHeader('Content-type', 'application/json')
+                        ->withStatus(200);
+    }
 }
