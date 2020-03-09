@@ -26,6 +26,7 @@ class VinculacionSprunje extends Sprunje {
         "actividad",
         "descripcion",
         "correo",
+        "resolucion",
 
         "aprobada", // Si la vinculación está aprobada, si tiene un acta asignada
         "tipo_usuario", // Join con "tipo_usuario" a través de "tipo_de_usuario"

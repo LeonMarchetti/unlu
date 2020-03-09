@@ -80,6 +80,16 @@ $(function() {
         }
     });
 
+    Handlebars.registerHelper('ifURL', function(texto, options) {
+        var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+
+        if (regexp.test(texto)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     /*  Asignar eventos a los botones en la tabla de vinculaciones cuando termina
         de renderizar la tabla. */
     $("#tablaVinculaciones").on("pagerComplete.ufTable", function () {

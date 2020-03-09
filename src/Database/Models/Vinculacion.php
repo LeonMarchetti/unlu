@@ -22,7 +22,8 @@ class Vinculacion extends Model {
         'telefono',
         'correo',
         'descripcion',
-        'id_acta'
+        'id_acta',
+        'resolucion'
     ];
 
     public function tipo_usuario() {

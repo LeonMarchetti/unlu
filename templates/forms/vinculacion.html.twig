@@ -1,6 +1,30 @@
 <form class="js-form" method="{{ form.method | default('POST') }}" action="{{ site.uri.public }}/{{ form.action }}">
     {% include "forms/csrf.html.twig" %}
     <div class="js-form-alerts"></div>
+
+    <div class="row"><!--Fechas de solicitud y finalización -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.VINCULATION.REQUEST_DATE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="date" class="form-control" name="fecha_solicitud"
+                        value="{{ vinculacion.fecha_solicitud | date("Y-m-d") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.VINCULATION.END_DATE") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="date" class="form-control" name="fecha_fin"
+                           value="{{ vinculacion.fecha_fin | date("Y-m-d") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row"><!-- Solicitante y Responsable -->
         <div class="col-sm-6">
             <div class="form-group">
@@ -35,6 +59,7 @@
             </div>
         </div>
     </div>
+
     <div class="row"><!-- Cargo y Tipo de usuario -->
         <div class="col-sm-6">
             <div class="form-group">
@@ -61,7 +86,8 @@
             </div>
         </div>
     </div>
-    <div class="row"><!-- Actividad y Teléfono -->
+
+    <div class="row"><!-- Actividad y Resolución -->
         <div class="col-sm-6">
             <div class="form-group">
                 <label>{{ translate("UNLU.VINCULATION.ACTIVITY") }}</label>
@@ -69,6 +95,29 @@
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
                     <input type="text" class="form-control" name="actividad" autocomplete="off"
                            value="{{ vinculacion.actividad }}" placeholder="{{ translate("UNLU.VINCULATION.ACTIVITY") }}">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("UNLU.VINCULATION.RESOLUTION") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="resolucion" autocomplete="off"
+                           value="{{ vinculacion.resolucion }}" placeholder="{{ translate("UNLU.VINCULATION.RESOLUTION") }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"><!-- Email y Teléfono -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>{{ translate("EMAIL") }}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
+                    <input type="text" class="form-control" name="correo" autocomplete="off"
+                           value="{{ vinculacion.correo }}" placeholder="{{ translate("EMAIL") }}">
                 </div>
             </div>
         </div>
@@ -83,45 +132,7 @@
             </div>
         </div>
     </div>
-    <div class="row"><!-- Email y Fecha de finalización -->
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>{{ translate("EMAIL") }}</label>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <input type="text" class="form-control" name="correo" autocomplete="off"
-                           value="{{ vinculacion.correo }}" placeholder="{{ translate("EMAIL") }}">
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label>{{ translate("UNLU.VINCULATION.END_DATE") }}</label>
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <input type="date" class="form-control" name="fecha_fin"
-                           autocomplete="off"
-                           value="{{ vinculacion.fecha_fin | date("Y-m-d") }}"
-                           min="{{ vinculacion.fecha_fin | date("Y-m-d") }}">
-                </div>
-            </div>
-        </div>
-    </div>
-    {% if edicion %}{# Fecha de solicitud #}
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>{{ translate("UNLU.VINCULATION.REQUEST_DATE") }}</label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                        <input type="date" class="form-control"
-                            value="{{ vinculacion.fecha_solicitud | date("Y-m-d") }}"
-                            disabled>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+
     <div class="row"><!-- Descripción -->
         <div class="col-sm-12">
             <div class="form-group">
@@ -134,6 +145,7 @@
             </div>
         </div>
     </div>
+
     <div class="row"><!-- Integrantes -->
         <div class="col-sm-12">
             <div class="form-group">
@@ -181,6 +193,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-8 col-sm-4">
             <button type="submit" class="btn btn-block btn-lg btn-success">{{ form.submit_text }}</button>

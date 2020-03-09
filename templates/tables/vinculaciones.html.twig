@@ -81,6 +81,13 @@
                     nowrap>
                         {{ translate("UNLU.VINCULATION.DESCRIPTION") }}
                 </th>
+                <th class="sorter-metatext"
+                    data-column-name="resolucion"
+                    data-column-template="#vinculacion-table-column-resolucion"
+                    data-sorter="false"
+                    nowrap>
+                        {{ translate("UNLU.VINCULATION.RESOLUTION") }}
+                </th>
                 <th class="sorter-metatext filter-select"
                     data-column-name="aprobada"
                     data-column-template="#vinculacion-table-column-acta"
@@ -153,6 +160,18 @@
     <script id="vinculacion-table-column-descripcion" type="text/x-handlebars-template">
         <td data-text="{{ '{{row.descripcion}}' }}">
             <textarea readonly>{{ '{{row.descripcion}}' }}</textarea>
+        </td>
+    </script>
+
+    <script id="vinculacion-table-column-resolucion" type="text/x-handlebars-template">
+        <td data-text="{{ '{{row.resolucion}}' }}">
+            {{ '{{#ifURL row.resolucion}}' }}
+                <a href="{{ '{{row.resolucion}}' }}" target="_blank" rel="noopener noreferrer">
+                    {{ '{{row.resolucion}}' }}
+                </a>
+            {{ '{{else}}' }}
+                {{ '{{row.resolucion}}' }}
+            {{ '{{/ifURL}}' }}
         </td>
     </script>
 

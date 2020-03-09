@@ -1,4 +1,14 @@
 ---
+fecha_solicitud:
+    validators:
+        required:
+            label: "&UNLU.VINCULATION.REQUEST_DATE"
+            message: VALIDATE.REQUIRED
+fecha_fin:
+    validators:
+        required:
+            label: "&UNLU.VINCULATION.END_DATE"
+            message: VALIDATE.REQUIRED
 id_solicitante:
     validators:
         integer:
@@ -68,11 +78,6 @@ correo:
         required:
             label: "&EMAIL"
             message: VALIDATE.REQUIRED
-fecha_fin:
-    validators:
-        required:
-            label: "&UNLU.VINCULATION.END_DATE"
-            message: VALIDATE.REQUIRED
 descripcion:
     validators:
         length:
@@ -83,6 +88,7 @@ descripcion:
         required:
             label: "&UNLU.VINCULATION.DESCRIPTION"
             message: VALIDATE.REQUIRED
+resolucion:
 integrantes:
     validators:
         length:

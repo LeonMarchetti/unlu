@@ -203,7 +203,11 @@ return [
             ],
             "PLURAL" => "Vinculations",
             "POSITION" => "Position",
-            "REQUEST_DATE" => "Request date",
+            "REQUEST_DATE" => [
+                "@TRANSLATION" => "Request date",
+                "MISSING" => "Request date is missing",
+            ],
+            "RESOLUTION" => "Resolution",
             "RESPONSABLE" => "Responsable",
             "UPDATED" => "The vinculation <b>{{actividad}}</b> was updated successfully",
             "USERTYPE" => [

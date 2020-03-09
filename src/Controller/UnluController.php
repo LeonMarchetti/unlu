@@ -54,15 +54,22 @@ class UnluController extends SimpleController {
 
         $error = false;
 
+        if (!isset($data['fecha_solicitud']) || $data['fecha_solicitud'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.REQUEST_DATE.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
+            $error = true;
+        }
+
         /*  Asigno el id del usuario actual como id del solicitante de la vin-
             culación. Un usuario administrador puede solicitar una vinculación
             en lugar de otro usuario. */
         if (!isset($data["id_solicitante"])) {
             $data["id_solicitante"] = $currentUser->id;
         }
-
-        // Asigno la fecha actual como fecha de solicitud de la vinculación
-        $data["fecha_solicitud"] = date("d-m-Y", time());
 
         if (!isset($data["responsable"]) || $data["responsable"] === "") {
             $data["responsable"] = $currentUser->full_name;
@@ -95,18 +102,6 @@ class UnluController extends SimpleController {
 
             } else {
                 $data["telefono"] = $currentUser->telefono;
-            }
-        }
-
-        if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
-            $error = true;
-
-        } else {
-            // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud.
-            if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_solicitud"])) {
-                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.BEFORE', $data);
-                $error = true;
             }
         }
 
@@ -751,6 +746,16 @@ class UnluController extends SimpleController {
 
         $error = false;
 
+        if (!isset($data['fecha_solicitud']) || $data['fecha_solicitud'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.REQUEST_DATE.MISSING', $data);
+            $error = true;
+        }
+
+        if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
+            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
+            $error = true;
+        }
+
         if (!isset($data["responsable"]) || $data["responsable"] === "") {
             $data["responsable"] = $currentUser->full_name;
         }
@@ -782,18 +787,6 @@ class UnluController extends SimpleController {
 
             } else {
                 $data["telefono"] = $currentUser->telefono;
-            }
-        }
-
-        if (!isset($data['fecha_fin']) || $data['fecha_fin'] === "") {
-            $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.MISSING', $data);
-            $error = true;
-
-        } else {
-            // Comprobar que la fecha de finalización no sea anterior a la fecha de solicitud.
-            if (strtotime($data["fecha_fin"]) < strtotime($data["fecha_solicitud"])) {
-                $ms->addMessageTranslated('danger', 'UNLU.VINCULATION.END_DATE.BEFORE', $data);
-                $error = true;
             }
         }
 
@@ -834,14 +827,16 @@ class UnluController extends SimpleController {
         $config = $this->ci->config;
 
         Capsule::transaction(function () use ($classMapper, $config, $currentUser, $data, $editar_integrantes, $ms, $vinculacion) {
+            $vinculacion->fecha_solicitud = $data["fecha_solicitud"];
+            $vinculacion->fecha_fin       = $data["fecha_fin"];
             $vinculacion->id_solicitante  = $data["id_solicitante"];
             $vinculacion->responsable     = $data["responsable"];
             $vinculacion->cargo           = $data["cargo"];
             $vinculacion->tipo_de_usuario = $data["tipo_de_usuario"];
             $vinculacion->actividad       = $data["actividad"];
             $vinculacion->telefono        = $data["telefono"];
-            $vinculacion->fecha_fin       = $data["fecha_fin"];
             $vinculacion->descripcion     = $data["descripcion"];
+            $vinculacion->resolucion      = $data["resolucion"];
             $vinculacion->save();
 
             // Actualizar integrantes de la vinculación:

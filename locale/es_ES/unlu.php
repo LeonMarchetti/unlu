@@ -185,7 +185,6 @@ return [
             "EDIT" => "Editar",
             "END_DATE" => [
                 "@TRANSLATION" => "Fecha de finalización",
-                "BEFORE" => "La fecha de finalización no puede ser anterior a la fecha de solicitud",
                 "MISSING" => "Falta la fecha de finalización"
             ],
             "MEMBERS" => [
@@ -203,7 +202,11 @@ return [
             ],
             "PLURAL" => "Vinculaciones",
             "POSITION" => "Cargo",
-            "REQUEST_DATE" => "Fecha solicitud",
+            "REQUEST_DATE" => [
+                "@TRANSLATION" => "Fecha solicitud",
+                "MISSING" => "Falta la fecha de solicitud",
+            ],
+            "RESOLUTION" => "Resolución",
             "RESPONSABLE" => "Responsable",
             "UPDATED" => "La vinculación <b>{{actividad}}</b> fue actualizada satisfactoriamente",
             "USERTYPE" => [
