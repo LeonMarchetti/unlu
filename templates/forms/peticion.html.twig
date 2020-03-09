@@ -54,12 +54,14 @@
                 <label>{{ translate("UNLU.PETITION.VINCULATION") }}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-edit fa-fw"></i></span>
-                    <select id="select-vinculacion" class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %}>
-                        <option value="">{{ translate("UNLU.PETITION.VINCULATION.NONE") }}</option>
-                        {% for vinc in vinculaciones %}
-                            <option value="{{ vinc.id }}"
-                                    {% if vinc.id == peticion.id_vinculacion %}selected="selected"{% endif %}>
-                                {{ vinc.actividad }}
+                    <select class="form-control js-select2" name="id_vinculacion" {{ page.visibility }} {% if edicion %}disabled{% endif %}>
+                        <option></option>
+                        {% for vinculacion in vinculaciones %}
+                            <option value="{{ vinculacion.id }}"
+                                    actividad="{{ vinculacion.actividad }}"
+                                    responsable="{{ vinculacion.responsable }}"
+                                    {% if vinculacion.id == peticion.id_vinculacion %}selected="selected"{% endif %}>
+                                {{ vinculacion.actividad }}
                             </option>
                         {% endfor %}
                     </select>
@@ -106,6 +108,10 @@
 
 {% block scripts_page %}
     <script>{% include "pages/partials/page.js.twig" %}</script>
+
+    <script>
+        var vinculacion_placeholder = '{{ translate("UNLU.PETITION.VINCULATION.NONE") }}';
+    </script>
 
     {{ assets.js('js/forms/peticion') | raw }}
 {% endblock %}
