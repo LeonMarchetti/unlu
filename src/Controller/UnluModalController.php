@@ -82,16 +82,19 @@ class UnluModalController extends SimpleController {
 
         $servicios = $classMapper->getClassMapping("servicio")::all();
 
-        if ($authorizer->checkAccess($currentUser, 'admin_unlu')) {
-            // Usuario administrador
-            $vinculaciones = $classMapper->getClassMapping("vinculacion")::all();
-        } else {
-            $vinculaciones = $currentUser->vinculaciones;
+        $vinculaciones_map = $classMapper->getClassMapping("vinculacion")
+            ::where("fecha_fin", ">", "Now()");
+        if (!$authorizer->checkAccess($currentUser, 'admin_unlu')) {
+            $vinculaciones_map->where("id_solicitante", $currentUser->id);
         }
+        $vinculaciones = $vinculaciones_map->get();
 
         // Última vinculación vigente
         $id_vinculacion = $classMapper->getClassMapping("vinculacion")
-            ::where("id_solicitante", $currentUser->id)
+            ::where([
+                ["id_solicitante", $currentUser->id],
+                ["fecha_fin", ">", "Now()"]
+            ])
             ->orderBy("fecha_solicitud", "desc")
             ->first()
             ->id;
@@ -101,7 +104,9 @@ class UnluModalController extends SimpleController {
         $rules = $validator->rules('json', false);
 
         return $this->ci->view->render($response, 'modals/modal.html.twig', [
-            "peticion" => [ "id_vinculacion" => $id_vinculacion ],
+            "peticion" => [
+                "id_vinculacion" => $id_vinculacion
+            ],
             "servicios" => $servicios,
             "vinculaciones" => $vinculaciones,
             "form" => [
