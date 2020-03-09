@@ -6,7 +6,7 @@ $(function() {
 
     $('input[name="user_name"]').rules("add", {
         remote: {
-            url: "/api/unlu/existe-usuario"
+            url: site.uri.public + "/api/unlu/existe-usuario"
         },
         messages: {
             remote: nombre_usuario_en_uso
@@ -15,7 +15,7 @@ $(function() {
 
     $('input[name="email"]').rules("add", {
         remote: {
-            url: "/api/unlu/existe-usuario"
+            url: site.uri.public + "/api/unlu/existe-usuario"
         },
         messages: {
             remote: email_en_uso
