@@ -1,0 +1,101 @@
+Sistema de inicio de sesión para el CIDETIC (Centro de Investigación, Docencia y Extensión en Tecnologías de la Información y la Comunicación). Organiza las solicitudes de vinculaciones y servicios del CIDETIC. Basado en el framework [https://www.userfrosting.com UserFrosting].
+
+== [https://learn.userfrosting.com/#server-requirements Requerimientos] ==
+* Servidor Web (Apache, Nginx, IIS, etc.)
+* PHP 7.1 o mayor (7.3 o mayor recomendado)
+* Extensión PHP PDO
+* Extensión PHP GD
+* Base de datos (MariaDB, MySQL, Postgres, SQLite o SQL Server)
+* Composer
+* Node.js 10.12.0 o mayor
+* npm 6.0 o mayor
+
+== Acceso ==
+
+[http://170.210.103.48/userfrosting/public/index.php Sistema alojado en máquina virtual]
+
+== Setup ==
+
+* Clonar repositorio de GitHub de UserFrosting:
+ git clone https://github.com/UserFrosting/userfrosting userfrosting
+* Clonar repositorio de GitHub del sistema adentro del directorio de sprinkles:
+ git clone https://github.com/LeonMarchetti/unlu app/sprinkles/unlu
+* Agregar sprinkle/módulo unlu a la lista de sprinkles activos:
+ nano app/sprinkles.json
+
+ {
+     "require": {},
+     "base": [
+         "core",
+         "account",
+         "admin",
+         '''"unlu"'''
+     ]
+ }
+* Instalar dependencias de '''composer''':
+ composer install
+* Configurar credenciales de la base de datos y del usuario root:
+ php bakery bake
+** En este paso se configura:
+*** Se crea la base de datos y se establecen las credenciales SMTP en ''app/.env''.
+*** Se comprueba si hay dependencias faltantes.
+*** Se crea el usuario root.
+*** Se ejecutan las migraciones de la base de datos.
+*** Se construyen los assets.
+* Crear los permisos de usuario:
+ php bakery seed UnluPermissions
+* Aplicar las modificaciones a la base de datos:
+ php bakery migrate
+* Agregar permisos a los roles de usuario:
+** Iniciar sesión
+** Ir a '''Roles''' en la barra lateral.
+** Para modificar cada rol hay que abrir el menú desplegable '''Acciones''' hacia la derecha y presionar '''Administrar permisos'''. En la ventana emergente, buscar los permisos correspondientes usando el cuadro de texto en la parte inferior.
+*** Para el rol '''Site Administrator''' agregar los permisos '''usuario_unlu''' y '''admin_unlu'''.
+*** Para el rol '''User''', agregar solo el permiso '''usuario_unlu'''.
+* Modificar permisos de los directorios:
+ chmod 757 app/cache app/logs app/sessions
+* Crear directorios para almacenar las actas:
+ mkdir app/actas app/actas-peticiones
+* Cambiar dueño de los directorios de actas para que el servidor los modifique. Depende del sistema operativo.
+ chown http:http app/actas app/actas-peticiones
+* Cambiar permisos del archivo de log de userfrosting, para que lo pueda editar el sistema:
+ chmod 777 app/logs/userfrosting.log
+
+== Acciones ==
+
+* Solicitar vinculación
+* Solicitar servicio (petición)
+* Baja solicitud
+* Administración de vinculaciones
+** Editar
+** Asignar acta / aprobar
+** Ver acta asignada
+* Administración de peticiones
+** Editar
+** Asignar/reemplazar acta
+** Aprobar
+* Administración de servicios
+** Crear
+** Eliminar
+* Administración de actas (de vinculaciones)
+** Agregar
+** Ver
+** Quitar
+* Informes
+** Peticiones vencidas
+* Establecer usuario como administrador
+
+== Otros ==
+
+=== Mantenimiento ===
+
+* Sincronizar repositorios de userfrosting y del sprinkle unlu.
+ git pull origin master
+* Actualizar dependencias de composer:
+ composer update
+
+=== Host virtual de Apache ===
+
+Para crear un host virtual hay que poner como raíz del sitio al archivo '''public/index.php''', por ejemplo:
+
+ DocumentRoot "''dir''/public/index.php"
