@@ -63,26 +63,30 @@ Sistema de inicio de sesión para el CIDETIC (Centro de Investigación, Docencia
 
 == Acciones ==
 
-* Solicitar vinculación
-* Solicitar servicio (petición)
-* Baja solicitud
-* Administración de vinculaciones
-** Editar
-** Asignar acta / aprobar
-** Ver acta asignada
-* Administración de peticiones
-** Editar
-** Asignar/reemplazar acta
-** Aprobar
-* Administración de servicios
-** Crear
-** Eliminar
-* Administración de actas (de vinculaciones)
-** Agregar
-** Ver
-** Quitar
-* Informes
-** Peticiones vencidas
+* Pantalla principal de CIDETIC:
+** Solicitar vinculación: Ir a '''SOLICITAR VINCULACIÓN''' en la parte superior de la página. Ahora aparece el formulario para crear una vinculación:
+*** Los campos de '''Usuario solicitante''', '''Responsable''', '''Cargo''', '''Email''' y '''Teléfono''' son rellenados automáticamente con los datos del usuario.
+*** El campo de '''Usuario solicitante''' indica al usuario del sistema que solicita la vinculación y éste solo puede ser modificado por un usuario administrado, que solicita la vinculación en nombre de otro usuario.
+*** '''Integrantes''': Para indicar los integrantes que van a participar de la vinculación se utiliza '''Agregar usuario registrado''' para agregar un integrante que sea un usuario del sistema y '''Agregar integrante no registrado''' para uno que no lo sea. '''Quitar''' quita al último integrante ingresado. Se asume que el usuario que solicitó la vinculación es necesariamente un integrante de ésta.
+** Solicitar servicio (petición)
+** Baja solicitud
+** Administración de vinculaciones
+*** Editar
+*** Asignar acta / aprobar
+*** Ver acta asignada
+** Administración de peticiones
+*** Editar
+*** Asignar/reemplazar acta
+*** Aprobar
+** Administración de servicios
+*** Crear
+*** Eliminar
+** Administración de actas (de vinculaciones)
+*** Agregar
+*** Ver
+*** Quitar
+** Informes
+*** Peticiones vencidas
 * Establecer usuario como administrador
 
 == Otros ==
