@@ -5,7 +5,7 @@ Sistema de inicio de sesión para el CIDETIC (Centro de Investigación, Docencia
 * PHP 7.1 o mayor (7.3 o mayor recomendado)
 * Extensión PHP PDO
 * Extensión PHP GD
-* Base de datos (MariaDB, MySQL, Postgres, SQLite o SQL Server)
+* Base de datos (MariaDB, MySQL, '''Postgres''', SQLite o SQL Server)
 * Composer
 * Node.js 10.12.0 o mayor
 * npm 6.0 o mayor
@@ -36,12 +36,12 @@ Sistema de inicio de sesión para el CIDETIC (Centro de Investigación, Docencia
  composer install
 * Configurar credenciales de la base de datos y del usuario root:
  php bakery bake
-** En este paso se configura:
-*** Se crea la base de datos y se establecen las credenciales SMTP en ''app/.env''.
-*** Se comprueba si hay dependencias faltantes.
-*** Se crea el usuario root.
-*** Se ejecutan las migraciones de la base de datos.
-*** Se construyen los assets.
+* En este paso se configura:
+** Se crea la base de datos y se establecen las credenciales SMTP en ''app/.env''.
+** Se comprueba si hay dependencias faltantes.
+** Se crea el usuario root.
+** Se ejecutan las migraciones de la base de datos.
+** Se construyen los assets.
 * Crear los permisos de usuario:
  php bakery seed UnluPermissions
 * Aplicar las modificaciones a la base de datos:
@@ -64,28 +64,38 @@ Sistema de inicio de sesión para el CIDETIC (Centro de Investigación, Docencia
 == Acciones ==
 
 * Pantalla principal de CIDETIC:
-** Solicitar vinculación: Ir a '''SOLICITAR VINCULACIÓN''' en la parte superior de la página. Ahora aparece el formulario para crear una vinculación:
+** '''Solicitar vinculación''': Ir a '''SOLICITAR VINCULACIÓN''' en la parte superior de la página. Ahora aparece el formulario para crear una vinculación:
 *** Los campos de '''Usuario solicitante''', '''Responsable''', '''Cargo''', '''Email''' y '''Teléfono''' son rellenados automáticamente con los datos del usuario.
 *** El campo de '''Usuario solicitante''' indica al usuario del sistema que solicita la vinculación y éste solo puede ser modificado por un usuario administrado, que solicita la vinculación en nombre de otro usuario.
 *** '''Integrantes''': Para indicar los integrantes que van a participar de la vinculación se utiliza '''Agregar usuario registrado''' para agregar un integrante que sea un usuario del sistema y '''Agregar integrante no registrado''' para uno que no lo sea. '''Quitar''' quita al último integrante ingresado. Se asume que el usuario que solicitó la vinculación es necesariamente un integrante de ésta.
-** Solicitar servicio (petición)
-** Baja solicitud
-** Administración de vinculaciones
-*** Editar
-*** Asignar acta / aprobar
-*** Ver acta asignada
-** Administración de peticiones
-*** Editar
-*** Asignar/reemplazar acta
-*** Aprobar
-** Administración de servicios
-*** Crear
-*** Eliminar
-** Administración de actas (de vinculaciones)
-*** Agregar
-*** Ver
-*** Quitar
-** Informes
+** '''Solicitar servicio''' (petición): Ir a '''SOLICITAR SERVICIO''' en la parte superior de la página. Ahora aparece el formulario para crear una petición:
+*** En '''Servicio''' hay que seleccionar el servicio a solicitar.
+*** En '''Vinculación''' se puede seleccionar una vinculación a la que va a estar relacionada esta petición. Es opcional. Las vinculaciones seleccionables son aquellas que:
+**** No estén vencidas;
+**** En el caso de usuarios no administradores, fueron solicitadas por el mismo usuario.
+** '''Baja solicitud''' (petición): (Solo administradores) Ir a '''BAJA SOLICITUD''' en la parte superior de la página. Ahora aparece el formulario para borrar una petición:
+*** En '''Peticiones''' hay que seleccionar la petición a borrar del selector. Cada ítem del selector muestra la petición según su descripción y el servicio correspondiente.
+** '''Vinculaciones''': La tabla de vinculaciones muestra todas las vinculaciones disponibles, en el caso de usuarios no administradores solo aquellas que fueron solicitadas por el mismo usuario. Se pueden ordenar y filtrar por algunas de las columnas. Por cada vinculación se puede:
+*** '''Editar''': Ir al extremo derecho de la tabla y hacer click en "Editar". Aparecerá el mismo formulario de "Solicitar vinculación". Solo se pueden editar las vinculación no aprobadas todavía.
+*** '''Asignar acta / aprobar''': (Solo administradores) Ir al extremo derecho de la tabla y hacer click sobre el símbolo de "+" en la columna "Acta". Aparecerá un formulario con la lista de actas disponibles. En el acta deseado presionar "Asignar". Presionar el botón azul para ver el archivo del acta.
+*** '''Ver acta asignada''': Si la vinculación tiene un acta asignada, en la columna "Acta" va a haber un botón azul que se puede presionar para ver el archivo del acta.
+** '''Servicios''': (Solo administradores)
+*** Agregar servicio: Presionar el botón "Agregar" debajo de la tabla de servicios. Aparecerá el formulario para crear un servicio.
+**** En '''¿Necesita acta?''' se indica si las peticiones para solicitar este servicio requiere de adjuntar algún acta (del servicio, no de la vinculación).
+**** En '''¿Necesita un vinculación?''' se indica si las peticiones para solicitar este servicio requiere que esté asignado a una vinculación obligatoriamente.
+*** La tabla de servicios muestra todos los servicios disponibles. Por cada servicio se puede, yendo al menú "Acciones", hacer:
+**** '''Editar''': Aparecerá el mismo formulario que para crear un servicio.
+**** '''Eliminar''': Aparecerá una confirmación para eliminar este servicio.
+** '''Peticiones''': La tabla de peticiones muestra todas las peticiones que no estén vencidas, y en el caso de usuarios no administradores, solo aquellas que fueron solicitadas por el usuario. Por cada petición se puede:
+*** '''Editar''': Ir al menú "Acciones" en el extremo derecho y hacer click en "Editar". Aparecerá el mismo formulario usado para solicitar una petición. No se permite editar ni el servicio asignado ni la vinculación. Al confirmar los cambios de una petición, si ésta estaba aprobada entonces se desaprueba.
+*** '''Ver acta''': En la columna "Acta", si la petición tiene asignada un acta entonces aparecerá un botón azul para poder ver el archivo del acta. Si la petición no necesita tener un acta asignada entonces en su lugar va a aparecer una cruz.
+*** '''Asignar/reemplazar acta''': (Solo administradores) Si la petición necesita un acta, ir al menú "Acciones" y elegir "Asignar acta". Aparecerá un formulario con la opción para elegir un archivo (solo con extensión pdf). Se puede reemplazar el acta de una petición con un acta ya asignada.
+*** '''Aprobar''': (Solo administradores) Ir al menú "Acciones" y elegir "Aprobar". Aparecerá una confirmación.
+** '''Actas''' (de vinculaciones): (Solo administradores)
+*** '''Agregar''':
+*** '''Ver''':
+*** '''Quitar''':
+** '''Informes''': (Solo administradores
 *** Peticiones vencidas
 * Establecer usuario como administrador
 
