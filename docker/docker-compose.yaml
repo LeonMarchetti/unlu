@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+    php:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        container_name: php-composer
+        restart: always
+        ports:
+            - 8080:80
+        volumes:
+            - ../../../..:/var/www/html
+            - ./logs/access.log:/var/log/apache2/access.log
+            - ./logs/error.log:/var/log/apache2/error.log
+volumes:
+    html: {}
